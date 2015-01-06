@@ -1,12 +1,12 @@
-package io.picarete.picarete.ui;
+package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.Constants;
@@ -66,9 +66,38 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        (view.findViewById(R.id.b_solo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onModeChosen(R.id.b_solo);
+            }
+        });
+
+        (view.findViewById(R.id.b_multi)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onModeChosen(R.id.b_multi);
+            }
+        });
+
+        (view.findViewById(R.id.b_custom)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onModeChosen(R.id.b_custom);
+            }
+        });
+
+        (view.findViewById(R.id.b_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onModeChosen(R.id.b_profile);
+            }
+        });
+
+        return view;
+    }
 
     public void onModeChosen(int id) {
         if (mListener != null) {
