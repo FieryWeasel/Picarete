@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by root on 1/6/15.
- */
+
 public class Game implements Tile.TileEventListener{
     private int idPlayer = 0;
     private Map<Integer, Integer> scores = null;
@@ -24,7 +22,7 @@ public class Game implements Tile.TileEventListener{
 
     // Event Management
     GameEventListener eventListener = null;
-    
+
     public interface GameEventListener {
         public abstract void OnFinished();
 
@@ -38,8 +36,8 @@ public class Game implements Tile.TileEventListener{
     // Constructor
     public Game(Context context){
         this.tiles = new ArrayList<Tile>();
-        this.edgesPreviousPlayed = new ArrayList<Edge>();
-        this.scores = new HashMap<Integer, Integer>();
+        this.edgesPreviousPlayed = new ArrayList<>();
+        this.scores = new HashMap<>();
         this.scores.put(0, 0);
         this.scores.put(1, 0);
 

@@ -7,8 +7,14 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+
+import java.util.List;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.Edge;
+import io.picarete.picarete.game_logics.Game;
+import io.picarete.picarete.game_logics.Tile;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +35,8 @@ public class SoloGameFragment extends Fragment {
     private int column;
     private int row;
     private String iaName;
+
+    private Game game;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,7 +81,20 @@ public class SoloGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_solo_game, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_solo_game, container, false);
+
+        game = new Game(getActivity());
+        List<Tile> tiles = game.createGame(row, column);
+
+        GridLayout grid = (GridLayout) inflate.findViewById(R.id.gridGame);
+        grid.setColumnCount(column);
+        grid.setRowCount(row);
+        for(Tile t : tiles){
+
+            grid.addView(t);
+        }
+
+        return inflate;
     }
 
     @Override
