@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,13 @@ import java.util.Map;
 public class Game implements Tile.TileEventListener{
     private int idPlayer = 0;
     private Map<Integer, Integer> scores = null;
+
     private List<Tile> tiles = null;
+    private int width = 0;
+    private int height = 0;
+
+    private List<Edge> edgesPreviousPlayed = null;
+
     private Context context = null;
 
     // Event Management
@@ -33,6 +38,7 @@ public class Game implements Tile.TileEventListener{
     // Constructor
     public Game(Context context){
         this.tiles = new ArrayList<Tile>();
+        this.edgesPreviousPlayed = new ArrayList<Edge>();
         this.scores = new HashMap<Integer, Integer>();
         this.scores.put(0, 0);
         this.scores.put(1, 0);
@@ -46,6 +52,7 @@ public class Game implements Tile.TileEventListener{
             addScoreForPlayer(idPlayer, 10);
         }
 
+        edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
 
         List<Tile> tiles = findNeighbor(edge);
@@ -71,7 +78,7 @@ public class Game implements Tile.TileEventListener{
         List<Tile> tilesNeighbor = new ArrayList<Tile>();
 
         for(int i = 0; i < tiles.size(); i++){
-            for(Edge e : tiles.get(i).edges.values()){
+            for(Edge e : tiles.get(i).getEdges().values()){
                 if(e == edge)
                     tilesNeighbor.add(tiles.get(i));
             }
@@ -97,15 +104,41 @@ public class Game implements Tile.TileEventListener{
         return isGameEnd;
     }
 
-    public void createGame(int height, int widht){
+    public List<Tile> createGame(int height, int width){
+        this.height = height;
+        this.width = width;
+
         for(int i = 0; i < height; i++){
-            for (int j = 0; j < widht; j++){
+            for (int j = 0; j < width; j++){
                 Tile t = new Tile(this.context);
                 t.setEventListener(this);
-                tiles.add(i+j, t);
+                tiles.add(i + j, t);
             }
         }
 
+        for(int i = 0; i < tiles.size(); i++){
+            int xPosition = i % width;
+            int yPosition = i / width;
+            if(xPosition == 0)
+                tiles.get(i).getEdges().get(ETileSide.LEFT).setChosen(true);
+            else if(yPosition == 0)
+                tiles.get(i).getEdges().get(ETileSide.TOP).setChosen(true);
+            else if(xPosition == width-1)
+                tiles.get(i).getEdges().get(ETileSide.RIGHT).setChosen(true);
+            else if(yPosition == height-1)
+                tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
+        }
+
         majTile(tiles);
+
+        return tiles;
+    }
+
+    public List<Tile> getTiles() {
+        return tiles;
+    }
+
+    public List<Edge> getEdgesPreviousPlayed() {
+        return edgesPreviousPlayed;
     }
 }
