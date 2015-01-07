@@ -9,5 +9,13 @@
     <string name="multi">Multiplayer</string>
     <string name="custom">Customization</string>
     <string name="profile">Profile</string>
+    <string name="soloModeChooser">Mode chooser</string>
+    <string name="mode">Mode</string>
+    <string name="column">Columns</string>
+    <string name="row">Row</string>
+    <string name="toughness">IA Difficulty</string>
+    <string name="validate">Validate</string>
+    <string name="hintColumn">Number of columns</string>
+    <string name="hintRow">Number of rows</string>
 
 </resources>

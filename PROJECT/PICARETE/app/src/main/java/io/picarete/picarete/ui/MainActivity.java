@@ -2,7 +2,6 @@ package io.picarete.picarete.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,10 +13,10 @@ import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
-import io.picarete.picarete.ui.fragments.SoloFragment;
+import io.picarete.picarete.ui.fragments.SoloChooserFragment;
 
 
-public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloFragment.OnFragmentInteractionListener,
+public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
         MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     @Override
@@ -67,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         Fragment fragment;
         switch(mode){
             case Constants.SOLO :
-                fragment = SoloFragment.newInstance();
+                fragment = SoloChooserFragment.newInstance();
                 addFragmentToStack(fragment, Constants.SOLO);
                 break;
             case Constants.MULTI :

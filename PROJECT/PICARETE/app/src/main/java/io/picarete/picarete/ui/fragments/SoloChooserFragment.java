@@ -1,25 +1,29 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SoloFragment.OnFragmentInteractionListener} interface
+ * {@link SoloChooserFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SoloFragment#newInstance} factory method to
+ * Use the {@link SoloChooserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SoloFragment extends Fragment {
+public class SoloChooserFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
@@ -30,15 +34,14 @@ public class SoloFragment extends Fragment {
 
      * @return A new instance of fragment SoloFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SoloFragment newInstance() {
-        SoloFragment fragment = new SoloFragment();
+    public static SoloChooserFragment newInstance() {
+        SoloChooserFragment fragment = new SoloChooserFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SoloFragment() {
+    public SoloChooserFragment() {
         // Required empty public constructor
     }
 
@@ -52,7 +55,16 @@ public class SoloFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_solo, container, false);
+        View view = inflater.inflate(R.layout.fragment_solo_chooser, container, false);
+
+        ((Spinner)view.findViewById(R.id.spinner_mode)).setAdapter(new SpinnerModeAdapter(getActivity(),
+                R.layout.item_spinner_mode,
+                getResources().getStringArray(R.array.game_modes),
+                getResources().getStringArray(R.array.game_modes_descriptions)) );
+
+        ((Spinner)view.findViewById(R.id.spinner_mode)).setAdapter(new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.ia_difficulty)));
 
         return view;
     }
