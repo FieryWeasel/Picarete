@@ -23,10 +23,10 @@ public class SpinnerModeAdapter extends ArrayAdapter<String>{
     private String mDescriptions[];
     private LayoutInflater inflater;
 
-    public SpinnerModeAdapter(Context context, int resource, String mNames[], String mDescriptions[]) {
-        super(context, resource);
-        this.mNames = mNames;
-        this.mDescriptions = mDescriptions;
+    public SpinnerModeAdapter(Context context, int resource, String names[], String descriptions[]) {
+        super(context, resource, names);
+        this.mNames = names;
+        this.mDescriptions = descriptions;
         inflater = ((Activity)context).getLayoutInflater();
     }
 
@@ -39,7 +39,7 @@ public class SpinnerModeAdapter extends ArrayAdapter<String>{
         if (view == null) {
             view = inflater.inflate(R.layout.item_spinner_mode, parent, false);
             holder = new ViewHolder();
-            holder.title = (TextView)view.findViewById(R.id.title);
+            holder.title = (TextView)view.findViewById(R.id.mode_name);
             holder.description = (TextView)view.findViewById(R.id.mode_desc);
             view.setTag(holder);
         }else{
@@ -56,20 +56,7 @@ public class SpinnerModeAdapter extends ArrayAdapter<String>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = convertView;
-        ViewHolder holder; // to reference the child views for later actions
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_spinner_mode, parent, false);
-            holder = new ViewHolder();
-            holder.title = (TextView)view.findViewById(R.id.title);
-            view.setTag(holder);
-        }else{
-            holder = (ViewHolder)view.getTag();
-        }
-
-        holder.title.setText(mNames[position]);
-
-        return view;
+        return super.getView(position, convertView, parent);
     }
 
     private class ViewHolder {

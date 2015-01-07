@@ -14,10 +14,11 @@ import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
 import io.picarete.picarete.ui.fragments.SoloChooserFragment;
+import io.picarete.picarete.ui.fragments.SoloGameFragment;
 
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
-        MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
+        SoloGameFragment.OnFragmentInteractionListener, MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         setContentView(R.layout.activity_main);
 
         // Instantiate a new fragment.
-        Fragment newFragment = HomeFragment.newInstance("", "");
+        Fragment newFragment = HomeFragment.newInstance();
         addFragmentToStack(newFragment, Constants.HOME);
     }
 
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onFragmentInteraction(String mode) {
+    public void onModeChosen(String mode) {
         Fragment fragment;
         switch(mode){
             case Constants.SOLO :
@@ -87,8 +88,9 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onFragmentInteraction() {
-
+    public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa) {
+        Fragment fragment = SoloGameFragment.newInstance(gameMode, columnCount, rowCount, nameIa);
+        addFragmentToStack(fragment, Constants.SOLO_GAME);
     }
 
     @Override
@@ -97,5 +99,10 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
             getFragmentManager().popBackStack();
         else
             super.onBackPressed();
+    }
+
+    @Override
+    public void onFragmentInteraction() {
+
     }
 }
