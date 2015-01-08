@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.Edge;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.ui.adapters.GridAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +27,7 @@ import io.picarete.picarete.game_logics.Tile;
  * Use the {@link SoloGameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SoloGameFragment extends Fragment {
+public class SoloGameFragment extends Fragment implements Game.GameEventListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "column";
     private static final String ARG_PARAM2 = "row";
@@ -37,6 +40,7 @@ public class SoloGameFragment extends Fragment {
     private String iaName;
 
     private Game game;
+    private GridAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,15 +88,15 @@ public class SoloGameFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_solo_game, container, false);
 
         game = new Game(getActivity());
+        game.setEventListener(this);
         List<Tile> tiles = game.createGame(row, column);
 
-        GridLayout grid = (GridLayout) inflate.findViewById(R.id.gridGame);
-        grid.setColumnCount(column);
-        grid.setRowCount(row);
-        for(Tile t : tiles){
+        RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.gridGame);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), column);
+        recyclerView.setLayoutManager(manager);
 
-            grid.addView(t);
-        }
+        adapter = new GridAdapter(tiles, getActivity());
+        recyclerView.setAdapter(adapter);
 
         return inflate;
     }
@@ -112,6 +116,21 @@ public class SoloGameFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void OnFinished() {
+
+    }
+
+    @Override
+    public void OnMajGUI(int idPlayer) {
+
+    }
+
+    @Override
+    public void OnMajTile() {
+        adapter.notifyDataSetChanged();
     }
 
     /**

@@ -26,7 +26,9 @@ public class Game implements Tile.TileEventListener{
     public interface GameEventListener {
         public abstract void OnFinished();
 
-        public abstract void OnMajGUI();
+        public abstract void OnMajGUI(int idPlayer);
+
+        public abstract void OnMajTile();
     }
 
     public void setEventListener(GameEventListener e){
@@ -55,12 +57,13 @@ public class Game implements Tile.TileEventListener{
 
         List<Tile> tiles = findNeighbor(edge);
         tiles.add(tile);
-        majTile(tiles);
+        if(eventListener != null)
+            eventListener.OnMajTile();
 
         idPlayer = (idPlayer + 1) % 2;
 
         if(eventListener != null)
-            eventListener.OnMajGUI();
+            eventListener.OnMajGUI(idPlayer);
 
         if(isGameEnd()){
             if(eventListener != null)
@@ -85,10 +88,9 @@ public class Game implements Tile.TileEventListener{
         return tilesNeighbor;
     }
 
-    private void majTile(List<Tile> tiles){
-        for(int i = 0; i < tiles.size(); i++){
-            tiles.get(i).invalidate();
-        }
+    private void majTile(){
+        if(eventListener != null)
+            eventListener.OnMajTile();
     }
 
     public boolean isGameEnd(){
@@ -108,7 +110,7 @@ public class Game implements Tile.TileEventListener{
 
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
-                Tile t = new Tile(this.context);
+                Tile t = new Tile();
                 t.setEventListener(this);
                 tiles.add(i + j, t);
             }
@@ -126,8 +128,6 @@ public class Game implements Tile.TileEventListener{
             else if(yPosition == height-1)
                 tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
         }
-
-        majTile(tiles);
 
         return tiles;
     }

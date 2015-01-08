@@ -9,6 +9,20 @@
         <dex dex="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-58dbccf427664d9fe0654ffbf3dd75adfd10da58.jar" />
     </item>
     <item
+        jar="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/pre-dexed/debug/classes-af5bd96fc6b393702da38784135b4b4ab624911d.jar" />
+    </item>
+    <item
+        jar="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/pre-dexed/debug/classes-ba5678a5840b1dfeada7163f18b2075b9517d009.jar" />
+    </item>
+    <item
         jar="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -21,13 +35,6 @@
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
         <dex dex="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/pre-dexed/debug/classes-86769c9ea64036495bd209ba02d1ddf69775f66e.jar" />
-    </item>
-    <item
-        jar="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/iem/Desktop/LP_IEM_2014_2015/COURS/PTUT/PICARETE/PROJECT/PICARETE/app/build/intermediates/pre-dexed/debug/classes-ba5678a5840b1dfeada7163f18b2075b9517d009.jar" />
     </item>
 
 </items>

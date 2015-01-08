@@ -19,9 +19,8 @@ import java.util.Map;
 
 import io.picarete.picarete.R;
 
-public class Tile extends ImageView implements View.OnTouchListener{
+public class Tile{
     private Map<ETileSide, Edge> edges;
-    private int size = 0;
 
     // Event Management
     TileEventListener eventListener = null;
@@ -38,9 +37,7 @@ public class Tile extends ImageView implements View.OnTouchListener{
         this.eventListener = e;
     }
 
-    // Constructor
-    public Tile(Context context) {
-        super(context);
+    public Tile(){
         edges = new HashMap<>();
         edges.put(ETileSide.LEFT, new Edge());
         edges.put(ETileSide.TOP, new Edge());
@@ -48,72 +45,23 @@ public class Tile extends ImageView implements View.OnTouchListener{
         edges.put(ETileSide.BOTTOM, new Edge());
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        // Todo Draw triangles from Edges status
-
-        Paint paint = new Paint();
-
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
-        canvas.drawPaint(paint);
-
-        paint.setColor(Color.parseColor("#CD5C5C"));
-        Bitmap tileBG = BitmapFactory.decodeResource(getResources(), R.drawable.tile_bg);
-        canvas.drawBitmap(tileBG, null, new Rect(0, 0, getWidth(), getHeight()), paint);
-
-        /*
-        for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
-            if(cursor.getValue().isChosen()){
-                Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.tile_bg);
-                Matrix matrix = new Matrix();
-
-                if(cursor.getKey() == ETileSide.LEFT){
-                    matrix.postRotate(0);
-                } else if(cursor.getKey() == ETileSide.TOP){
-                    matrix.postRotate(0);
-                } else if(cursor.getKey() == ETileSide.RIGHT){
-                    matrix.postRotate(0);
-                } else if(cursor.getKey() == ETileSide.BOTTOM){
-                    matrix.postRotate(0);
-                }
-
-                Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
-                canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
-            }
-        }
-        */
-
-        super.onDraw(canvas);
-
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //size = (widthMeasureSpec > heightMeasureSpec ? heightMeasureSpec : widthMeasureSpec);
-        size = 100;
-        super.onMeasure(size, size);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        MotionEvent.PointerCoords coor = new MotionEvent.PointerCoords();
-        event.getPointerCoords(0, coor);
-        Edge edge = choseEdge(coor.x, coor.y);
+    public void onClick(int posX, int posY, int size){
+        int i = posX;
+        int y = posY;
+        int a = size;
+        Edge edge = choseEdge(posX, posY, size);
 
         if(!edge.isChosen()){
             edge.setChosen(true);
 
-            if(eventListener != null)
-                eventListener.OnClick(this, edge);
+
+
+            eventListener.OnClick(this, edge);
         } else
             Log.d(this.getClass().getName(), "Edge already chosen by a player");
-
-
-        return true;
     }
 
-    private Edge choseEdge(float posX, float posY) {
+    private Edge choseEdge(float posX, float posY, int size) {
 
         int width = size, height = size;
 
