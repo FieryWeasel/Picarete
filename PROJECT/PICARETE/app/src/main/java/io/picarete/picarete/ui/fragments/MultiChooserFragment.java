@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 
 /**
@@ -25,8 +26,6 @@ import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
  */
 public class MultiChooserFragment extends Fragment {
     private String[] gameModes;
-    private String[] iA;
-    private String nameIa;
     private String gameMode;
 
     private OnFragmentInteractionListener mListener;
@@ -52,7 +51,6 @@ public class MultiChooserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameModes = getResources().getStringArray(R.array.game_modes);
-        iA = getResources().getStringArray(R.array.ia_difficulty);
     }
 
     @Override
@@ -84,8 +82,8 @@ public class MultiChooserFragment extends Fragment {
         (view.findViewById(R.id.label_ia)).setVisibility(View.GONE);
 
         final NumberPicker columnPicker = (NumberPicker)view.findViewById(R.id.picker_column);
-        columnPicker.setMaxValue(10);
-        columnPicker.setMinValue(3);
+        columnPicker.setMaxValue(Constants.COLUMN_ROW_MAX);
+        columnPicker.setMinValue(Constants.COLUMN_ROW_MIN);
         final NumberPicker rowPicker = (NumberPicker)view.findViewById(R.id.picker_row);
         rowPicker.setMaxValue(10);
         rowPicker.setMinValue(3);
