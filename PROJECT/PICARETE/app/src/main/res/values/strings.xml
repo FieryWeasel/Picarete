@@ -17,5 +17,8 @@
     <string name="validate">Validate</string>
     <string name="hintColumn">Number of columns</string>
     <string name="hintRow">Number of rows</string>
+    <string name="yourTurn">Your turn !</string>
+    <string name="startPoints">0</string>
+    <string name="score">Score</string>
 
 </resources>

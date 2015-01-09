@@ -1,6 +1,7 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,22 +21,20 @@ import io.picarete.picarete.ui.adapters.GridAdapter;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SoloGameFragment.OnFragmentInteractionListener} interface
+ * {@link MultiGameFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SoloGameFragment#newInstance} factory method to
+ * Use the {@link MultiGameFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SoloGameFragment extends Fragment implements Game.GameEventListener {
+public class MultiGameFragment extends Fragment implements Game.GameEventListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "column";
     private static final String ARG_PARAM2 = "row";
-    private static final String ARG_PARAM3 = "name";
-    private static final String ARG_PARAM4 = "mode";
+    private static final String ARG_PARAM3 = "mode";
 
     private String mode;
     private int column;
     private int row;
-    private String iaName;
 
     private Game game;
     private GridAdapter adapter;
@@ -43,9 +42,9 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     private OnFragmentInteractionListener mListener;
 
     private TextView turnPlayer1;
-    private TextView turnIA;
+    private TextView turnPlayer2;
     private TextView scorePlayer1;
-    private TextView scoreIA;
+    private TextView scorePlayer2;
 
     /**
      * Use this factory method to create a new instance of
@@ -54,21 +53,19 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
      * @param gameMode name.
      * @param column number.
      * @param row number.
-     * @param name IA.
-     * @return A new instance of fragment SoloGameFragment.
+     * @return A new instance of fragment MultiGameFragment.
      */
-    public static SoloGameFragment newInstance(String gameMode, int column, int row, String name) {
-        SoloGameFragment fragment = new SoloGameFragment();
+    public static MultiGameFragment newInstance(String gameMode, int column, int row) {
+        MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM4, gameMode);
+        args.putString(ARG_PARAM3, gameMode);
         args.putInt(ARG_PARAM1, column);
         args.putInt(ARG_PARAM2, row);
-        args.putString(ARG_PARAM3, name);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SoloGameFragment() {
+    public MultiGameFragment() {
         // Required empty public constructor
     }
 
@@ -78,8 +75,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
         if (getArguments() != null) {
             column = getArguments().getInt(ARG_PARAM1);
             row = getArguments().getInt(ARG_PARAM2);
-            iaName = getArguments().getString(ARG_PARAM3);
-            mode = getArguments().getString(ARG_PARAM4);
+            mode = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -87,12 +83,12 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_solo_game, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_multi_game, container, false);
 
         turnPlayer1 = (TextView) inflate.findViewById(R.id.turn_p1);
-        turnIA = (TextView) inflate.findViewById(R.id.turn_p2);
+        turnPlayer2 = (TextView) inflate.findViewById(R.id.turn_p2);
         scorePlayer1 = (TextView) inflate.findViewById(R.id.score_1);
-        scoreIA = (TextView) inflate.findViewById(R.id.score_2);
+        scorePlayer2 = (TextView) inflate.findViewById(R.id.score_2);
 
         game = new Game(getActivity());
         game.setEventListener(this);
@@ -114,7 +110,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
                 scorePlayer1.setText(score);
                 break;
             case 2 :
-                scoreIA.setText(score);
+                scorePlayer2.setText(score);
                 break;
         }
     }
@@ -125,7 +121,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
                 //its the player 1 turn
                 break;
             case 2 :
-                //its the ia turn
+                //its the player 2 turn
                 break;
         }
     }
@@ -173,8 +169,6 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
         public void onFragmentInteraction();
     }
-
 }

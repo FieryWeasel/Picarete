@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.Constants;
@@ -86,10 +85,10 @@ public class HomeFragment extends Fragment {
         if (mListener != null) {
             switch(id){
                 case R.id.b_solo:
-                    mListener.onModeChosen(Constants.SOLO);
+                    mListener.onModeChosen(Constants.SOLO_GAME);
                     break;
                 case R.id.b_multi:
-                    mListener.onModeChosen(Constants.MULTI);
+                    mListener.onModeChosen(Constants.MULTI_GAME);
                     break;
                 case R.id.b_profile:
                     mListener.onModeChosen(Constants.PROFILE);

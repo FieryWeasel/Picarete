@@ -11,6 +11,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
+import io.picarete.picarete.ui.fragments.MultiChooserFragment;
 import io.picarete.picarete.ui.fragments.MultiFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
 import io.picarete.picarete.ui.fragments.SoloChooserFragment;
@@ -66,13 +67,13 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     public void onModeChosen(String mode) {
         Fragment fragment;
         switch(mode){
-            case Constants.SOLO :
+            case Constants.SOLO_GAME:
                 fragment = SoloChooserFragment.newInstance();
-                addFragmentToStack(fragment, Constants.SOLO);
+                addFragmentToStack(fragment, Constants.SOLO_GAME);
                 break;
-            case Constants.MULTI :
-                fragment = MultiFragment.newInstance();
-                addFragmentToStack(fragment, Constants.MULTI);
+            case Constants.MULTI_GAME:
+                fragment = MultiChooserFragment.newInstance();
+                addFragmentToStack(fragment, Constants.MULTI_GAME);
                 break;
             case Constants.PROFILE :
                 fragment = ProfileFragment.newInstance();
@@ -95,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     @Override
     public void onBackPressed() {
+
         if(getFragmentManager().getBackStackEntryCount()>1)
             getFragmentManager().popBackStack();
         else
