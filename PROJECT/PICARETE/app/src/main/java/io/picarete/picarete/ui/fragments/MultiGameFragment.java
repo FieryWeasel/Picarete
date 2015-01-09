@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.List;
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.game_logics.UITile;
 import io.picarete.picarete.ui.adapters.GridAdapter;
 
 /**
@@ -90,17 +92,6 @@ public class MultiGameFragment extends Fragment implements Game.GameEventListene
         scorePlayer1 = (TextView) inflate.findViewById(R.id.score_1);
         scorePlayer2 = (TextView) inflate.findViewById(R.id.score_2);
 
-        game = new Game(getActivity());
-        game.setEventListener(this);
-        List<Tile> tiles = game.createGame(row, column);
-
-        RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.gridGame);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), column);
-        recyclerView.setLayoutManager(manager);
-
-        adapter = new GridAdapter(tiles, getActivity());
-        recyclerView.setAdapter(adapter);
-
         return inflate;
     }
 
@@ -154,8 +145,13 @@ public class MultiGameFragment extends Fragment implements Game.GameEventListene
     }
 
     @Override
-    public void OnMajTile() {
-        adapter.notifyDataSetChanged();
+    public void OnMajTile(List<Tile> tilesToRedraw) {
+        Log.d(this.getClass().getName(), "Need to redraw elements");
+    }
+
+    @Override
+    public void OnNextPlayer(int idPlayer) {
+
     }
 
     /**

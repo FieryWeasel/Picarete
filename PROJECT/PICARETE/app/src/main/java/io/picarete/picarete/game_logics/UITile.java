@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -67,10 +69,8 @@ public class UITile extends ImageView implements View.OnTouchListener{
         canvas.drawBitmap(tileBG, null, new Rect(0, 0, getWidth(), getHeight()), paint);
 
         if(edges != null){
-            Log.d(this.getClass().getName(), "Draw Tile : "+edges.size());
             for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
                 if(cursor.getValue().isChosen()){
-                    Log.d(this.getClass().getName(), "Draw Edges : "+cursor.getValue().toString());
                     Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.tile_edge);
                     Matrix matrix = new Matrix();
 
@@ -85,6 +85,8 @@ public class UITile extends ImageView implements View.OnTouchListener{
                     }
 
                     Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
+                    ColorFilter filter = new LightingColorFilter(Color.RED, 0);
+                    paint.setColorFilter(filter);
                     canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                 }
             }
@@ -113,8 +115,8 @@ public class UITile extends ImageView implements View.OnTouchListener{
                 // Todo Is edges point on the Tile's edges or new objects ?
                 edges = tile.getEdges();
                 try {
-                    Edge edge = choseEdge((int) event.getX(), (int) event.getY(), 300);
-                    Log.d(this.getClass().getName(), "Chose edge : "+edge.toString());
+                    Edge edge = choseEdge((int) event.getX(), (int) event.getY(), getWidth());
+                    Log.d(this.getClass().getName(), "Position : ("+(int)event.getX()+";"+(int)event.getY()+") / Width : "+getWidth()+" / Chose edge : "+edge);
                     tile.onClick(edge);
                 } catch (ArithmeticException e){
                     Log.d(this.getClass().getName(), e.getMessage());
@@ -179,11 +181,11 @@ public class UITile extends ImageView implements View.OnTouchListener{
 
         boolean isOnTirangle = true;
 
-        if(wA < 0 || wA > 1)
+        if(wA <= 0 || wA >= 1)
             isOnTirangle = false;
-        if(wB < 0 || wB > 1)
+        if(wB <= 0 || wB >= 1)
             isOnTirangle = false;
-        if(wC < 0 || wC > 1)
+        if(wC <= 0 || wC >= 1)
             isOnTirangle = false;
 
         return isOnTirangle;

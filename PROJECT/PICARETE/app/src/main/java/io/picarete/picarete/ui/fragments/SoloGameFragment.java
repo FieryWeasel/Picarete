@@ -53,20 +53,9 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
 
     private OnFragmentInteractionListener mListener;
 
-    private static final RecyclerView.OnItemTouchListener INTERCEPTATOR = new RecyclerView.OnItemTouchListener() {
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-        }
-    };
-    private RecyclerView recyclerView;
     private GridLayout grid;
     private List<UITile> uiTiles;
+    private int size;
 
     private TextView turnPlayer1;
     private TextView turnIA;
@@ -117,25 +106,15 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
         View inflate = inflater.inflate(R.layout.fragment_solo_game, container, false);
         grid = (GridLayout) inflate.findViewById(R.id.grid_game);
 
-        createGame();
-        resetScore();
-        getTileMeasure(column);
+        size = getTileMeasure(column);
 
         turnPlayer1 = (TextView) inflate.findViewById(R.id.turn_p1);
         turnIA = (TextView) inflate.findViewById(R.id.turn_p2);
         scorePlayer1 = (TextView) inflate.findViewById(R.id.score_1);
         scoreIA = (TextView) inflate.findViewById(R.id.score_2);
 
-        game = new Game(getActivity());
-        game.setEventListener(this);
-        List<Tile> tiles = game.createGame(row, column);
-
-        RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.gridGame);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), column);
-        recyclerView.setLayoutManager(manager);
-
-        adapter = new GridAdapter(tiles, getActivity());
-        recyclerView.setAdapter(adapter);
+        createGame();
+        resetScore();
 
         return inflate;
     }
@@ -145,7 +124,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        width-= dpToPx(Constants.GRID_PADDING);
+        width -= dpToPx(Constants.GRID_PADDING);
         return width/column;
     }
 
@@ -209,8 +188,8 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
             GridLayout.Spec col = GridLayout.spec(t.col);
 
             GridLayout.LayoutParams lp = new GridLayout.LayoutParams(row, col);
-            lp.width = 300;
-            lp.height = 300;
+            lp.width = size;
+            lp.height = size;
             grid.addView(UITile, lp);
         }
     }
@@ -269,8 +248,6 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     @Override
     public void OnNextPlayer(int idPlayer) {
 
-    public void OnMajTile() {
-        adapter.notifyDataSetChanged();
     }
 
     /**
