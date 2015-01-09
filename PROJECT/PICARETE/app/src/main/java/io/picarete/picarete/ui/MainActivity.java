@@ -12,7 +12,6 @@ import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
-import io.picarete.picarete.ui.fragments.MultiFragment;
 import io.picarete.picarete.ui.fragments.MultiGameFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
 import io.picarete.picarete.ui.fragments.SoloChooserFragment;
@@ -20,7 +19,8 @@ import io.picarete.picarete.ui.fragments.SoloGameFragment;
 
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
-        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
+        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener,
+        CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +91,13 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     @Override
     public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa) {
-        Fragment fragment = SoloGameFragment.newInstance(gameMode, columnCount, rowCount, nameIa);
+        Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode);
         addFragmentToStack(fragment, Constants.SOLO_GAME);
     }
 
     @Override
     public void onPlayersReady(String gameMode, int column, int row) {
-        Fragment fragment = MultiGameFragment.newInstance(gameMode, column, row);
+        Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode);
         addFragmentToStack(fragment, Constants.MULTI_GAME);
     }
 
