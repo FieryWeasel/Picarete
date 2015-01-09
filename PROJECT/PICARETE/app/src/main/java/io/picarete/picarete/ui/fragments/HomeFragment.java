@@ -85,10 +85,10 @@ public class HomeFragment extends Fragment {
         if (mListener != null) {
             switch(id){
                 case R.id.b_solo:
-                    mListener.onModeChosen(Constants.SOLO_GAME);
+                    mListener.onModeChosen(Constants.SOLO_GAME_CHOOSER);
                     break;
                 case R.id.b_multi:
-                    mListener.onModeChosen(Constants.MULTI_GAME);
+                    mListener.onModeChosen(Constants.MULTI_GAME_CHOOSER);
                     break;
                 case R.id.b_profile:
                     mListener.onModeChosen(Constants.PROFILE);

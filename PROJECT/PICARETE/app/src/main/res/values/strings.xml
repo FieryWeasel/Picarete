@@ -20,5 +20,6 @@
     <string name="yourTurn">Your turn !</string>
     <string name="startPoints">0</string>
     <string name="score">Score</string>
+    <string name="xp">Level</string>
 
 </resources>

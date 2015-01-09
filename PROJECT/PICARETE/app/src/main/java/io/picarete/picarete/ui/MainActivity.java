@@ -13,13 +13,14 @@ import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
 import io.picarete.picarete.ui.fragments.MultiFragment;
+import io.picarete.picarete.ui.fragments.MultiGameFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
 import io.picarete.picarete.ui.fragments.SoloChooserFragment;
 import io.picarete.picarete.ui.fragments.SoloGameFragment;
 
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
-        SoloGameFragment.OnFragmentInteractionListener, MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
+        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiFragment.OnFragmentInteractionListener, CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,13 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     public void onModeChosen(String mode) {
         Fragment fragment;
         switch(mode){
-            case Constants.SOLO_GAME:
+            case Constants.SOLO_GAME_CHOOSER:
                 fragment = SoloChooserFragment.newInstance();
-                addFragmentToStack(fragment, Constants.SOLO_GAME);
+                addFragmentToStack(fragment, Constants.SOLO_GAME_CHOOSER);
                 break;
-            case Constants.MULTI_GAME:
+            case Constants.MULTI_GAME_CHOOSER:
                 fragment = MultiChooserFragment.newInstance();
-                addFragmentToStack(fragment, Constants.MULTI_GAME);
+                addFragmentToStack(fragment, Constants.SOLO_GAME_CHOOSER);
                 break;
             case Constants.PROFILE :
                 fragment = ProfileFragment.newInstance();
@@ -92,6 +93,12 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa) {
         Fragment fragment = SoloGameFragment.newInstance(gameMode, columnCount, rowCount, nameIa);
         addFragmentToStack(fragment, Constants.SOLO_GAME);
+    }
+
+    @Override
+    public void onPlayersReady(String gameMode, int column, int row) {
+        Fragment fragment = MultiGameFragment.newInstance(gameMode, column, row);
+        addFragmentToStack(fragment, Constants.MULTI_GAME);
     }
 
     @Override
