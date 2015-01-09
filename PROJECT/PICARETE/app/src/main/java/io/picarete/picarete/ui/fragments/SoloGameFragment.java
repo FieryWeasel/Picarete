@@ -1,23 +1,30 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.game_logics.UITile;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.adapters.GridAdapter;
 
@@ -46,6 +53,10 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
 
     private OnFragmentInteractionListener mListener;
 
+    private GridLayout grid;
+    private List<UITile> uiTiles;
+    private int size;
+
     private TextView turnPlayer1;
     private TextView turnIA;
     private TextView scorePlayer1;
@@ -54,6 +65,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      *
      * @param gameMode name.
      * @param column number.
@@ -92,24 +104,17 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_solo_game, container, false);
+        grid = (GridLayout) inflate.findViewById(R.id.grid_game);
 
-        getTileMeasure(column);
+        size = getTileMeasure(column);
 
         turnPlayer1 = (TextView) inflate.findViewById(R.id.turn_p1);
         turnIA = (TextView) inflate.findViewById(R.id.turn_p2);
         scorePlayer1 = (TextView) inflate.findViewById(R.id.score_1);
         scoreIA = (TextView) inflate.findViewById(R.id.score_2);
 
-        game = new Game(getActivity());
-        game.setEventListener(this);
-        List<Tile> tiles = game.createGame(row, column);
-
-        RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.gridGame);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), column);
-        recyclerView.setLayoutManager(manager);
-
-        adapter = new GridAdapter(tiles, getActivity());
-        recyclerView.setAdapter(adapter);
+        createGame();
+        resetScore();
 
         return inflate;
     }
@@ -119,7 +124,7 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        width-= dpToPx(Constants.GRID_PADDING);
+        width -= dpToPx(Constants.GRID_PADDING);
         return width/column;
     }
 
@@ -167,19 +172,82 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
         mListener = null;
     }
 
+    private void createGame(){
+        game = new Game(getActivity());
+        game.setEventListener(this);
+        List<Tile> tiles = game.createGame(row, column);
+
+        grid.setRowCount(row);
+        grid.setColumnCount(column);
+        uiTiles = new ArrayList<>();
+        for(Tile t : tiles){
+            UITile UITile = new UITile(getActivity());
+            UITile.setTile(t);
+            uiTiles.add(UITile);
+            GridLayout.Spec row = GridLayout.spec(t.row);
+            GridLayout.Spec col = GridLayout.spec(t.col);
+
+            GridLayout.LayoutParams lp = new GridLayout.LayoutParams(row, col);
+            lp.width = size;
+            lp.height = size;
+            grid.addView(UITile, lp);
+        }
+    }
+
+    private void resetScore(){
+        game.getScores().put(0, 0);
+        game.getScores().put(1, 0);
+    }
+
     @Override
     public void OnFinished() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 2. Chain together various setter methods to set the dialog
+        // characteristics
+        builder.setTitle(R.string.dlg_solo_win_title);
+        builder.setMessage(R.string.dlg_solo_win_msg);
+        // 3. Add the buttons
+        builder.setNegativeButton(R.string.dlg_solo_win_retry,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked Continue button
+                        createGame();
+                        resetScore();
+                    }
+                });
+        builder.setPositiveButton(R.string.dlg_solo_win_continue,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked Continue button
+                        // Todo Call the back method to go the selection
+                    }
+                });
 
+        // 4. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
     public void OnMajGUI(int idPlayer) {
-
+        /*if(idPlayer == 1)
+            recyclerView.addOnItemTouchListener(INTERCEPTATOR);
+        else
+            recyclerView.removeOnItemTouchListener(INTERCEPTATOR);*/
     }
 
     @Override
-    public void OnMajTile() {
-        adapter.notifyDataSetChanged();
+    public void OnMajTile(List<Tile> tilesToRedraw) {
+        for(UITile t : uiTiles){
+            if(tilesToRedraw.contains(t.getTile()))
+                t.invalidate();
+        }
+        Log.d(this.getClass().getName(), "Need to redraw elements");
+    }
+
+    @Override
+    public void OnNextPlayer(int idPlayer) {
+
     }
 
     /**

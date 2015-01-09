@@ -21,6 +21,9 @@ import io.picarete.picarete.R;
 
 public class Tile{
     private Map<ETileSide, Edge> edges;
+    public int id = -1;
+    public int row = -1;
+    public int col = -1;
 
     // Event Management
     TileEventListener eventListener = null;
@@ -33,105 +36,54 @@ public class Tile{
         public abstract void OnClick(Tile l, Edge edge);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tile)) return false;
+
+        Tile tile = (Tile) o;
+
+        if (col != tile.col) return false;
+        if (id != tile.id) return false;
+        if (row != tile.row) return false;
+        if (!edges.equals(tile.edges)) return false;
+        if (eventListener != null ? !eventListener.equals(tile.eventListener) : tile.eventListener != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = edges.hashCode();
+        result = 31 * result + id;
+        result = 31 * result + row;
+        result = 31 * result + col;
+        result = 31 * result + (eventListener != null ? eventListener.hashCode() : 0);
+        return result;
+    }
+
     public void setEventListener(TileEventListener e){
         this.eventListener = e;
     }
 
-    public Tile(){
+    public Tile(int id, Edge left, Edge top, Edge right, Edge bottom){
         edges = new HashMap<>();
-        edges.put(ETileSide.LEFT, new Edge());
-        edges.put(ETileSide.TOP, new Edge());
-        edges.put(ETileSide.RIGHT, new Edge());
-        edges.put(ETileSide.BOTTOM, new Edge());
+        edges.put(ETileSide.LEFT, left);
+        edges.put(ETileSide.TOP, top);
+        edges.put(ETileSide.RIGHT, right);
+        edges.put(ETileSide.BOTTOM, bottom);
+
+        this.id = id;
     }
 
-    public void onClick(int posX, int posY, int size){
-        int i = posX;
-        int y = posY;
-        int a = size;
-        Edge edge = choseEdge(posX, posY, size);
+    public void onClick(Edge edge){
 
         if(!edge.isChosen()){
             edge.setChosen(true);
-
-
-
             eventListener.OnClick(this, edge);
         } else
             Log.d(this.getClass().getName(), "Edge already chosen by a player");
-    }
-
-    private Edge choseEdge(float posX, float posY, int size) {
-
-        int width = size, height = size;
-
-        // Create points
-        Point pA;
-        Point pB;
-        Point pC = new Point(width/2, height/2);
-        Point pP = new Point((int) posX, (int) posY);
-
-        // LEFT
-        pA = new Point(0, height);
-        pB = new Point(0, 0);
-        if(isPointOnTriangle(pA, pB, pC, pP))
-            return edges.get(ETileSide.LEFT);
-
-        // TOP
-        pA = new Point(0, 0);
-        pB = new Point(width, 0);
-        if(isPointOnTriangle(pA, pB, pC, pP))
-            return edges.get(ETileSide.TOP);
-
-        // RIGHT
-        pA = new Point(width, 0);
-        pB = new Point(width, height);
-        if(isPointOnTriangle(pA, pB, pC, pP))
-            return edges.get(ETileSide.RIGHT);
-
-        // BOTTOM
-        pA = new Point(width, height);
-        pB = new Point(0, height);
-        if(isPointOnTriangle(pA, pB, pC, pP))
-            return edges.get(ETileSide.BOTTOM);
-
-        throw new ArithmeticException(this.getClass().getName()+"No edge can be found for the point : ("+posX+"/"+posY+")");
-    }
-
-    private boolean isPointOnTriangle(Point pA, Point pB, Point pC, Point pP){
-        // http://math.stackexchange.com/questions/51326/determining-if-an-arbitrary-point-lies-inside-a-triangle-defined-by-three-points
-
-        // Move the origin at one vertex
-        pB = moveToPoint(pB, pA);
-        pC = moveToPoint(pC, pA);
-        pP = moveToPoint(pP, pA);
-
-        // Calculate the scalar d
-        float d = pB.x*pC.y - pC.x*pB.y;
-        // Calculate Barycentric weights
-        float wA = (pP.x*(pB.y-pC.y) + pP.y*(pC.x-pB.x) + pB.x*pC.y - pC.x*pB.y) / d;
-        float wB = (pP.x*pC.y - pP.y*pC.x) / d;
-        float wC = (pP.y*pB.x - pP.x*pB.y) / d;
-
-        boolean isOnTirangle = true;
-
-        if(wA < 0 || wA > 1)
-            isOnTirangle = false;
-        if(wB < 0 || wB > 1)
-            isOnTirangle = false;
-        if(wC < 0 || wC > 1)
-            isOnTirangle = false;
-
-        return isOnTirangle;
-    }
-
-    private Point moveToPoint(Point pointToMove, Point origin){
-        Point p = new Point();
-
-        p.x = pointToMove.x - origin.x;
-        p.y = pointToMove.y - origin.y;
-
-        return p;
     }
 
     public boolean isComplete(){
