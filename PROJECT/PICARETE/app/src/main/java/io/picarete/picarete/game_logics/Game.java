@@ -1,9 +1,11 @@
 package io.picarete.picarete.game_logics;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +25,18 @@ public class Game implements Tile.TileEventListener{
     // Event Management
     GameEventListener eventListener = null;
 
+    public Map<Integer, Integer> getScores() {
+        return scores;
+    }
+
     public interface GameEventListener {
         public abstract void OnFinished();
 
         public abstract void OnMajGUI(int idPlayer);
 
-        public abstract void OnMajTile();
+        public abstract void OnMajTile(List<Tile> tilesToRedraw);
+
+        public abstract void OnNextPlayer(int idPlayer);
     }
 
     public void setEventListener(GameEventListener e){
@@ -37,8 +45,8 @@ public class Game implements Tile.TileEventListener{
 
     // Constructor
     public Game(Context context){
-        this.tiles = new ArrayList<Tile>();
-        this.edgesPreviousPlayed = new ArrayList<>();
+        this.tiles = new LinkedList<Tile>();
+        this.edgesPreviousPlayed = new LinkedList<>();
         this.scores = new HashMap<>();
         this.scores.put(0, 0);
         this.scores.put(1, 0);
@@ -48,6 +56,7 @@ public class Game implements Tile.TileEventListener{
 
     @Override
     public void OnClick(Tile tile, Edge edge) {
+        Log.d(this.getClass().getName(), "An edge is clicked");
         if(tile.isComplete()){
             addScoreForPlayer(idPlayer, 10);
         }
@@ -55,12 +64,14 @@ public class Game implements Tile.TileEventListener{
         edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
 
-        List<Tile> tiles = findNeighbor(edge);
-        tiles.add(tile);
+        List<Tile> neighbor = findNeighbor(edge);
         if(eventListener != null)
-            eventListener.OnMajTile();
+            eventListener.OnMajTile(neighbor);
 
         idPlayer = (idPlayer + 1) % 2;
+
+        if(eventListener != null)
+            eventListener.OnNextPlayer(idPlayer);
 
         if(eventListener != null)
             eventListener.OnMajGUI(idPlayer);
@@ -88,11 +99,6 @@ public class Game implements Tile.TileEventListener{
         return tilesNeighbor;
     }
 
-    private void majTile(){
-        if(eventListener != null)
-            eventListener.OnMajTile();
-    }
-
     public boolean isGameEnd(){
         boolean isGameEnd = true;
 
@@ -110,9 +116,29 @@ public class Game implements Tile.TileEventListener{
 
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
-                Tile t = new Tile();
+                Edge left;
+                Edge top;
+                Edge right = new Edge();
+                Edge bottom = new Edge();
+                if(i == 0){
+                    top = new Edge();
+                } else {
+                    top = tiles.get((i-1)*width+j).getEdges().get(ETileSide.BOTTOM);
+                    Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Top : "+Integer.toString((i-1)*width+j));
+                }
+
+                if(j == 0){
+                    left = new Edge();
+                } else {
+                    left = tiles.get(i*width+j-1).getEdges().get(ETileSide.RIGHT);
+                    Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
+                }
+
+                Tile t = new Tile(i*width+j, left, top, right, bottom);
+                t.row = i;
+                t.col = j;
                 t.setEventListener(this);
-                tiles.add(i + j, t);
+                tiles.add(t);
             }
         }
 
@@ -121,11 +147,11 @@ public class Game implements Tile.TileEventListener{
             int yPosition = i / width;
             if(xPosition == 0)
                 tiles.get(i).getEdges().get(ETileSide.LEFT).setChosen(true);
-            else if(yPosition == 0)
+            if(yPosition == 0)
                 tiles.get(i).getEdges().get(ETileSide.TOP).setChosen(true);
-            else if(xPosition == width-1)
+            if(xPosition == width-1)
                 tiles.get(i).getEdges().get(ETileSide.RIGHT).setChosen(true);
-            else if(yPosition == height-1)
+            if(yPosition == height-1)
                 tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
         }
 

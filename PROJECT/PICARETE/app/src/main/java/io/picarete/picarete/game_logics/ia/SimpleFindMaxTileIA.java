@@ -21,7 +21,7 @@ public class SimpleFindMaxTileIA extends AIA {
         int bestClose  = 0;
         Edge bestEdge = null;
 
-        // Search to complete an existing tile
+        // Search to complete an existing UITile
         for(Tile t : game){
             int nbEdgeFree = 4;
             Edge edgeFree = null;

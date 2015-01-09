@@ -16,7 +16,7 @@ public class SimpleIA extends AIA {
     public Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
 
-        // Search to complete an existing tile
+        // Search to complete an existing UITile
         for(Tile t : game){
             int nbEdgeFree = 4;
             Edge edgeFree = null;
