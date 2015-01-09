@@ -21,6 +21,7 @@ import io.picarete.picarete.R;
 
 public class Tile{
     private Map<ETileSide, Edge> edges;
+    private int idPlayer = -1;
     public int id = -1;
     public int row = -1;
     public int col = -1;
@@ -30,6 +31,14 @@ public class Tile{
 
     public Map<ETileSide, Edge> getEdges() {
         return edges;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
+    }
+
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
     }
 
     public interface TileEventListener {

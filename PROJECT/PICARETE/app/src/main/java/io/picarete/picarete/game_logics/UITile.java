@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.model.ColorSet;
 
 /**
  * Created by root on 1/8/15.
@@ -64,38 +65,53 @@ public class UITile extends ImageView implements View.OnTouchListener{
         paint.setColor(Color.RED);
         canvas.drawPaint(paint);
 
-        paint.setColor(Color.parseColor("#CD5C5C"));
+        if(tile != null || !tile.isComplete()){
+            paint.setColor(ColorSet.colorTileBg.getColor());
+        } else if(tile != null && tile.isComplete()){
+            if(tile.getIdPlayer() == 0)
+                paint.setColor(ColorSet.colorTileBgPlayer1.getColor());
+            else
+                paint.setColor(ColorSet.colorTileBgPlayer2.getColor());
+        }
+
         Bitmap tileBG = BitmapFactory.decodeResource(getResources(), R.drawable.tile_bg);
         canvas.drawBitmap(tileBG, null, new Rect(0, 0, getWidth(), getHeight()), paint);
 
+
         if(edges != null){
-            for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
-                if(cursor.getValue().isChosen()){
-                    Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.tile_edge);
-                    Matrix matrix = new Matrix();
+            if(!tile.isComplete()){
+                for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
+                    if(cursor.getValue().isChosen()){
+                        Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.tile_edge);
+                        Matrix matrix = new Matrix();
 
-                    if(cursor.getKey() == ETileSide.LEFT){
-                        matrix.postRotate(90);
-                    } else if(cursor.getKey() == ETileSide.TOP){
-                        matrix.postRotate(180);
-                    } else if(cursor.getKey() == ETileSide.RIGHT){
-                        matrix.postRotate(-90);
-                    } else if(cursor.getKey() == ETileSide.BOTTOM){
-                        matrix.postRotate(0);
+                        if(cursor.getKey() == ETileSide.LEFT){
+                            matrix.postRotate(90);
+                        } else if(cursor.getKey() == ETileSide.TOP){
+                            matrix.postRotate(180);
+                        } else if(cursor.getKey() == ETileSide.RIGHT){
+                            matrix.postRotate(-90);
+                        } else if(cursor.getKey() == ETileSide.BOTTOM){
+                            matrix.postRotate(0);
+                        }
+
+                        Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
+                        ColorFilter filter;
+                        if(cursor.getValue().getIdPlayer() == 0)
+                            filter = new LightingColorFilter(ColorSet.colorEdgePlayer1.getColor(), 0);
+                        else
+                            filter = new LightingColorFilter(ColorSet.colorEdgePlayer2.getColor(), 0);
+                        paint.setColorFilter(filter);
+                        canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                     }
-
-                    Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
-                    ColorFilter filter = new LightingColorFilter(Color.RED, 0);
-                    paint.setColorFilter(filter);
-                    canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                 }
             }
         }
 
-        paint.setColor(Color.GREEN);
+        paint.setColor(ColorSet.DEBUG.getColor());
         paint.setTextSize(20);
         if(tile != null)
-            canvas.drawText(Integer.toString(tile.id), 50, 50, paint);
+            canvas.drawText(Integer.toString(tile.id), getWidth()/2, getWidth()/2, paint);
 
         super.onDraw(canvas);
     }
@@ -112,11 +128,10 @@ public class UITile extends ImageView implements View.OnTouchListener{
 
         switch (action){
             case MotionEvent.ACTION_UP:
-                // Todo Is edges point on the Tile's edges or new objects ?
                 edges = tile.getEdges();
                 try {
                     Edge edge = choseEdge((int) event.getX(), (int) event.getY(), getWidth());
-                    Log.d(this.getClass().getName(), "Position : ("+(int)event.getX()+";"+(int)event.getY()+") / Width : "+getWidth()+" / Chose edge : "+edge);
+                    //Log.d(this.getClass().getName(), "Position : ("+(int)event.getX()+";"+(int)event.getY()+") / Width : "+getWidth()+" / Chose edge : "+edge);
                     tile.onClick(edge);
                 } catch (ArithmeticException e){
                     Log.d(this.getClass().getName(), e.getMessage());

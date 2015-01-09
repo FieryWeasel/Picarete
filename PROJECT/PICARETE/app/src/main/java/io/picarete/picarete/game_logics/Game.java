@@ -63,6 +63,8 @@ public class Game implements Tile.TileEventListener{
 
         edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
+        if(tile.isComplete())
+            tile.setIdPlayer(idPlayer);
 
         List<Tile> neighbor = findNeighbor(edge);
         if(eventListener != null)
