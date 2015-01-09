@@ -21,5 +21,9 @@
     <string name="dlg_solo_win_msg">Congratulation, you win the level !</string>
     <string name="dlg_solo_win_retry">Retry</string>
     <string name="dlg_solo_win_continue">Return to home</string>
+    <string name="yourTurn">Your turn !</string>
+    <string name="startPoints">0</string>
+    <string name="score">Score</string>
+    <string name="xp">Level</string>
 
 </resources>

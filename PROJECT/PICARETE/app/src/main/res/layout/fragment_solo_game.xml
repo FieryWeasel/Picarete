@@ -1,14 +1,93 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.picarete.picarete.ui.fragments.SoloGameFragment">
 
+    <TextView
+        android:id="@+id/title_soloGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/solo"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gridGame"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/accent_material_light"
+        android:layout_centerInParent="true"
+        android:paddingRight="@dimen/paddingGameGrid"
+        android:paddingLeft="@dimen/paddingGameGrid"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scores"
+        android:layout_centerHorizontal="true"
+        android:text="@string/score"
+        android:textAppearance="@android:style/TextAppearance.Medium"/>
     <GridLayout
         android:id="@+id/grid_game"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="3">
 
-    </GridLayout>
+    <LinearLayout
+        android:id="@+id/scores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/turn_p1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/yourTurn"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/score_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/startPoints"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="right|center_vertical"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="/"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/score_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/startPoints"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="left|center_vertical"/>
+
+        <TextView
+            android:id="@+id/turn_p2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/yourTurn"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="center"/>
+
+        </LinearLayout>
+
+</RelativeLayout>

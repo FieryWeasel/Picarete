@@ -3,15 +3,20 @@ package io.picarete.picarete.ui.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +25,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.Tile;
 import io.picarete.picarete.game_logics.UITile;
+import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.adapters.GridAdapter;
 
 /**
@@ -61,6 +67,11 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     private RecyclerView recyclerView;
     private GridLayout grid;
     private List<UITile> uiTiles;
+
+    private TextView turnPlayer1;
+    private TextView turnIA;
+    private TextView scorePlayer1;
+    private TextView scoreIA;
 
     /**
      * Use this factory method to create a new instance of
@@ -108,8 +119,61 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
 
         createGame();
         resetScore();
+        getTileMeasure(column);
+
+        turnPlayer1 = (TextView) inflate.findViewById(R.id.turn_p1);
+        turnIA = (TextView) inflate.findViewById(R.id.turn_p2);
+        scorePlayer1 = (TextView) inflate.findViewById(R.id.score_1);
+        scoreIA = (TextView) inflate.findViewById(R.id.score_2);
+
+        game = new Game(getActivity());
+        game.setEventListener(this);
+        List<Tile> tiles = game.createGame(row, column);
+
+        RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.gridGame);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), column);
+        recyclerView.setLayoutManager(manager);
+
+        adapter = new GridAdapter(tiles, getActivity());
+        recyclerView.setAdapter(adapter);
 
         return inflate;
+    }
+
+    private int getTileMeasure(int column) {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        width-= dpToPx(Constants.GRID_PADDING);
+        return width/column;
+    }
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    private void updatePlayerScore(int score, int which){
+        switch (which){
+            case 1 :
+                scorePlayer1.setText(score);
+                break;
+            case 2 :
+                scoreIA.setText(score);
+                break;
+        }
+    }
+
+    private void updateTurn(int which){
+        switch (which){
+            case 1 :
+                //its the player 1 turn
+                break;
+            case 2 :
+                //its the ia turn
+                break;
+        }
     }
 
     @Override
@@ -205,6 +269,8 @@ public class SoloGameFragment extends Fragment implements Game.GameEventListener
     @Override
     public void OnNextPlayer(int idPlayer) {
 
+    public void OnMajTile() {
+        adapter.notifyDataSetChanged();
     }
 
     /**
