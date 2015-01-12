@@ -32,6 +32,11 @@ public class UITile extends ImageView implements View.OnTouchListener{
     private Tile tile;
     private Map<ETileSide, Edge> edges;
 
+    // Fade color Management
+    private int colorBackground;
+    private int colorTileBackground;
+    private int colorEdgeBackground;
+
     // Constructor
     public UITile(Context context) {
         super(context);
@@ -52,37 +57,73 @@ public class UITile extends ImageView implements View.OnTouchListener{
         this.tile = tile;
     }
 
+    public void startFade(){
+        this.invalidate();
+    }
+
+    public int getColorBackground(){
+        int c = -1;
+
+        c = ColorSet.colorTileBgGeneral.getColor();
+
+        return c;
+    }
+
+    public int getColorTileBackground(){
+        int c = -1;
+        if(tile != null && !tile.isComplete()){
+            c = ColorSet.colorTileBg.getColor();
+        } else if(tile != null && tile.isComplete()){
+            if(tile.getIdPlayer() == 0)
+                c =  ColorSet.colorTileBgPlayer1.getColor();
+            else if(tile.getIdPlayer() == 1)
+                c = ColorSet.colorTileBgPlayer2.getColor();
+            else
+                c = ColorSet.colorTileBgPlayerNone.getColor();
+        }
+
+        return c;
+    }
+
+    public int getColorEdge(Edge e){
+        int c = -1;
+
+        if(e.getIdPlayer() == 0)
+            c = ColorSet.colorEdgePlayer1.getColor();
+        else if(e.getIdPlayer() == 1)
+            c = ColorSet.colorEdgePlayer2.getColor();
+        else
+            c = ColorSet.colorEdgePlayerNone.getColor();
+
+        return c;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        // Todo Draw triangles from Edges status
-
-        Paint paint = new Paint();
-
         if(tile != null)
             edges = tile.getEdges();
 
+        // Background General
+        Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
+        paint.setColor(getColorBackground());
         canvas.drawPaint(paint);
 
-        if(tile != null || !tile.isComplete()){
-            paint.setColor(ColorSet.colorTileBg.getColor());
-        } else if(tile != null && tile.isComplete()){
-            if(tile.getIdPlayer() == 0)
-                paint.setColor(ColorSet.colorTileBgPlayer1.getColor());
-            else
-                paint.setColor(ColorSet.colorTileBgPlayer2.getColor());
-        }
-
+        // Tile BG image
+        paint = new Paint();
+        ColorFilter filterTile;
+        filterTile = new LightingColorFilter(getColorTileBackground(), 0);
+        paint.setColorFilter(filterTile);
         Bitmap tileBG = BitmapFactory.decodeResource(getResources(), R.drawable.tile_bg);
         canvas.drawBitmap(tileBG, null, new Rect(0, 0, getWidth(), getHeight()), paint);
 
-
+        // Edges
         if(edges != null){
             if(!tile.isComplete()){
+                paint = new Paint();
                 for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
                     if(cursor.getValue().isChosen()){
-                        Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.tile_edge);
+                        Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.edge_bg);
                         Matrix matrix = new Matrix();
 
                         if(cursor.getKey() == ETileSide.LEFT){
@@ -96,22 +137,22 @@ public class UITile extends ImageView implements View.OnTouchListener{
                         }
 
                         Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
-                        ColorFilter filter;
-                        if(cursor.getValue().getIdPlayer() == 0)
-                            filter = new LightingColorFilter(ColorSet.colorEdgePlayer1.getColor(), 0);
-                        else
-                            filter = new LightingColorFilter(ColorSet.colorEdgePlayer2.getColor(), 0);
-                        paint.setColorFilter(filter);
+                        ColorFilter filterEdge;
+                        filterEdge = new LightingColorFilter(getColorEdge(cursor.getValue()), 0);
+                        paint.setColorFilter(filterEdge);
                         canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                     }
                 }
             }
         }
 
+        /*
+        paint = new Paint();
         paint.setColor(ColorSet.DEBUG.getColor());
         paint.setTextSize(20);
         if(tile != null)
             canvas.drawText(Integer.toString(tile.id), getWidth()/2, getWidth()/2, paint);
+            */
 
         super.onDraw(canvas);
     }

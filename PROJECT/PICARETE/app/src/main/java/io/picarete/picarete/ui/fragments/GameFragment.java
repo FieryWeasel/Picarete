@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.DisplayMetrics;
@@ -14,16 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.Tile;
 import io.picarete.picarete.game_logics.UITile;
+import io.picarete.picarete.model.ColorSet;
 import io.picarete.picarete.model.Constants;
 
 public abstract class GameFragment extends Fragment implements Game.GameEventListener {
@@ -31,16 +31,18 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected String mode;
     protected int column;
     protected int row;
-    private Game game;
+    protected Game game;
 
-    private GridLayout grid;
-    private List<UITile> uiTiles;
+
+    protected List<UITile> UITiles;
     private int size;
 
-    protected TextView turnPlayer1;
-    protected TextView turnPlayer2;
-    protected TextView scorePlayer1;
-    protected TextView scorePlayer2;
+    protected GridLayout UIGridGame;
+    protected RelativeLayout UIRoot;
+    protected TextView UITurnPlayer1;
+    protected TextView UITurnPlayer2;
+    protected TextView UIScorePlayer1;
+    protected TextView UIScorePlayer2;
 
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
     protected abstract void createFragment(Bundle savedInstanceState);
@@ -68,12 +70,13 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         // Inflate the layout for this fragment
         View view = createViewFragment(inflater, container, savedInstanceState);
 
-        turnPlayer1 = (TextView) view.findViewById(R.id.turn_p1);
-        turnPlayer2 = (TextView) view.findViewById(R.id.turn_p2);
-        scorePlayer1 = (TextView) view.findViewById(R.id.score_1);
-        scorePlayer2 = (TextView) view.findViewById(R.id.score_2);
+        UITurnPlayer1 = (TextView) view.findViewById(R.id.turn_p1);
+        UITurnPlayer2 = (TextView) view.findViewById(R.id.turn_p2);
+        UIScorePlayer1 = (TextView) view.findViewById(R.id.score_1);
+        UIScorePlayer2 = (TextView) view.findViewById(R.id.score_2);
 
-        grid = (GridLayout) view.findViewById(R.id.grid_game);
+        UIGridGame = (GridLayout) view.findViewById(R.id.grid_game);
+        UIRoot = (RelativeLayout) view.findViewById(R.id.game_root);
 
         size = getTileMeasure(column);
 
@@ -96,34 +99,37 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         detachFragment();
     }
 
-    private void createGame(){
+    protected void createGame(){
         game = new Game(getActivity());
         game.setEventListener(this);
         List<Tile> tiles = game.createGame(row, column);
 
-        grid.setRowCount(row);
-        grid.setColumnCount(column);
-        uiTiles = new ArrayList<>();
+        UIGridGame.setRowCount(row);
+        UIGridGame.setColumnCount(column);
+        UITiles = new ArrayList<>();
         for(Tile t : tiles){
             UITile UITile = new UITile(getActivity());
             UITile.setTile(t);
-            uiTiles.add(UITile);
+            UITiles.add(UITile);
             GridLayout.Spec row = GridLayout.spec(t.row);
             GridLayout.Spec col = GridLayout.spec(t.col);
 
             GridLayout.LayoutParams lp = new GridLayout.LayoutParams(row, col);
             lp.width = size;
             lp.height = size;
-            grid.addView(UITile, lp);
+            UIGridGame.addView(UITile, lp);
         }
+
+        OnMajGUI(0);
+        OnNextPlayer(0);
     }
 
-    private void resetScore(){
+    protected void resetScore(){
         game.getScores().put(0, 0);
         game.getScores().put(1, 0);
     }
 
-    private int getTileMeasure(int column) {
+    protected int getTileMeasure(int column) {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -137,73 +143,33 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private void updatePlayerScore(int score, int which){
-        switch (which){
-            case 1 :
-                scorePlayer1.setText(score);
-                break;
-            case 2 :
-                scorePlayer2.setText(score);
-                break;
-        }
-    }
-
-    private void updateTurn(int which){
-        switch (which){
-            case 1 :
-                //its the player 1 turn
-                break;
-            case 2 :
-                //its the player 2 turn
-                break;
-        }
-    }
-
     @Override
-    public void OnFinished() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // 2. Chain together various setter methods to set the dialog
-        // characteristics
-        builder.setTitle(R.string.dlg_solo_win_title);
-        builder.setMessage(R.string.dlg_solo_win_msg);
-        // 3. Add the buttons
-        builder.setNegativeButton(R.string.dlg_solo_win_retry,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked Continue button
-                        createGame();
-                        resetScore();
-                    }
-                });
-        builder.setPositiveButton(R.string.dlg_solo_win_continue,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked Continue button
-                        // Todo Call the back method to go the selection
-                    }
-                });
-
-        // 4. Get the AlertDialog from create()
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    public void OnMajGUI(int idPlayer) {
-
+    public void OnMajGUI(int idPlayerActual) {
+        this.UIScorePlayer1.setText(Integer.toString(game.getScores().get(0)));
+        this.UIScorePlayer2.setText(Integer.toString(game.getScores().get(1)));
     }
 
     @Override
     public void OnMajTile(List<Tile> tilesToRedraw) {
-        for(UITile t : uiTiles){
+        Log.d(this.getClass().getName(), "Need to redraw "+tilesToRedraw.size()+" elements");
+        for(UITile t : UITiles){
             if(tilesToRedraw.contains(t.getTile()))
                 t.invalidate();
         }
-        Log.d(this.getClass().getName(), "Need to redraw elements");
     }
 
     @Override
-    public void OnNextPlayer(int idPlayer) {
-
+    public void OnNextPlayer(int idPlayerActual) {
+        if(idPlayerActual == 0){
+            UITurnPlayer2.setVisibility(View.INVISIBLE);
+            UITurnPlayer1.setVisibility(View.VISIBLE);
+            UITurnPlayer1.setBackgroundColor(ColorSet.colorTileBgPlayer1.getColor());
+            UIRoot.setBackgroundColor(ColorSet.colorTileBgPlayer1.getColor());
+        } else if (idPlayerActual == 1){
+            UITurnPlayer1.setVisibility(View.INVISIBLE);
+            UITurnPlayer2.setVisibility(View.VISIBLE);
+            UITurnPlayer2.setBackgroundColor(ColorSet.colorTileBgPlayer2.getColor());
+            UIRoot.setBackgroundColor(ColorSet.colorTileBgPlayer2.getColor());
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PICARETE</string>
+    <string name="app_name">PicArete</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -19,11 +19,23 @@
     <string name="hintRow">Number of rows</string>
     <string name="dlg_solo_win_title">Win</string>
     <string name="dlg_solo_win_msg">Congratulation, you win the level !</string>
-    <string name="dlg_solo_win_retry">Retry</string>
-    <string name="dlg_solo_win_continue">Return to home</string>
+    <string name="dlg_solo_retry">Retry</string>
+    <string name="dlg_solo_continue">Return to home</string>
     <string name="yourTurn">Your turn !</string>
     <string name="startPoints">0</string>
     <string name="score">Score</string>
     <string name="xp">Level</string>
+    <string name="dlg_solo_lost_title">Lose</string>
+    <string name="dlg_solo_lost_msg">Oh, you lose the game...</string>
+    <string name="dlg_solo_equality_title">Equality</string>
+    <string name="dlg_solo_equality_msg">You are eqaulity with your oponen...</string>
+    <string name="dlg_multi_retry">Retry</string>
+    <string name="dlg_multi_continue">Return to home</string>
+    <string name="dlg_multi_equality_msg">Player 1 and player 2 are equals...</string>
+    <string name="dlg_multi_equality_title">Equality</string>
+    <string name="dlg_multi_p2_win_msg">Player 2 win the game !</string>
+    <string name="dlg_multi_p2_win_title">Player 2 win</string>
+    <string name="dlg_multi_p1_win_msg">Player 1 win the game !</string>
+    <string name="dlg_multi_p1_win_title">Player 1 win</string>
 
 </resources>

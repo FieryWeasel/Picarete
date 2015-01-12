@@ -32,11 +32,11 @@ public class Game implements Tile.TileEventListener{
     public interface GameEventListener {
         public abstract void OnFinished();
 
-        public abstract void OnMajGUI(int idPlayer);
+        public abstract void OnMajGUI(int idPlayerActual);
 
         public abstract void OnMajTile(List<Tile> tilesToRedraw);
 
-        public abstract void OnNextPlayer(int idPlayer);
+        public abstract void OnNextPlayer(int idPlayerActual);
     }
 
     public void setEventListener(GameEventListener e){
@@ -45,7 +45,7 @@ public class Game implements Tile.TileEventListener{
 
     // Constructor
     public Game(Context context){
-        this.tiles = new LinkedList<Tile>();
+        this.tiles = new LinkedList<>();
         this.edgesPreviousPlayed = new LinkedList<>();
         this.scores = new HashMap<>();
         this.scores.put(0, 0);
@@ -57,16 +57,17 @@ public class Game implements Tile.TileEventListener{
     @Override
     public void OnClick(Tile tile, Edge edge) {
         Log.d(this.getClass().getName(), "An edge is clicked");
-        if(tile.isComplete()){
-            addScoreForPlayer(idPlayer, 10);
-        }
 
         edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
-        if(tile.isComplete())
-            tile.setIdPlayer(idPlayer);
 
         List<Tile> neighbor = findNeighbor(edge);
+        for(Tile t : neighbor){
+            if(t.isComplete()){
+                t.setIdPlayer(idPlayer);
+                addScoreForPlayer(idPlayer, 1);
+            }
+        }
         if(eventListener != null)
             eventListener.OnMajTile(neighbor);
 

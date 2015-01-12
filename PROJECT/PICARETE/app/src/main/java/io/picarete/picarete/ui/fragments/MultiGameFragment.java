@@ -1,6 +1,8 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -71,6 +73,78 @@ public class MultiGameFragment extends GameFragment {
 
     public MultiGameFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void OnFinished() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if(game.getScores().get(0) > game.getScores().get(1)){
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_multi_p1_win_title);
+            builder.setMessage(R.string.dlg_multi_p1_win_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_multi_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_multi_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        } else if(game.getScores().get(0) < game.getScores().get(1)){
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_multi_p2_win_title);
+            builder.setMessage(R.string.dlg_multi_p2_win_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_multi_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_multi_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        } else {
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_multi_equality_title);
+            builder.setMessage(R.string.dlg_multi_equality_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_multi_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_multi_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        }
+        // 4. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**

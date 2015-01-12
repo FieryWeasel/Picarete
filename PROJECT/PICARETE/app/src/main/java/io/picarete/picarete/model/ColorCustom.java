@@ -26,7 +26,7 @@ public class ColorCustom {
 
         if(number != -1){
             c = number;
-        } else if(str.compareToIgnoreCase("") == 0){
+        } else if(str.compareToIgnoreCase("") != 0){
             c = Color.parseColor(str);
         }
 

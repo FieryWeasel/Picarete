@@ -3,31 +3,14 @@ package io.picarete.picarete.ui.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import io.picarete.picarete.R;
-import io.picarete.picarete.game_logics.Game;
-import io.picarete.picarete.game_logics.Tile;
-import io.picarete.picarete.game_logics.UITile;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.ui.adapters.GridAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,10 +24,7 @@ public class SoloGameFragment extends GameFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private String iaName;
-
-
     private OnFragmentInteractionListener mListener;
-
 
     public static SoloGameFragment newInstance(int col, int row, String iaName, String mode) {
         SoloGameFragment fragment = new SoloGameFragment();
@@ -82,6 +62,86 @@ public class SoloGameFragment extends GameFragment {
     @Override
     protected void detachFragment() {
         mListener = null;
+    }
+
+    @Override
+    public void OnFinished() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if(game.getScores().get(0) > game.getScores().get(1)){
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_solo_win_title);
+            builder.setMessage(R.string.dlg_solo_win_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_solo_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_solo_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        } else if(game.getScores().get(0) < game.getScores().get(1)){
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_solo_lost_title);
+            builder.setMessage(R.string.dlg_solo_lost_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_solo_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_solo_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        } else {
+            // 2. Chain together various setter methods to set the dialog
+            // characteristics
+            builder.setTitle(R.string.dlg_solo_equality_title);
+            builder.setMessage(R.string.dlg_solo_equality_msg);
+            // 3. Add the buttons
+            builder.setNegativeButton(R.string.dlg_solo_retry,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            createGame();
+                            resetScore();
+                        }
+                    });
+            builder.setPositiveButton(R.string.dlg_solo_continue,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Continue button
+                            // Todo Call the back method to go the selection
+                        }
+                    });
+        }
+        // 4. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void OnNextPlayer(int idPlayerActual) {
+        super.OnNextPlayer(idPlayerActual);
+
+        // Todo If player 2, block the possibility to play with a touch. It's IA turn
+        // Todo If player 1, unlock the possibility to play with a touch
     }
 
     public SoloGameFragment() {

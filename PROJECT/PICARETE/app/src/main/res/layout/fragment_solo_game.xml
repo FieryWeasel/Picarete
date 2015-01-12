@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/game_root"
+    android:background="@color/flat_blue"
     tools:context="io.picarete.picarete.ui.fragments.SoloGameFragment">
 
     <TextView
@@ -12,7 +14,8 @@
         android:textAppearance="@android:style/TextAppearance.Large"
         android:layout_centerHorizontal="true"
         android:paddingTop="25dp"
-        android:paddingBottom="25dp"/>
+        android:paddingBottom="25dp"
+        android:textColor="@color/white"/>
 
     <GridLayout
         android:id="@+id/grid_game"
@@ -28,6 +31,7 @@
         android:layout_above="@+id/scores"
         android:layout_centerHorizontal="true"
         android:text="@string/score"
+        android:textColor="@color/white"
         android:textAppearance="@android:style/TextAppearance.Medium"/>
 
     <LinearLayout
@@ -35,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/turn_p1"
@@ -43,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/yourTurn"
+            android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:gravity="center"/>
 
@@ -52,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/startPoints"
+            android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:gravity="right|center_vertical"/>
 
@@ -60,6 +67,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="/"
+            android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:gravity="center"/>
 
@@ -69,6 +77,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/startPoints"
+            android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:gravity="left|center_vertical"/>
 
@@ -78,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/yourTurn"
+            android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:gravity="center"/>
 
