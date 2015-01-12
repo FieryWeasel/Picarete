@@ -20,28 +20,28 @@
         android:orientation="vertical"
         android:layout_centerInParent="true">
 
-        <Button
+        <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/b_solo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/solo"
             android:layout_gravity="center_horizontal"/>
 
-        <Button
+        <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/b_multi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multi"
             android:layout_gravity="center_horizontal"/>
 
-        <Button
+        <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/b_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile"
             android:layout_gravity="center_horizontal"/>
 
-        <Button
+        <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/b_custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -53,7 +53,8 @@ public class SoloChooserFragment extends ChooserFragment {
 
         Spinner spinnerIADifficulty = (Spinner) view.findViewById(R.id.spinner_ia);
         spinnerIADifficulty.setAdapter(new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.item_spinner_ia,
+                R.id.spinner_ia_text,
                 getResources().getStringArray(R.array.ia_difficulty)));
         spinnerIADifficulty.setSelection(0);
         spinnerIADifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

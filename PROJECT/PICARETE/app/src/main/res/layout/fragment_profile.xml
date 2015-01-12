@@ -178,7 +178,7 @@
 
         </LinearLayout>
 
-        <Button
+        <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.model.CustomFontTextView;
 
 /**
  * Created by iem on 07/01/15.
@@ -39,8 +40,8 @@ public class SpinnerModeAdapter extends ArrayAdapter<String>{
         if (view == null) {
             view = inflater.inflate(R.layout.item_spinner_mode, parent, false);
             holder = new ViewHolder();
-            holder.title = (TextView)view.findViewById(R.id.mode_name);
-            holder.description = (TextView)view.findViewById(R.id.mode_desc);
+            holder.title = (CustomFontTextView)view.findViewById(R.id.mode_name);
+            holder.description = (CustomFontTextView)view.findViewById(R.id.mode_desc);
             view.setTag(holder);
         }else{
             holder = (ViewHolder)view.getTag();
@@ -56,12 +57,25 @@ public class SpinnerModeAdapter extends ArrayAdapter<String>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        return super.getView(position, convertView, parent);
+        View view = convertView;
+        ViewHolder holder; // to reference the child views for later actions
+        if (view == null) {
+            view = inflater.inflate(R.layout.item_spinner_mode, parent, false);
+            holder = new ViewHolder();
+            holder.title = (CustomFontTextView)view.findViewById(R.id.mode_name);
+            view.setTag(holder);
+        }else{
+            holder = (ViewHolder)view.getTag();
+        }
+
+        holder.title.setText(mNames[position]);
+
+        return view;
     }
 
     private class ViewHolder {
-        TextView title;
-        TextView description;
+        CustomFontTextView title;
+        CustomFontTextView description;
     }
 
 
