@@ -1,5 +1,6 @@
 package io.picarete.picarete.game_logics.ia;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,8 +21,10 @@ public class SimpleIA extends AIA {
             int nbEdgeFree = 4;
             Edge edgeFree = null;
             for(Edge e : t.getEdges().values()){
-                if(!e.isChosen()){
+                if(e.isChosen()){
                     nbEdgeFree--;
+
+                } else {
                     edgeFree = e;
                 }
             }
@@ -41,10 +44,11 @@ public class SimpleIA extends AIA {
         allEdgesPossible.clear();
         for(Tile t : game){
             int nbEdgeFree = 4;
-            List<Edge> edgesFree = null;
+            List<Edge> edgesFree = new ArrayList<>();
             for(Edge e : t.getEdges().values()){
-                if(!e.isChosen()){
+                if(e.isChosen()){
                     nbEdgeFree--;
+                } else {
                     edgesFree.add(e);
                 }
             }
@@ -64,7 +68,7 @@ public class SimpleIA extends AIA {
         // Search to chose a free edge
         allEdgesPossible.clear();
         for(Tile t : game){
-            List<Edge> edgesFree = null;
+            List<Edge> edgesFree = new ArrayList<>();;
             for(Edge e : t.getEdges().values()){
                 if(!e.isChosen()){
                     edgesFree.add(e);

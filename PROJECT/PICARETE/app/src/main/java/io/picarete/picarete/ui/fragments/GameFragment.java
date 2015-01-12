@@ -32,7 +32,6 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected int row;
     protected Game game;
 
-
     protected List<UITile> UITiles;
     private int size;
 

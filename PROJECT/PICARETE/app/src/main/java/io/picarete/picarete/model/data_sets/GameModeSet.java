@@ -2,7 +2,11 @@ package io.picarete.picarete.model.data_sets;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import io.picarete.picarete.R;
@@ -13,9 +17,11 @@ import io.picarete.picarete.model.container.GameModeCustom;
  * Created by root on 1/12/15.
  */
 public class GameModeSet {
-    public static Map<EGameMode, GameModeCustom> gameModes = new HashMap<>();
+    public static Map<EGameMode, GameModeCustom> gameModes = null;
 
     public static void constructListGameMode(Context context){
+        gameModes = new LinkedHashMap<>();
+
         String[] gameModesTitle = context.getResources().getStringArray(R.array.game_modes);
         String[] gameModesDesc = context.getResources().getStringArray(R.array.game_modes_descriptions);
 
@@ -38,10 +44,10 @@ public class GameModeSet {
             constructListGameMode(context);
 
         String[] titles = new String[gameModes.size()];
-        GameModeCustom[] gameModesArr = (GameModeCustom[]) gameModes.values().toArray();
+        List<GameModeCustom> gameModesArr = new LinkedList<>(gameModes.values());
 
         for (int i = 0; i< gameModes.size(); i++){
-            titles[i] = gameModesArr[i].title;
+            titles[i] = gameModesArr.get(i).title;
         }
 
         return titles;
@@ -52,10 +58,10 @@ public class GameModeSet {
             constructListGameMode(context);
 
         String[] desc = new String[gameModes.size()];
-        GameModeCustom[] gameModesArr = (GameModeCustom[]) gameModes.values().toArray();
+        List<GameModeCustom> gameModesArr = new ArrayList<>(gameModes.values());
 
         for (int i = 0; i< gameModes.size(); i++){
-            desc[i] = gameModesArr[i].desc;
+            desc[i] = gameModesArr.get(i).desc;
         }
 
         return desc;
@@ -65,6 +71,11 @@ public class GameModeSet {
         if(gameModes == null)
             constructListGameMode(context);
 
-        return (EGameMode[]) gameModes.keySet().toArray();
+        EGameMode[] gameModeArr = new EGameMode[gameModes.keySet().size()];
+        int i = 0;
+        for(EGameMode e : gameModes.keySet())
+            gameModeArr[i] = e;
+
+        return gameModeArr;
     }
 }

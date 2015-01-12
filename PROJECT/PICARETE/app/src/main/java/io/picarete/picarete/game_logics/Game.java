@@ -72,7 +72,7 @@ public class Game implements Tile.TileEventListener{
         for(Tile t : neighbor){
             if(t.isComplete()){
                 t.setIdPlayer(idPlayer);
-                addScoreForPlayer(idPlayer, tile.scoreForPlayer + edge.scoreForPlayer);
+                addScoreForPlayer(idPlayer, t.scoreForPlayer + edge.scoreForPlayer);
                 hasCompletedATile = true;
             }
         }
@@ -84,14 +84,15 @@ public class Game implements Tile.TileEventListener{
         if(eventListener != null)
             eventListener.OnMajGUI(idPlayer);
 
-        if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
-            if(eventListener != null)
-                eventListener.OnNextPlayer(idPlayer);
-        }
-
         if(isGameEnd()){
             if(eventListener != null)
                 eventListener.OnFinished();
+            return;
+        }
+
+        if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
+            if(eventListener != null)
+                eventListener.OnNextPlayer(idPlayer);
         }
     }
 
@@ -99,7 +100,7 @@ public class Game implements Tile.TileEventListener{
         scores.put(idPlayer, scores.get(idPlayer)+score);
     }
 
-    private List<Tile> findNeighbor(Edge edge){
+    public List<Tile> findNeighbor(Edge edge){
         List<Tile> tilesNeighbor = new ArrayList<Tile>();
 
         for(int i = 0; i < tiles.size(); i++){

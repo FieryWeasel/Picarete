@@ -13,6 +13,8 @@ import android.widget.Spinner;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
+import io.picarete.picarete.game_logics.ia.EIA;
+import io.picarete.picarete.model.data_sets.IASet;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +29,8 @@ public class SoloChooserFragment extends ChooserFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private String[] mIA;
-    private String mNameIa;
+
+    private EIA mNameIa;
 
     /**
      * Use this factory method to create a new instance of
@@ -45,7 +47,7 @@ public class SoloChooserFragment extends ChooserFragment {
 
     @Override
     public void createFragment() {
-        mIA = getResources().getStringArray(R.array.ia_difficulty);
+
     }
 
     @Override
@@ -55,12 +57,12 @@ public class SoloChooserFragment extends ChooserFragment {
         Spinner spinnerIADifficulty = (Spinner) view.findViewById(R.id.spinner_ia);
         spinnerIADifficulty.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.ia_difficulty)));
+                IASet.getNames(getActivity())));
         spinnerIADifficulty.setSelection(0);
         spinnerIADifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mNameIa = mIA[position];
+                mNameIa = IASet.getEIAs(getActivity())[position];
             }
 
             @Override
@@ -113,7 +115,7 @@ public class SoloChooserFragment extends ChooserFragment {
      */
     public interface OnFragmentInteractionListener {
 
-        public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, String nameIa);
+        public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa);
     }
 
 }

@@ -6,11 +6,19 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
+import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.Tile;
+import io.picarete.picarete.game_logics.ia.AIA;
+import io.picarete.picarete.game_logics.ia.EIA;
+import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
 
 /**
@@ -24,15 +32,16 @@ import io.picarete.picarete.model.Constants;
 public class SoloGameFragment extends GameFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private String iaName;
+    private AIA IA;
+    private EIA IAEnum;
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, String iaName, EGameMode mode) {
+    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);//col
         args.putInt(Constants.ROW_KEY, row);//row
-        args.putString(Constants.IA_KEY, iaName);//IA Name
+        args.putSerializable(Constants.IA_KEY, iaName);//IA Name
         args.putSerializable(Constants.MODE_KEY, mode);
         fragment.setArguments(args);
         return fragment;
@@ -46,8 +55,14 @@ public class SoloGameFragment extends GameFragment {
     @Override
     protected void createFragment(Bundle savedInstanceState) {
         if (getArguments() != null) {
-            iaName = getArguments().getString(Constants.IA_KEY);
+            IAEnum = (EIA) getArguments().getSerializable(Constants.IA_KEY);
         }
+    }
+
+    @Override
+    protected void createGame() {
+        IA = IAFactory.getIA(IAEnum);
+        super.createGame();
     }
 
     @Override
@@ -141,8 +156,20 @@ public class SoloGameFragment extends GameFragment {
     public void OnNextPlayer(int idPlayerActual) {
         super.OnNextPlayer(idPlayerActual);
 
-        // Todo If player 2, block the possibility to play with a touch. It's IA turn
-        // Todo If player 1, unlock the possibility to play with a touch
+        if(idPlayerActual == 1){
+            UIGridGame.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+
+            Edge e = IA.findEdge(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
+            List<Tile> t = game.findNeighbor(e);
+            t.get(0).onClick(e);
+        } else {
+            UIGridGame.setOnTouchListener(null);
+        }
     }
 
     public SoloGameFragment() {
