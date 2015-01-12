@@ -31,18 +31,14 @@
             android:text="@string/mode"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:layout_below="@+id/title_modeChooser"
-            android:paddingLeft="@dimen/paddingLeftLabel"
-            android:paddingTop="@dimen/paddingTopLabel"
-            android:paddingBottom="@dimen/paddingTopLabel"/>
+            style="@style/top_label"/>
 
         <Spinner
             android:id="@+id/spinner_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_mode"
-            android:paddingLeft="@dimen/paddingLeftLabel"
-            android:paddingTop="@dimen/paddingTopLabel"
-            android:paddingBottom="@dimen/paddingTopLabel"/>
+            style="@style/horizontal_label"/>
 
         <RelativeLayout
             android:id="@+id/labels"
@@ -85,11 +81,11 @@
             android:orientation="horizontal"
             android:layout_centerHorizontal="true">
 
-            <NumberPicker
+            <io.picarete.picarete.model.CustomFontNumberPicker
                 android:id="@+id/picker_column"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <NumberPicker
+            <io.picarete.picarete.model.CustomFontNumberPicker
                 android:id="@+id/picker_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -103,24 +99,20 @@
             android:text="@string/toughness"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:layout_below="@+id/numberPickers"
-            android:paddingLeft="@dimen/paddingLeftLabel"
-            android:paddingTop="@dimen/paddingTopLabel"
-            android:paddingBottom="@dimen/paddingTopLabel" />
+            style="@style/top_label"/>
 
         <Spinner
             android:id="@+id/spinner_ia"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_ia"
-            android:paddingLeft="@dimen/paddingLeftLabel"
-            android:paddingTop="@dimen/paddingTopLabel"
-            android:paddingBottom="@dimen/paddingTopLabel"/>
+            style="@style/horizontal_label"/>
 
         </RelativeLayout>
 
     </ScrollView>
 
-    <Button
+    <io.picarete.picarete.model.CustomFontButton
         android:id="@+id/validate_modeChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

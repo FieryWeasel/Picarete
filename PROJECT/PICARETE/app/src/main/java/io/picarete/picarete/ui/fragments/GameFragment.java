@@ -10,7 +10,9 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.UITile;
+import io.picarete.picarete.model.CustomFontTextView;
 import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.Constants;
 
@@ -41,6 +44,8 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected TextView UITurnPlayer2;
     protected TextView UIScorePlayer1;
     protected TextView UIScorePlayer2;
+    private LinearLayout scores;
+    private CustomFontTextView title_soloGame;
 
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
     protected abstract void createFragment(Bundle savedInstanceState);
@@ -76,10 +81,22 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         UIGridGame = (GridLayout) view.findViewById(R.id.grid_game);
         UIRoot = (RelativeLayout) view.findViewById(R.id.game_root);
 
-        size = getTileMeasure(column);
+        scores = (LinearLayout) view.findViewById(R.id.scores);
+        title_soloGame = (CustomFontTextView) view.findViewById(R.id.title_soloGame);
 
-        createGame();
-        resetScore();
+
+
+        scores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                size = getTileMeasure(column);
+                createGame();
+                resetScore();
+                scores.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+
+
 
         return view;
     }
@@ -133,8 +150,17 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
+        int heigth =  size.y;
+        int headerSize = title_soloGame.getHeight() + title_soloGame.getPaddingBottom() + title_soloGame.getPaddingTop();
+        int footerSize = scores.getHeight() + scores.getPaddingBottom() + scores.getPaddingTop();
+
+        heigth -= (headerSize + footerSize + dpToPx(Constants.GRID_PADDING));
         width -= dpToPx(Constants.GRID_PADDING);
-        return width/column;
+
+        if(column>=row)
+            return width/column;
+        else
+            return heigth/row;
     }
 
     public int dpToPx(int dp) {
