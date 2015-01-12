@@ -11,14 +11,15 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 
 public abstract class ChooserFragment extends Fragment {
 
 
-    protected String[] mGameModes;
-    private String mGameMode;
+    private EGameMode mGameMode;
     protected NumberPicker mColumnPicker;
     private NumberPicker mRowPicker;
 
@@ -28,7 +29,7 @@ public abstract class ChooserFragment extends Fragment {
      */
     protected abstract void createFragment();
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container);
-    protected abstract void onValidate(String gameMode, int column, int row);
+    protected abstract void onValidate(EGameMode gameMode, int column, int row);
     protected abstract void attachFragment(Activity activity);
     protected abstract void detachFragment();
 
@@ -39,7 +40,6 @@ public abstract class ChooserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGameModes = getResources().getStringArray(R.array.game_modes);
         createFragment();
     }
 
@@ -52,13 +52,13 @@ public abstract class ChooserFragment extends Fragment {
         Spinner spinnerMode = (Spinner) view.findViewById(R.id.spinner_mode);
         spinnerMode.setAdapter(new SpinnerModeAdapter(getActivity(),
                 android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.game_modes),
-                getResources().getStringArray(R.array.game_modes_descriptions)));
+                GameModeSet.getTitles(getActivity()),
+                GameModeSet.getDesc(getActivity())));
         spinnerMode.setSelection(0);
         spinnerMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mGameMode = mGameModes[position];
+                mGameMode = GameModeSet.getEGameMode(getActivity())[position];
             }
 
             @Override

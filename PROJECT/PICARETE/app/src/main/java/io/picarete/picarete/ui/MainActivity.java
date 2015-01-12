@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
@@ -90,13 +91,13 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa) {
+    public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, String nameIa) {
         Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode);
         addFragmentToStack(fragment, Constants.SOLO_GAME);
     }
 
     @Override
-    public void onPlayersReady(String gameMode, int column, int row) {
+    public void onPlayersReady(EGameMode gameMode, int column, int row) {
         Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode);
         addFragmentToStack(fragment, Constants.MULTI_GAME);
     }

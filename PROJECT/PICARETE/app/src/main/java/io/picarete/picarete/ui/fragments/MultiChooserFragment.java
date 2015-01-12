@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +52,7 @@ public class MultiChooserFragment extends ChooserFragment {
     }
 
     @Override
-    protected void onValidate(String gameMode, int column, int row) {
+    protected void onValidate(EGameMode gameMode, int column, int row) {
         mListener.onPlayersReady(gameMode,
                 column,
                 row);
@@ -88,7 +89,7 @@ public class MultiChooserFragment extends ChooserFragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onPlayersReady(String gameMode, int column, int row);
+        public void onPlayersReady(EGameMode gameMode, int column, int row);
     }
 
 }

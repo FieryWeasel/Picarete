@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 
 /**
@@ -25,12 +26,12 @@ public class MultiGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static MultiGameFragment newInstance(int col, int row, String mode) {
+    public static MultiGameFragment newInstance(int col, int row, EGameMode mode) {
         MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);
         args.putInt(Constants.ROW_KEY, row);
-        args.putString(Constants.MODE_KEY, mode);
+        args.putSerializable(Constants.MODE_KEY, mode);
         fragment.setArguments(args);
         return fragment;
     }
