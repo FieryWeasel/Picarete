@@ -1,23 +1,9 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.gameplay;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.picarete.picarete.R;
 
 public class Tile{
     private Map<ETileSide, Edge> edges;
@@ -25,6 +11,8 @@ public class Tile{
     public int id = -1;
     public int row = -1;
     public int col = -1;
+
+    public int scoreForPlayer = 1;
 
     // Event Management
     TileEventListener eventListener = null;

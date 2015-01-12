@@ -2,9 +2,7 @@ package io.picarete.picarete.game_logics;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
@@ -13,16 +11,17 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import io.picarete.picarete.R;
-import io.picarete.picarete.model.ColorSet;
+import io.picarete.picarete.game_logics.gameplay.ETileSide;
+import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.Tile;
+import io.picarete.picarete.model.data_sets.AssetsSet;
+import io.picarete.picarete.model.data_sets.ColorSet;
 
 /**
  * Created by root on 1/8/15.
@@ -114,7 +113,7 @@ public class UITile extends ImageView implements View.OnTouchListener{
         ColorFilter filterTile;
         filterTile = new LightingColorFilter(getColorTileBackground(), 0);
         paint.setColorFilter(filterTile);
-        Bitmap tileBG = BitmapFactory.decodeResource(getResources(), R.drawable.tile_bg);
+        Bitmap tileBG = AssetsSet.getTileBackground(getContext());
         canvas.drawBitmap(tileBG, null, new Rect(0, 0, getWidth(), getHeight()), paint);
 
         // Edges
@@ -123,7 +122,6 @@ public class UITile extends ImageView implements View.OnTouchListener{
                 paint = new Paint();
                 for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
                     if(cursor.getValue().isChosen()){
-                        Bitmap tileEdge = BitmapFactory.decodeResource(getResources(), R.drawable.edge_bg);
                         Matrix matrix = new Matrix();
 
                         if(cursor.getKey() == ETileSide.LEFT){
@@ -136,9 +134,8 @@ public class UITile extends ImageView implements View.OnTouchListener{
                             matrix.postRotate(0);
                         }
 
-                        Bitmap tileEdgeRotated = Bitmap.createBitmap(tileEdge , 0, 0, tileEdge.getWidth(), tileEdge.getHeight(), matrix, true);
-                        ColorFilter filterEdge;
-                        filterEdge = new LightingColorFilter(getColorEdge(cursor.getValue()), 0);
+                        Bitmap tileEdgeRotated = AssetsSet.getEdgeBackgroundRotated(getContext(), cursor.getKey(), matrix);
+                        ColorFilter filterEdge = new LightingColorFilter(getColorEdge(cursor.getValue()), 0);
                         paint.setColorFilter(filterEdge);
                         canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                     }
@@ -235,16 +232,16 @@ public class UITile extends ImageView implements View.OnTouchListener{
         float wB = (pP.x*pC.y - pP.y*pC.x) / d;
         float wC = (pP.y*pB.x - pP.x*pB.y) / d;
 
-        boolean isOnTirangle = true;
+        boolean isOnTriangle = true;
 
         if(wA <= 0 || wA >= 1)
-            isOnTirangle = false;
+            isOnTriangle = false;
         if(wB <= 0 || wB >= 1)
-            isOnTirangle = false;
+            isOnTriangle = false;
         if(wC <= 0 || wC >= 1)
-            isOnTirangle = false;
+            isOnTriangle = false;
 
-        return isOnTirangle;
+        return isOnTriangle;
     }
 
     private Point moveToPoint(Point pointToMove, Point origin){

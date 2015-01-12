@@ -1,13 +1,15 @@
 package io.picarete.picarete.game_logics;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.Tile;
 
 
 public class Game implements Tile.TileEventListener{
@@ -17,6 +19,7 @@ public class Game implements Tile.TileEventListener{
     private List<Tile> tiles = null;
     private int width = 0;
     private int height = 0;
+    private EGameMode gameMode= EGameMode.CLASSIC;
 
     private List<Edge> edgesPreviousPlayed = null;
 
@@ -44,19 +47,23 @@ public class Game implements Tile.TileEventListener{
     }
 
     // Constructor
-    public Game(Context context){
+    public Game(Context context, EGameMode gameMode, int height, int width){
         this.tiles = new LinkedList<>();
         this.edgesPreviousPlayed = new LinkedList<>();
         this.scores = new HashMap<>();
         this.scores.put(0, 0);
         this.scores.put(1, 0);
 
+        this.gameMode = gameMode;
+        this.height = height;
+        this.width = width;
+
         this.context = context;
     }
 
     @Override
     public void OnClick(Tile tile, Edge edge) {
-        Log.d(this.getClass().getName(), "An edge is clicked");
+        boolean hasCompletedATile = false;
 
         edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
@@ -65,7 +72,8 @@ public class Game implements Tile.TileEventListener{
         for(Tile t : neighbor){
             if(t.isComplete()){
                 t.setIdPlayer(idPlayer);
-                addScoreForPlayer(idPlayer, 1);
+                addScoreForPlayer(idPlayer, tile.scoreForPlayer + edge.scoreForPlayer);
+                hasCompletedATile = true;
             }
         }
         if(eventListener != null)
@@ -74,10 +82,12 @@ public class Game implements Tile.TileEventListener{
         idPlayer = (idPlayer + 1) % 2;
 
         if(eventListener != null)
-            eventListener.OnNextPlayer(idPlayer);
-
-        if(eventListener != null)
             eventListener.OnMajGUI(idPlayer);
+
+        if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
+            if(eventListener != null)
+                eventListener.OnNextPlayer(idPlayer);
+        }
 
         if(isGameEnd()){
             if(eventListener != null)
@@ -113,50 +123,8 @@ public class Game implements Tile.TileEventListener{
         return isGameEnd;
     }
 
-    public List<Tile> createGame(int height, int width){
-        this.height = height;
-        this.width = width;
-
-        for(int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                Edge left;
-                Edge top;
-                Edge right = new Edge();
-                Edge bottom = new Edge();
-                if(i == 0){
-                    top = new Edge();
-                } else {
-                    top = tiles.get((i-1)*width+j).getEdges().get(ETileSide.BOTTOM);
-                    Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Top : "+Integer.toString((i-1)*width+j));
-                }
-
-                if(j == 0){
-                    left = new Edge();
-                } else {
-                    left = tiles.get(i*width+j-1).getEdges().get(ETileSide.RIGHT);
-                    Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
-                }
-
-                Tile t = new Tile(i*width+j, left, top, right, bottom);
-                t.row = i;
-                t.col = j;
-                t.setEventListener(this);
-                tiles.add(t);
-            }
-        }
-
-        for(int i = 0; i < tiles.size(); i++){
-            int xPosition = i % width;
-            int yPosition = i / width;
-            if(xPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.LEFT).setChosen(true);
-            if(yPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.TOP).setChosen(true);
-            if(xPosition == width-1)
-                tiles.get(i).getEdges().get(ETileSide.RIGHT).setChosen(true);
-            if(yPosition == height-1)
-                tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
-        }
+    public List<Tile> createGame(){
+        tiles = BuilderFactory.getBuilder(gameMode).createGame(height, width, this);
 
         return tiles;
     }

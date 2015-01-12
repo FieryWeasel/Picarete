@@ -1,8 +1,6 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,10 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
-import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.UITile;
-import io.picarete.picarete.model.ColorSet;
+import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.Constants;
 
 public abstract class GameFragment extends Fragment implements Game.GameEventListener {
@@ -100,9 +99,10 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     }
 
     protected void createGame(){
-        game = new Game(getActivity());
+        // Todo Get te real GameMode enumeration from arrayList (Use GameModeSet)
+        game = new Game(getActivity(), EGameMode.CLASSIC, row, column);
         game.setEventListener(this);
-        List<Tile> tiles = game.createGame(row, column);
+        List<Tile> tiles = game.createGame();
 
         UIGridGame.setRowCount(row);
         UIGridGame.setColumnCount(column);

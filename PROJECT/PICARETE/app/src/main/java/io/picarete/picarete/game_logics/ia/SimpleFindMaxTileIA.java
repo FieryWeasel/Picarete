@@ -1,13 +1,12 @@
 package io.picarete.picarete.game_logics.ia;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import io.picarete.picarete.game_logics.Edge;
-import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.model.NoDuplicatesList;
 
 /**

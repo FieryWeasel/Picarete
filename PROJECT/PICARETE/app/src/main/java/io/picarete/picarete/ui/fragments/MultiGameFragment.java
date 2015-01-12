@@ -3,25 +3,14 @@ package io.picarete.picarete.ui.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import java.util.List;
 
 import io.picarete.picarete.R;
-import io.picarete.picarete.game_logics.Game;
-import io.picarete.picarete.game_logics.Tile;
-import io.picarete.picarete.game_logics.UITile;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.ui.adapters.GridAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

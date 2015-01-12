@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.picarete.picarete.R;
-import io.picarete.picarete.game_logics.Tile;
+import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.UITile;
 
 /**

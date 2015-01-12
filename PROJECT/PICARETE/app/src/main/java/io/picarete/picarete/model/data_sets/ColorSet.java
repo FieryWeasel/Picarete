@@ -1,6 +1,8 @@
-package io.picarete.picarete.model;
+package io.picarete.picarete.model.data_sets;
 
 import android.graphics.Color;
+
+import io.picarete.picarete.model.container.ColorCustom;
 
 /**
  * Created by root on 1/9/15.
