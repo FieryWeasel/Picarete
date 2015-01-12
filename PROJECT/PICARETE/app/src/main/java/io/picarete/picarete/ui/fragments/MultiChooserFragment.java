@@ -63,7 +63,6 @@ public class MultiChooserFragment extends ChooserFragment {
 
     @Override
     public void attachFragment(Activity activity) {
-        super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -74,7 +73,6 @@ public class MultiChooserFragment extends ChooserFragment {
 
     @Override
     public void detachFragment() {
-        super.onDetach();
         mListener = null;
     }
 

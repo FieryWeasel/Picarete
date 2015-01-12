@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/title_modeChooser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:paddingTop="25dp"
             android:paddingBottom="25dp"/>
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/label_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,14 +51,14 @@
             android:layout_below="@+id/spinner_mode"
             android:layout_centerHorizontal="true">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_column"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/column"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:layout_toLeftOf="@+id/x"/>
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="@dimen/paddingTopLabel"
                 android:paddingRight="@dimen/paddingTopLabel"/>
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/label_ia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
