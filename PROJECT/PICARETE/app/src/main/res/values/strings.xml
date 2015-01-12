@@ -37,5 +37,12 @@
     <string name="dlg_multi_p2_win_title">Player 2 win</string>
     <string name="dlg_multi_p1_win_msg">Player 1 win the game !</string>
     <string name="dlg_multi_p1_win_title">Player 1 win</string>
+    <string name="playedGames">Played games</string>
+    <string name="WonGames">Won Games</string>
+    <string name="ratioPlayer">Ratio player</string>
+    <string name="chooseTitle">Choose your title !</string>
+    <string name="edit">Edit</string>
+    <string name="colorP1">Color player 1</string>
+    <string name="colorP2">Color player 2 / IA</string>
 
 </resources>

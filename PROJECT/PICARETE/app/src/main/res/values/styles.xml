@@ -5,4 +5,19 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="horizontal_label">
+
+        <item name="android:layout_marginRight">@dimen/paddingGameGrid</item>
+        <item name="android:layout_marginLeft">@dimen/paddingGameGrid</item>
+        <item name="android:layout_marginBottom">@dimen/paddingGameGrid</item>
+
+    </style>
+
+    <style name="top_label">
+
+        <item name="android:layout_marginRight">@dimen/paddingGameGrid</item>
+        <item name="android:layout_marginLeft">@dimen/paddingGameGrid</item>
+
+    </style>
+
 </resources>

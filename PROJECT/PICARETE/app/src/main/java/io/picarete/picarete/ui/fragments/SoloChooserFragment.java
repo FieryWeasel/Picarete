@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 
 import io.picarete.picarete.R;
-import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,14 +21,13 @@ import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
  * Use the {@link SoloChooserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SoloChooserFragment extends Fragment {
+public class SoloChooserFragment extends ChooserFragment {
 
 
     private OnFragmentInteractionListener mListener;
-    private String[] gameModes;
-    private String[] iA;
-    private String nameIa;
-    private String gameMode;
+
+    private String[] mIA;
+    private String mNameIa;
 
     /**
      * Use this factory method to create a new instance of
@@ -45,41 +42,14 @@ public class SoloChooserFragment extends Fragment {
         return fragment;
     }
 
-    public SoloChooserFragment() {
-        // Required empty public constructor
+    @Override
+    public void createFragment() {
+        mIA = getResources().getStringArray(R.array.ia_difficulty);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        gameModes = getResources().getStringArray(R.array.game_modes);
-        iA = getResources().getStringArray(R.array.ia_difficulty);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected View createViewFragment(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_solo_chooser, container, false);
-
-
-        Spinner spinnerMode = (Spinner) view.findViewById(R.id.spinner_mode);
-        spinnerMode.setAdapter(new SpinnerModeAdapter(getActivity(),
-                android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.game_modes),
-                getResources().getStringArray(R.array.game_modes_descriptions)));
-        spinnerMode.setSelection(0);
-        spinnerMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gameMode = gameModes[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         Spinner spinnerIADifficulty = (Spinner) view.findViewById(R.id.spinner_ia);
         spinnerIADifficulty.setAdapter(new ArrayAdapter<>(getActivity(),
@@ -89,7 +59,7 @@ public class SoloChooserFragment extends Fragment {
         spinnerIADifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                nameIa = iA[position];
+                mNameIa = mIA[position];
             }
 
             @Override
@@ -98,28 +68,19 @@ public class SoloChooserFragment extends Fragment {
             }
         });
 
-        final NumberPicker columnPicker = (NumberPicker)view.findViewById(R.id.picker_column);
-        columnPicker.setMaxValue(10);
-        columnPicker.setMinValue(3);
-        final NumberPicker rowPicker = (NumberPicker)view.findViewById(R.id.picker_row);
-        rowPicker.setMaxValue(10);
-        rowPicker.setMinValue(3);
-
-        (view.findViewById(R.id.validate_modeChooser)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onPlayerReady(gameMode,
-                        columnPicker.getValue(),
-                        rowPicker.getValue(),
-                        nameIa);
-            }
-        });
-
         return view;
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    protected void onValidate(String gameMode, int column, int row) {
+        mListener.onPlayerReady(gameMode,
+                column,
+                row,
+                mNameIa);
+    }
+
+    @Override
+    protected void attachFragment(Activity activity) {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -130,9 +91,13 @@ public class SoloChooserFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    protected void detachFragment() {
         super.onDetach();
         mListener = null;
+    }
+
+    public SoloChooserFragment() {
+        // Required empty public constructor
     }
 
     /**
@@ -146,7 +111,7 @@ public class SoloChooserFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa);
     }
 

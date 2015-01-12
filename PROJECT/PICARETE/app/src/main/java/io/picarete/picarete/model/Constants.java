@@ -15,7 +15,7 @@ public class Constants {
     public static final String HOME = "HOME_MODE";
     public static final int GRID_PADDING = 25;
     public static final int COLUMN_ROW_MAX = 7;
-    public static final int COLUMN_ROW_MIN = 7;
+    public static final int COLUMN_ROW_MIN = 3;
 
     public static final String COLUMN_KEY = "COLUMN_KEY";
     public static final String ROW_KEY = "ROW_KEY";
