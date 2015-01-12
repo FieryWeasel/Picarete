@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 
 /**
@@ -26,13 +27,13 @@ public class SoloGameFragment extends GameFragment {
     private String iaName;
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, String iaName, String mode) {
+    public static SoloGameFragment newInstance(int col, int row, String iaName, EGameMode mode) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);//col
         args.putInt(Constants.ROW_KEY, row);//row
         args.putString(Constants.IA_KEY, iaName);//IA Name
-        args.putString(Constants.MODE_KEY, mode);
+        args.putSerializable(Constants.MODE_KEY, mode);
         fragment.setArguments(args);
         return fragment;
     }

@@ -1,5 +1,7 @@
 package io.picarete.picarete.model.container;
 
+import java.io.Serializable;
+
 /**
  * Created by root on 1/12/15.
  */

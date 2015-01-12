@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 
 import io.picarete.picarete.R;
+import io.picarete.picarete.game_logics.EGameMode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +73,7 @@ public class SoloChooserFragment extends ChooserFragment {
     }
 
     @Override
-    protected void onValidate(String gameMode, int column, int row) {
+    protected void onValidate(EGameMode gameMode, int column, int row) {
         mListener.onPlayerReady(gameMode,
                 column,
                 row,
@@ -112,7 +113,7 @@ public class SoloChooserFragment extends ChooserFragment {
      */
     public interface OnFragmentInteractionListener {
 
-        public void onPlayerReady(String gameMode, int columnCount, int rowCount, String nameIa);
+        public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, String nameIa);
     }
 
 }
