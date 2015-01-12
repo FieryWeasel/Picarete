@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/title_modeChooser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
             android:paddingTop="25dp"
             android:paddingBottom="25dp"/>
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/label_xp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_below="@+id/title_modeChooser"
             style="@style/top_label"/>
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/lvl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,14 +48,14 @@
             android:layout_below="@+id/seekBar_xp"
             style="@style/horizontal_label">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_playedGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/playedGames"/>
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/value_playedGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,14 +74,14 @@
             android:layout_marginLeft="@dimen/paddingGameGrid"
             android:layout_marginBottom="@dimen/paddingGameGrid">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_wonGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/WonGames"/>
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/value_wonGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -98,14 +98,14 @@
             android:layout_below="@+id/wonGames"
             style="@style/horizontal_label">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_ratio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ratioPlayer"/>
 
-            <RatingBar
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/value_ratio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/label_titles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
             android:layout_below="@+id/spinner_title"
             style="@style/horizontal_label">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_colorP1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
             android:layout_below="@+id/colorP1"
             style="@style/horizontal_label">
 
-            <TextView
+            <io.picarete.picarete.model.CustomFontTextView
                 android:id="@+id/label_colorP2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

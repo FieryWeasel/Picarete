@@ -82,7 +82,7 @@ public class SoloChooserFragment extends ChooserFragment {
 
     @Override
     protected void attachFragment(Activity activity) {
-        super.onAttach(activity);
+
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -93,7 +93,7 @@ public class SoloChooserFragment extends ChooserFragment {
 
     @Override
     protected void detachFragment() {
-        super.onDetach();
+
         mListener = null;
     }
 
