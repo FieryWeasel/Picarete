@@ -145,6 +145,14 @@ public class UITile extends ImageView implements View.OnTouchListener{
             }
         }
 
+        // Tile overlay image
+        paint = new Paint();
+        filterTile = new LightingColorFilter(getColorTileBackground(), 0);
+        paint.setColorFilter(filterTile);
+        Bitmap tileBGOverlay = AssetsSet.getTileBackgroundOverlay(getContext(), tile);
+        if(tileBGOverlay != null)
+            canvas.drawBitmap(tileBGOverlay, null, new Rect(0, 0, getWidth(), getHeight()), paint);
+
         /*
         paint = new Paint();
         paint.setColor(ColorSet.DEBUG.getColor());

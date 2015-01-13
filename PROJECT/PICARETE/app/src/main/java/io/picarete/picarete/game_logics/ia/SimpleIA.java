@@ -42,6 +42,8 @@ public class SimpleIA extends AIA {
 
         // Search to chose an edge free and with more 2 edge free
         allEdgesPossible.clear();
+        List<Edge> badEdge = new NoDuplicatesList<>();
+        List<Edge> possibleGoodEdge = new NoDuplicatesList<>();
         for(Tile t : game){
             int nbEdgeFree = 4;
             List<Edge> edgesFree = new ArrayList<>();
@@ -54,8 +56,15 @@ public class SimpleIA extends AIA {
             }
             if(nbEdgeFree > 2){
                 for(Edge e : edgesFree)
-                    allEdgesPossible.add(e);
+                    possibleGoodEdge.add(e);
+            } else {
+                for(Edge e : edgesFree)
+                    badEdge.add(e);
             }
+        }
+        for(Edge e : possibleGoodEdge){
+            if(!badEdge.contains(e))
+                allEdgesPossible.add(e);
         }
         if(allEdgesPossible.size() > 0){
             Random r = new Random();

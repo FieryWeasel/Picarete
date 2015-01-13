@@ -12,8 +12,6 @@ public class Tile{
     public int row = -1;
     public int col = -1;
 
-    public int scoreForPlayer = 1;
-
     // Event Management
     TileEventListener eventListener = null;
 
@@ -27,6 +25,10 @@ public class Tile{
 
     public void setIdPlayer(int idPlayer) {
         this.idPlayer = idPlayer;
+    }
+
+    public int getScoreForPlayer() {
+        return 1;
     }
 
     public interface TileEventListener {

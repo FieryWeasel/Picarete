@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/flat_brown_light"
     tools:context="io.picarete.picarete.ui.fragments.SoloChooserFragment">
 
     <ScrollView
@@ -118,6 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/validate"/>
+        android:text="@string/validate"
+        style="@style/home_btn_last" />
 
 </RelativeLayout>

@@ -30,7 +30,7 @@ import io.picarete.picarete.model.Constants;
 
 public abstract class GameFragment extends Fragment implements Game.GameEventListener {
 
-    protected String mode;
+    protected EGameMode mode;
     protected int column;
     protected int row;
     protected Game game;
@@ -62,7 +62,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         if (getArguments() != null) {
             column = getArguments().getInt(Constants.COLUMN_KEY);
             row = getArguments().getInt(Constants.ROW_KEY);
-            mode = getArguments().getString(Constants.MODE_KEY);
+            mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
         }
         createFragment(savedInstanceState);
     }
@@ -84,8 +84,6 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         scores = (LinearLayout) view.findViewById(R.id.scores);
         title_soloGame = (CustomFontTextView) view.findViewById(R.id.title_soloGame);
 
-
-
         scores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -95,8 +93,6 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
                 scores.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
-
-
 
         return view;
     }
@@ -115,11 +111,11 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     }
 
     protected void createGame(){
-        // Todo Get te real GameMode enumeration from arrayList (Use GameModeSet)
-        game = new Game(getActivity(), EGameMode.CLASSIC, row, column);
+        game = new Game(getActivity(), mode, row, column);
         game.setEventListener(this);
         List<Tile> tiles = game.createGame();
 
+        UIGridGame.removeAllViews();
         UIGridGame.setRowCount(row);
         UIGridGame.setColumnCount(column);
         UITiles = new ArrayList<>();
