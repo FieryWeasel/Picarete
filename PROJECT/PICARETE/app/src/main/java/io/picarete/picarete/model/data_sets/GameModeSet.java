@@ -82,4 +82,35 @@ public class GameModeSet {
 
         return gameModeArr;
     }
+
+    public static EGameMode searchGameMode(String gameModeName){
+        EGameMode mode;
+        switch (gameModeName){
+            case "CLASSIC":
+                mode = EGameMode.CLASSIC;
+                break;
+            case "EDGE_BAD":
+                mode = EGameMode.EDGE_BAD;
+                break;
+            case "EDGE_GOOD":
+                mode = EGameMode.EDGE_GOOD;
+                break;
+            case "TILE_BAD":
+                mode = EGameMode.TILE_BAD;
+                break;
+            case "TILE_GOOD":
+                mode = EGameMode.TILE_GOOD;
+                break;
+            case "BEST_AREA":
+                mode = EGameMode.BEST_AREA;
+                break;
+            case "CONTINUE_TO_PLAY":
+                mode = EGameMode.CONTINUE_TO_PLAY;
+                break;
+            default:
+                mode = EGameMode.CLASSIC;
+                break;
+        }
+        return mode;
+    }
 }

@@ -11,6 +11,8 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.container.User;
+import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
 import io.picarete.picarete.ui.fragments.MultiGameFragment;
@@ -22,11 +24,15 @@ import io.picarete.picarete.ui.fragments.SoloGameFragment;
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
         SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener {
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        user = new User(this);
+        user.load();
         // Instantiate a new fragment.
         Fragment newFragment = HomeFragment.newInstance();
         addFragmentToStack(newFragment, Constants.HOME);
