@@ -74,4 +74,26 @@ public class IASet {
 
         return IAsArr;
     }
+
+    public static EIA searchIA(String ia){
+        EIA mode;
+        switch (ia){
+            case "EASY":
+                mode = EIA.EASY;
+                break;
+            case "EASY_MAX_TILE":
+                mode = EIA.EASY_MAX_TILE;
+                break;
+            case "AGGRESSIVE":
+                mode = EIA.AGGRESSIVE;
+                break;
+            case "MINIMAX":
+                mode = EIA.MINIMAX;
+                break;
+            default:
+                mode = EIA.EASY;
+                break;
+        }
+        return mode;
+    }
 }
