@@ -120,20 +120,20 @@ public class UITile extends ImageView implements View.OnTouchListener{
         if(edges != null){
             paint = new Paint();
             for(Map.Entry<ETileSide, Edge> cursor : edges.entrySet()) {
+                Matrix matrix = new Matrix();
+
+                if(cursor.getKey() == ETileSide.LEFT){
+                    matrix.postRotate(90);
+                } else if(cursor.getKey() == ETileSide.TOP){
+                    matrix.postRotate(180);
+                } else if(cursor.getKey() == ETileSide.RIGHT){
+                    matrix.postRotate(-90);
+                } else if(cursor.getKey() == ETileSide.BOTTOM){
+                    matrix.postRotate(0);
+                }
+
                 if(cursor.getValue().isChosen()){
-                    Matrix matrix = new Matrix();
-
-                    if(cursor.getKey() == ETileSide.LEFT){
-                        matrix.postRotate(90);
-                    } else if(cursor.getKey() == ETileSide.TOP){
-                        matrix.postRotate(180);
-                    } else if(cursor.getKey() == ETileSide.RIGHT){
-                        matrix.postRotate(-90);
-                    } else if(cursor.getKey() == ETileSide.BOTTOM){
-                        matrix.postRotate(0);
-                    }
-
-                    Bitmap tileEdgeRotated = AssetsSet.getEdgeBackgroundRotated(getContext(), cursor.getKey(), matrix);
+                    Bitmap tileEdgeRotated = AssetsSet.getEdgeBackgroundRotated(getContext(), cursor.getValue(), cursor.getKey(), matrix);
                     ColorFilter filterEdge;
                     if(!tile.isComplete())
                         filterEdge = new LightingColorFilter(getColorEdge(cursor.getValue()), 0);
@@ -142,6 +142,18 @@ public class UITile extends ImageView implements View.OnTouchListener{
                     paint.setColorFilter(filterEdge);
                     canvas.drawBitmap(tileEdgeRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
                 }
+
+
+                Bitmap tileEdgeOverlayRotated = AssetsSet.getEdgeBackgroundOverlayRotated(getContext(), cursor.getValue(), cursor.getKey(), matrix);
+                ColorFilter filterEdge;
+                if(!tile.isComplete())
+                    filterEdge = new LightingColorFilter(getColorEdge(cursor.getValue()), 0);
+                else
+                    filterEdge = new LightingColorFilter(getColorTileBackground(), 0);
+                paint.setColorFilter(filterEdge);
+                if(tileEdgeOverlayRotated != null)
+                    canvas.drawBitmap(tileEdgeOverlayRotated, null, new Rect(0, 0, getWidth(), getHeight()), paint);
+
             }
         }
 

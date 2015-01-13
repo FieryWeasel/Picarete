@@ -39,18 +39,20 @@ public class CustomFontNumberPicker extends NumberPicker{
 
     public boolean setNumberPickerTextFont(Context context)
     {
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
+        if(isInEditMode()){
+            Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
 
-        final int count = getChildCount();
-        for(int i = 0; i < count; i++){
-            View child = getChildAt(i);
-            if(child instanceof EditText){
-                try{
-                    ((EditText)child).setTypeface(myTypeface);
-                    invalidate();
-                    return true;
-                } catch(IllegalArgumentException e){
-                    Log.w("setNumberPickerTextColor", e);
+            final int count = getChildCount();
+            for(int i = 0; i < count; i++){
+                View child = getChildAt(i);
+                if(child instanceof EditText){
+                    try{
+                        ((EditText)child).setTypeface(myTypeface);
+                        invalidate();
+                        return true;
+                    } catch(IllegalArgumentException e){
+                        Log.w("setNumberPickerTextColor", e);
+                    }
                 }
             }
         }

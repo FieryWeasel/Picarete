@@ -10,6 +10,9 @@ import java.util.Map;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
+import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.EdgeBad;
+import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.gameplay.TileBad;
 import io.picarete.picarete.game_logics.gameplay.TileGood;
@@ -22,13 +25,11 @@ public class AssetsSet {
     private static Bitmap tileBackgroundOverlayGood = null;
     private static Bitmap tileBackgroundOverlayBad = null;
     private static Bitmap edgeBackground = null;
+    private static Bitmap edgeBackgroundGood = null;
+    private static Bitmap edgeBackgroundBad = null;
     private static Map<ETileSide, Bitmap> edgesBackgroundRotated = new HashMap<>();
-
-    public static Bitmap getEdgeBackground(Context context) {
-
-        edgeBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_bg);
-        return edgeBackground;
-    }
+    private static Map<ETileSide, Bitmap> edgesBackgroundGoodRotated = new HashMap<>();
+    private static Map<ETileSide, Bitmap> edgesBackgroundBadRotated = new HashMap<>();
 
     public static Bitmap getTileBackground(Context context) {
         if(tileBackground == null)
@@ -36,11 +37,52 @@ public class AssetsSet {
         return tileBackground;
     }
 
-    public static Bitmap getEdgeBackgroundRotated(Context context, ETileSide side, Matrix matrix){
+    public static Bitmap getEdgeBackground(Context context, Edge edge) {
+        if(edgeBackground == null)
+            edgeBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_bg);
+
+        return edgeBackground;
+    }
+
+    public static Bitmap getEdgeBackgroundOverlay(Context context, Edge edge) {
+        if (edge instanceof EdgeBad) {
+            if(edgeBackgroundBad == null)
+                edgeBackgroundBad = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_bad_bg);
+
+            return edgeBackgroundBad;
+        } else if (edge instanceof EdgeGood) {
+            if(edgeBackgroundGood == null)
+                edgeBackgroundGood = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_good_bg);
+
+            return edgeBackgroundGood;
+
+        }
+
+        return null;
+    }
+
+    public static Bitmap getEdgeBackgroundRotated(Context context, Edge edge, ETileSide side, Matrix matrix){
         if(!edgesBackgroundRotated.containsKey(side))
-            edgesBackgroundRotated.put(side, Bitmap.createBitmap(getEdgeBackground(context), 0, 0, getEdgeBackground(context).getWidth(), getEdgeBackground(context).getHeight(), matrix, true));
+            edgesBackgroundRotated.put(side, Bitmap.createBitmap(getEdgeBackground(context, edge), 0, 0, getEdgeBackground(context, edge).getWidth(), getEdgeBackground(context, edge).getHeight(), matrix, true));
 
         return edgesBackgroundRotated.get(side);
+    }
+
+    public static Bitmap getEdgeBackgroundOverlayRotated(Context context, Edge edge, ETileSide side, Matrix matrix){
+        if (edge instanceof EdgeBad) {
+            if(!edgesBackgroundBadRotated.containsKey(side))
+                edgesBackgroundBadRotated.put(side, Bitmap.createBitmap(getEdgeBackgroundOverlay(context, edge), 0, 0, getEdgeBackgroundOverlay(context, edge).getWidth(), getEdgeBackgroundOverlay(context, edge).getHeight(), matrix, true));
+
+            return edgesBackgroundBadRotated.get(side);
+        } else if (edge instanceof EdgeGood) {
+            if(!edgesBackgroundGoodRotated.containsKey(side))
+                edgesBackgroundGoodRotated.put(side, Bitmap.createBitmap(getEdgeBackgroundOverlay(context, edge), 0, 0, getEdgeBackgroundOverlay(context, edge).getWidth(), getEdgeBackgroundOverlay(context, edge).getHeight(), matrix, true));
+
+            return edgesBackgroundGoodRotated.get(side);
+
+        }
+
+        return null;
     }
 
     public static Bitmap getTileBackgroundOverlay(Context context, Tile tile) {

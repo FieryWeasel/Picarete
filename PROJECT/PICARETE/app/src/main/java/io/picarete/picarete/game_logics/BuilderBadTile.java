@@ -2,7 +2,6 @@ package io.picarete.picarete.game_logics;
 
 import android.util.Log;
 
-import java.util.List;
 import java.util.Random;
 
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
@@ -14,8 +13,14 @@ import io.picarete.picarete.game_logics.gameplay.TileBad;
  * Created by root on 1/12/15.
  */
 public class BuilderBadTile extends ABuilder {
+
+    public static final int PROBA_SPECIAL_TILE = 3;
+
+    public static final int PERCENT_MIN_TILE_CHOSEN = 10;
+    public static final int PERCENT_MAX_TILE_CHOSEN = 20;
+
     @Override
-    public List<Tile> createGame(int height, int width, Game game) {
+    protected void createBase(int height, int width, Game game){
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
                 Edge left;
@@ -36,36 +41,19 @@ public class BuilderBadTile extends ABuilder {
                     Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
                 }
 
-                Tile t;
-                if(generateTile())
-                    t = new TileBad(i*width+j, left, top, right, bottom);
-                else
-                    t = new Tile(i*width+j, left, top, right, bottom);
+                Tile t = generateTile(i*width+j, left, top, right, bottom);
                 t.row = i;
                 t.col = j;
                 t.setEventListener(game);
                 tiles.add(t);
             }
         }
+    }
 
-        for(int i = 0; i < tiles.size(); i++){
-            int xPosition = i % width;
-            int yPosition = i / width;
-            if(xPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.LEFT).setChosen(true);
-            if(yPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.TOP).setChosen(true);
-            if(xPosition == width-1)
-                tiles.get(i).getEdges().get(ETileSide.RIGHT).setChosen(true);
-            if(yPosition == height-1)
-                tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
-        }
-
-        int minEdges = 10;
-        int maxEdges = 20;
-
+    @Override
+    protected void setupSpecialElements() {
         Random r = new Random();
-        int percentOfEdges = r.nextInt(maxEdges - minEdges + 1) + minEdges;
+        int percentOfEdges = r.nextInt(PERCENT_MAX_TILE_CHOSEN - PERCENT_MIN_TILE_CHOSEN + 1) + PERCENT_MIN_TILE_CHOSEN;
         int numberOfEdge = percentOfEdges * getAllEdges().size() / 100;
 
         for (int i = 0; i < numberOfEdge; i++){
@@ -75,15 +63,27 @@ public class BuilderBadTile extends ABuilder {
                 edge.setChosen(true);
             }
         }
-
-        return tiles;
     }
 
-    private boolean generateTile(){
-        int maxEdges = 3;
-
+    private boolean hasToGenerateSpecialTile(){
         Random r = new Random();
-        int percentOfEdges = r.nextInt(maxEdges - 1 + 1) + 1;
+        int percentOfEdges = r.nextInt(PROBA_SPECIAL_TILE - 1 + 1) + 1;
         return (percentOfEdges == 1 ? true : false);
+    }
+
+    private Tile generateTile(int id, Edge left, Edge top, Edge right, Edge bottom){
+        Tile t;
+
+        //i*width+j
+        if(hasToGenerateSpecialTile())
+            t = generateSpecialTile(id, left, top, right, bottom);
+        else
+            t = new Tile(id, left, top, right, bottom);
+
+        return t;
+    }
+
+    private Tile generateSpecialTile(int id, Edge left, Edge top, Edge right, Edge bottom){
+        return new TileBad(id, left, top, right, bottom);
     }
 }

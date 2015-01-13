@@ -12,19 +12,23 @@ public class CustomFontButton extends Button {
 
     public CustomFontButton(Context context) {
         super(context);
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
-        setTypeface(myTypeface);
+        initializeFont(context);
     }
 
     public CustomFontButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
-        setTypeface(myTypeface);
+        initializeFont(context);
     }
 
     public CustomFontButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
-        setTypeface(myTypeface);
+        initializeFont(context);
+    }
+
+    private void initializeFont(Context context){
+        if(!isInEditMode()){
+            Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "trebuchetms.ttf");
+            setTypeface(myTypeface);
+        }
     }
 }

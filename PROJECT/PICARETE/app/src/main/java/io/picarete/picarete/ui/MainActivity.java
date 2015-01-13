@@ -11,7 +11,6 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
 import io.picarete.picarete.ui.fragments.MultiGameFragment;
@@ -21,8 +20,7 @@ import io.picarete.picarete.ui.fragments.SoloGameFragment;
 
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
-        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener,
-        CustomFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
+        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +80,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 fragment = ProfileFragment.newInstance();
                 addFragmentToStack(fragment, Constants.PROFILE);
                 break;
-            case Constants.CUSTOM :
-                fragment = CustomFragment.newInstance();
-                addFragmentToStack(fragment, Constants.CUSTOM);
-                break;
             default :
                 break;
         }
@@ -113,6 +107,5 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     @Override
     public void onFragmentInteraction() {
-
     }
 }

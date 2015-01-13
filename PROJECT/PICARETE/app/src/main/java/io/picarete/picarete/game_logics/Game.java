@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import io.picarete.picarete.game_logics.gameplay.Edge;
+import io.picarete.picarete.game_logics.gameplay.EdgeBad;
+import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
+import io.picarete.picarete.game_logics.gameplay.TileBrother;
 
 
 public class Game implements Tile.TileEventListener{
@@ -68,12 +71,24 @@ public class Game implements Tile.TileEventListener{
         edgesPreviousPlayed.add(edge);
         edge.setIdPlayer(idPlayer);
 
+        if(edge instanceof EdgeGood || edge instanceof EdgeBad){
+            addScoreForPlayer(idPlayer, edge.getScoreForPlayer());
+        }
+
         List<Tile> neighbor = findNeighbor(edge);
         for(Tile t : neighbor){
             if(t.isComplete()){
                 t.setIdPlayer(idPlayer);
-                addScoreForPlayer(idPlayer, t.getScoreForPlayer() + edge.getScoreForPlayer());
                 hasCompletedATile = true;
+            }
+        }
+        for(Tile t : neighbor){
+            if(t.isComplete()){
+                if(gameMode == EGameMode.BEST_AREA && t instanceof TileBrother){
+                    addScoreForPlayer(idPlayer, ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>()).size());
+                } else {
+                    addScoreForPlayer(idPlayer, t.getScoreForPlayer());
+                }
             }
         }
         if(eventListener != null)
