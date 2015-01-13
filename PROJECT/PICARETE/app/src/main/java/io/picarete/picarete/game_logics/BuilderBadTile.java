@@ -38,9 +38,9 @@ public class BuilderBadTile extends ABuilder {
 
                 Tile t;
                 if(generateTile())
-                    t = new Tile(i*width+j, left, top, right, bottom);
-                else
                     t = new TileBad(i*width+j, left, top, right, bottom);
+                else
+                    t = new Tile(i*width+j, left, top, right, bottom);
                 t.row = i;
                 t.col = j;
                 t.setEventListener(game);
@@ -80,7 +80,7 @@ public class BuilderBadTile extends ABuilder {
     }
 
     private boolean generateTile(){
-        int maxEdges = 5;
+        int maxEdges = 3;
 
         Random r = new Random();
         int percentOfEdges = r.nextInt(maxEdges - 1 + 1) + 1;

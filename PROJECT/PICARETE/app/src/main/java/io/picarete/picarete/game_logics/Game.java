@@ -19,7 +19,7 @@ public class Game implements Tile.TileEventListener{
     private List<Tile> tiles = null;
     private int width = 0;
     private int height = 0;
-    private EGameMode gameMode= EGameMode.CLASSIC;
+    private EGameMode gameMode = EGameMode.CLASSIC;
 
     private List<Edge> edgesPreviousPlayed = null;
 
@@ -72,7 +72,7 @@ public class Game implements Tile.TileEventListener{
         for(Tile t : neighbor){
             if(t.isComplete()){
                 t.setIdPlayer(idPlayer);
-                addScoreForPlayer(idPlayer, t.scoreForPlayer + edge.scoreForPlayer);
+                addScoreForPlayer(idPlayer, t.getScoreForPlayer() + edge.getScoreForPlayer());
                 hasCompletedATile = true;
             }
         }

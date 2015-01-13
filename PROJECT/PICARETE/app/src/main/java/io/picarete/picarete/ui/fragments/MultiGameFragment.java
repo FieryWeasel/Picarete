@@ -86,7 +86,7 @@ public class MultiGameFragment extends GameFragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
-                            // Todo Call the back method to go the selection
+                            getActivity().onBackPressed();
                         }
                     });
         } else if(game.getScores().get(0) < game.getScores().get(1)){
@@ -107,7 +107,7 @@ public class MultiGameFragment extends GameFragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
-                            // Todo Call the back method to go the selection
+                            getActivity().onBackPressed();
                         }
                     });
         } else {
@@ -128,7 +128,7 @@ public class MultiGameFragment extends GameFragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
-                            // Todo Call the back method to go the selection
+                            getActivity().onBackPressed();
                         }
                     });
         }

@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/flat_brown_light"
     tools:context="io.picarete.picarete.ui.fragments.HomeFragment">
 
     <io.picarete.picarete.model.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textAppearance="@android:style/TextAppearance.Large"
+        style="@style/TitleTheme"
         android:layout_above="@+id/menu"
         android:layout_centerHorizontal="true"
         android:paddingBottom="50dp"/>
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/solo"
+            style="@style/home_btn_first"
             android:layout_gravity="center_horizontal"/>
 
         <io.picarete.picarete.model.CustomFontButton
@@ -32,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multi"
+            style="@style/home_btn_middle"
             android:layout_gravity="center_horizontal"/>
 
         <io.picarete.picarete.model.CustomFontButton
@@ -39,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile"
+            style="@style/home_btn_middle"
             android:layout_gravity="center_horizontal"/>
 
         <io.picarete.picarete.model.CustomFontButton
@@ -46,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/custom"
+            style="@style/home_btn_last"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>

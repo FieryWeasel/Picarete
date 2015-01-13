@@ -6,18 +6,38 @@
     </style>
 
     <style name="horizontal_label">
-
         <item name="android:layout_marginRight">@dimen/paddingGameGrid</item>
         <item name="android:layout_marginLeft">@dimen/paddingGameGrid</item>
         <item name="android:layout_marginBottom">@dimen/paddingGameGrid</item>
-
     </style>
 
     <style name="top_label">
-
         <item name="android:layout_marginRight">@dimen/paddingGameGrid</item>
         <item name="android:layout_marginLeft">@dimen/paddingGameGrid</item>
+    </style>
 
+    <style name="TitleTheme" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">@dimen/textSizeTitle</item>
+    </style>
+
+    <style name="home_btn">
+        <item name="android:paddingLeft">@dimen/paddingHomeBtnLeft</item>
+        <item name="android:paddingRight">@dimen/paddingHomeBtnRight</item>
+        <item name="android:background">@drawable/btn_bg</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="home_btn_first" parent="home_btn">
+        <item name="android:layout_marginBottom">@dimen/marginHomeBtnBottom</item>
+    </style>
+
+    <style name="home_btn_middle" parent="home_btn">
+        <item name="android:layout_marginTop">@dimen/marginHomeBtnTop</item>
+        <item name="android:layout_marginBottom">@dimen/marginHomeBtnBottom</item>
+    </style>
+
+    <style name="home_btn_last" parent="home_btn">
+        <item name="android:layout_marginTop">@dimen/marginHomeBtnTop</item>
     </style>
 
 </resources>

@@ -25,10 +25,7 @@ import io.picarete.picarete.model.data_sets.IASet;
  * create an instance of this fragment.
  */
 public class SoloChooserFragment extends ChooserFragment {
-
-
     private OnFragmentInteractionListener mListener;
-
 
     private EIA mNameIa;
 

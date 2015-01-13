@@ -25,7 +25,6 @@ public class GameModeSet {
         String[] gameModesTitle = context.getResources().getStringArray(R.array.game_modes);
         String[] gameModesDesc = context.getResources().getStringArray(R.array.game_modes_descriptions);
 
-
         gameModes.put(EGameMode.CLASSIC, new GameModeCustom(gameModesTitle[0], gameModesDesc[0]));
         gameModes.put(EGameMode.TILE_BAD, new GameModeCustom(gameModesTitle[2], gameModesDesc[2]));
         gameModes.put(EGameMode.TILE_GOOD, new GameModeCustom(gameModesTitle[4], gameModesDesc[4]));
@@ -73,8 +72,10 @@ public class GameModeSet {
 
         EGameMode[] gameModeArr = new EGameMode[gameModes.keySet().size()];
         int i = 0;
-        for(EGameMode e : gameModes.keySet())
+        for(EGameMode e : gameModes.keySet()){
             gameModeArr[i] = e;
+            i++;
+        }
 
         return gameModeArr;
     }

@@ -1,6 +1,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="io.picarete.picarete.ui.fragments.ProfileFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/flat_brown_light"
+    tools:context="io.picarete.picarete.ui.fragments.ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -180,9 +183,9 @@
 
         <io.picarete.picarete.model.CustomFontButton
             android:id="@+id/edit_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit"/>
+            android:background="@drawable/btn_modify_profil"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
     </RelativeLayout>
 

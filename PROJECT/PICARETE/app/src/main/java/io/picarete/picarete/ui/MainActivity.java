@@ -105,7 +105,6 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     @Override
     public void onBackPressed() {
-
         if(getFragmentManager().getBackStackEntryCount()>1)
             getFragmentManager().popBackStack();
         else
