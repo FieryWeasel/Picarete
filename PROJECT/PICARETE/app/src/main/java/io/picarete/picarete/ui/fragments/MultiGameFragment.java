@@ -26,19 +26,22 @@ public class MultiGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static MultiGameFragment newInstance(int col, int row, EGameMode mode) {
+    public static MultiGameFragment newInstance(int col, int row, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile) {
         MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);
         args.putInt(Constants.ROW_KEY, row);
         args.putSerializable(Constants.MODE_KEY, mode);
+        args.putBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY, needChosenBorderTile);
+        args.putBoolean(Constants.NEED_TILE_CHOSEN_KEY, needChosenTile);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_multi_game, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_game, container, false);
+        return inflate;
     }
 
     @Override
@@ -63,6 +66,11 @@ public class MultiGameFragment extends GameFragment {
 
     public MultiGameFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    protected void initializeComponent() {
+        UITitle.setText(R.string.multi);
     }
 
     @Override

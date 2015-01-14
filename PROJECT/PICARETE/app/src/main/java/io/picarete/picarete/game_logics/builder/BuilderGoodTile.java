@@ -1,20 +1,20 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.builder;
 
 import android.util.Log;
 
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
-import io.picarete.picarete.game_logics.gameplay.TileBrother;
 import io.picarete.picarete.game_logics.gameplay.TileGood;
 
 /**
  * Created by root on 1/12/15.
  */
-public class BuilderBestArea extends ABuilder {
-    public static final int PROBA_SPECIAL_TILE = 1;
+public class BuilderGoodTile extends ABuilder {
+    public static final int PROBA_SPECIAL_TILE = 3;
 
     public static final int PERCENT_MIN_TILE_CHOSEN = 10;
     public static final int PERCENT_MAX_TILE_CHOSEN = 20;
@@ -41,47 +41,49 @@ public class BuilderBestArea extends ABuilder {
                     Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
                 }
 
-                Tile t = new TileBrother(i*width+j, left, top, right, bottom);
+                Tile t = generateTile(i*width+j, left, top, right, bottom);
                 t.row = i;
                 t.col = j;
                 t.setEventListener(game);
                 tiles.add(t);
             }
         }
-
-        for(int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                if(tiles.get(i*width+j) instanceof TileBrother)
-                    linkBrotherTile((TileBrother) tiles.get(i*width+j), i, j, width, height);
-            }
-        }
     }
 
     @Override
     protected void setupSpecialElements() {
+        Random r = new Random();
+        int percentOfEdges = r.nextInt(PERCENT_MAX_TILE_CHOSEN - PERCENT_MIN_TILE_CHOSEN + 1) + PERCENT_MIN_TILE_CHOSEN;
+        int numberOfEdge = percentOfEdges * getAllEdges().size() / 100;
 
+        for (int i = 0; i < numberOfEdge; i++){
+            int edgeID = new Random().nextInt(getAllEdges().size());
+            Edge edge = getAllEdges().get(edgeID);
+            if(!edge.isChosen()){
+                edge.setChosen(true);
+            }
+        }
     }
 
-    private void linkBrotherTile(TileBrother tile, int i, int j, int width, int height){
-        TileBrother leftTile = null, topTile = null, rightTile = null, bottomTile = null;
+    private boolean hasToGenerateSpecialTile(){
+        Random r = new Random();
+        int percentOfEdges = r.nextInt(PROBA_SPECIAL_TILE - 1 + 1) + 1;
+        return (percentOfEdges == 1 ? true : false);
+    }
 
-        if(i != 0 && tiles.get((i-1)*width+j) instanceof TileBrother){
-            topTile = (TileBrother) tiles.get((i-1)*width+j);
-        }
+    private Tile generateTile(int id, Edge left, Edge top, Edge right, Edge bottom){
+        Tile t;
 
-        if(j != 0 && tiles.get(i*width+j-1) instanceof TileBrother){
-            leftTile = (TileBrother) tiles.get(i*width+j-1);
-        }
+        //i*width+j
+        if(hasToGenerateSpecialTile())
+            t = generateSpecialTile(id, left, top, right, bottom);
+        else
+            t = new Tile(id, left, top, right, bottom);
 
-        if(i < height-1 && tiles.get((i+1)*width+j) instanceof TileBrother){
-            bottomTile = (TileBrother) tiles.get((i+1)*width+j);
-        }
+        return t;
+    }
 
-        if(j < width-1 && tiles.get(i*width+j+1) instanceof TileBrother){
-            rightTile = (TileBrother) tiles.get(i*width+j+1);
-        }
-
-        tile.linkBrothers(leftTile, topTile, rightTile, bottomTile);
-
+    private Tile generateSpecialTile(int id, Edge left, Edge top, Edge right, Edge bottom){
+        return new TileGood(id, left, top, right, bottom);
     }
 }

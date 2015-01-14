@@ -1,26 +1,27 @@
-package io.picarete.picarete.model;
+package io.picarete.picarete.ui.custom;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * Created by iem on 12/01/15.
  */
-public class CustomFontButton extends Button {
+public class CustomFontSwitch extends Switch {
 
-    public CustomFontButton(Context context) {
+    public CustomFontSwitch(Context context) {
         super(context);
         initializeFont(context);
     }
 
-    public CustomFontButton(Context context, AttributeSet attrs) {
+    public CustomFontSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeFont(context);
     }
 
-    public CustomFontButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomFontSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initializeFont(context);
     }

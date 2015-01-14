@@ -1,20 +1,20 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.builder;
 
 import android.util.Log;
 
-import java.util.List;
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.gameplay.TileBad;
-import io.picarete.picarete.game_logics.gameplay.TileGood;
 
 /**
  * Created by root on 1/12/15.
  */
-public class BuilderGoodTile extends ABuilder {
+public class BuilderBadTile extends ABuilder {
+
     public static final int PROBA_SPECIAL_TILE = 3;
 
     public static final int PERCENT_MIN_TILE_CHOSEN = 10;
@@ -85,6 +85,6 @@ public class BuilderGoodTile extends ABuilder {
     }
 
     private Tile generateSpecialTile(int id, Edge left, Edge top, Edge right, Edge bottom){
-        return new TileGood(id, left, top, right, bottom);
+        return new TileBad(id, left, top, right, bottom);
     }
 }

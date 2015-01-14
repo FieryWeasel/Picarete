@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.picarete.picarete.game_logics.builder.BuilderFactory;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.EdgeBad;
 import io.picarete.picarete.game_logics.gameplay.EdgeGood;
@@ -146,8 +147,8 @@ public class Game implements Tile.TileEventListener{
         return isGameEnd;
     }
 
-    public List<Tile> createGame(){
-        tiles = BuilderFactory.getBuilder(gameMode).createGame(height, width, this);
+    public List<Tile> createGame(boolean needChosenBorderTile, boolean needChosenTile){
+        tiles = BuilderFactory.getBuilder(gameMode).createGame(height, width, this, needChosenBorderTile, needChosenTile);
 
         return tiles;
     }

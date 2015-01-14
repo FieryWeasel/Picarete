@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.data_sets.IASet;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,22 +36,27 @@ public class SoloGameFragment extends GameFragment {
 
     private AIA IA;
     private EIA IAEnum;
+    private Edge edgeFoundByIA;
+
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode) {
+    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);//col
         args.putInt(Constants.ROW_KEY, row);//row
         args.putSerializable(Constants.IA_KEY, iaName);//IA Name
         args.putSerializable(Constants.MODE_KEY, mode);
+        args.putBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY, needChosenBorderTile);
+        args.putBoolean(Constants.NEED_TILE_CHOSEN_KEY, needChosenTile);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_solo_game, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_game, container, false);
+        return inflate;
     }
 
     @Override
@@ -157,23 +164,30 @@ public class SoloGameFragment extends GameFragment {
         super.OnNextPlayer(idPlayerActual);
 
         if(idPlayerActual == 1){
-            UIGridGame.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
+            UIGridGame.interceptEvent = true;
+            Handler handler = new Handler();
 
-            Edge e = IA.findEdge(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
-            List<Tile> t = game.findNeighbor(e);
-            t.get(0).onClick(e);
+            final Runnable r = new Runnable() {
+                public void run() {
+                    edgeFoundByIA = IAFactory.getIA(IAEnum).getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
+                    List<Tile> t = game.findNeighbor(edgeFoundByIA);
+                    t.get(0).onClick(edgeFoundByIA);
+                }
+            };
+
+            handler.post(r);
         } else {
-            UIGridGame.setOnTouchListener(null);
+            UIGridGame.interceptEvent = false;
         }
     }
 
     public SoloGameFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    protected void initializeComponent() {
+        UITitle.setText(R.string.solo);
     }
 
     /**

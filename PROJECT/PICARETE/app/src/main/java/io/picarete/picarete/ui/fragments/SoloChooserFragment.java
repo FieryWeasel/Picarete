@@ -49,9 +49,9 @@ public class SoloChooserFragment extends ChooserFragment {
 
     @Override
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container) {
-        View view = inflater.inflate(R.layout.fragment_solo_chooser, container, false);
+        View view = inflater.inflate(R.layout.fragment_chooser, container, false);
 
-        Spinner spinnerIADifficulty = (Spinner) view.findViewById(R.id.spinner_ia);
+        Spinner spinnerIADifficulty = (Spinner) view.findViewById(R.id.mode_chooser_spinner_ia);
         spinnerIADifficulty.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 IASet.getNames(getActivity())));
@@ -72,11 +72,13 @@ public class SoloChooserFragment extends ChooserFragment {
     }
 
     @Override
-    protected void onValidate(EGameMode gameMode, int column, int row) {
+    protected void onValidate(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile) {
         mListener.onPlayerReady(gameMode,
                 column,
                 row,
-                mNameIa);
+                mNameIa,
+                needChosenBorderTile,
+                needChosenTile);
     }
 
     @Override
@@ -112,7 +114,7 @@ public class SoloChooserFragment extends ChooserFragment {
      */
     public interface OnFragmentInteractionListener {
 
-        public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa);
+        public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa, boolean needChosenBorderTile, boolean needChoosenTile);
     }
 
 }

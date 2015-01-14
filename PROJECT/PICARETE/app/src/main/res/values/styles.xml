@@ -40,4 +40,9 @@
         <item name="android:layout_marginTop">@dimen/marginHomeBtnTop</item>
     </style>
 
+    <style name="SubTitleTheme">
+        <item name="android:textSize">@dimen/textSizeSubTitle</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
 </resources>

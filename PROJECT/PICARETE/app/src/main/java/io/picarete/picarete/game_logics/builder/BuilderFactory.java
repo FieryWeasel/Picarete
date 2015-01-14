@@ -1,6 +1,8 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.builder;
 
 import android.util.Log;
+
+import io.picarete.picarete.game_logics.EGameMode;
 
 /**
  * Created by root on 1/12/15.

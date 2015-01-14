@@ -43,19 +43,21 @@ public class MultiChooserFragment extends ChooserFragment {
 
     @Override
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container) {
-        View view = inflater.inflate(R.layout.fragment_multi_chooser, container, false);
+        View view = inflater.inflate(R.layout.fragment_chooser, container, false);
 
-        (view.findViewById(R.id.spinner_ia)).setVisibility(View.GONE);
-        (view.findViewById(R.id.label_ia)).setVisibility(View.GONE);
+        (view.findViewById(R.id.mode_chooser_spinner_ia)).setVisibility(View.GONE);
+        (view.findViewById(R.id.mode_chooser_label_ia)).setVisibility(View.GONE);
 
         return view;
     }
 
     @Override
-    protected void onValidate(EGameMode gameMode, int column, int row) {
+    protected void onValidate(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile) {
         mListener.onPlayersReady(gameMode,
                 column,
-                row);
+                row,
+                needChosenBorderTile,
+                needChosenTile);
     }
 
     public MultiChooserFragment() {
@@ -89,7 +91,7 @@ public class MultiChooserFragment extends ChooserFragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onPlayersReady(EGameMode gameMode, int column, int row);
+        public void onPlayersReady(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile);
     }
 
 }

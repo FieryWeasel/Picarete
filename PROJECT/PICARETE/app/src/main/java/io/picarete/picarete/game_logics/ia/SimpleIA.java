@@ -13,7 +13,7 @@ import io.picarete.picarete.model.NoDuplicatesList;
  */
 public class SimpleIA extends AIA {
     @Override
-    public Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
+    protected Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
 
         // Search to complete an existing UITile

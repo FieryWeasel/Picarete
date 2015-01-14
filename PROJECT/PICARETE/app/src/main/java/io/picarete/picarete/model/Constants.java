@@ -22,4 +22,6 @@ public class Constants {
     public static final String ROW_KEY = "ROW_KEY";
     public static final String MODE_KEY = "MODE_KEY";
     public static final String IA_KEY = "IA_KEY";
+    public static final String NEED_BORDER_TILE_CHOSEN_KEY = "NEED_BORDER_TILE_CHOSEN_KEY";
+    public static final String NEED_TILE_CHOSEN_KEY = "NEED_TILE_CHOSEN_KEY";
 }

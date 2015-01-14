@@ -1,4 +1,4 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.builder;
 
 import android.util.Log;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
@@ -17,13 +18,15 @@ public abstract class ABuilder {
     protected List<Tile> tiles = null;
 
     private static final int PERCENT_MIN_EDGE_CHOSEN = 10;
-    private static final int PERCENT_MAX_EDGE_CHOSEN = 20;
+    private static final int PERCENT_MAX_EDGE_CHOSEN = 40;
 
-    public List<Tile> createGame(int height, int width, Game game){
+    public List<Tile> createGame(int height, int width, Game game, boolean needChosenBorderTile, boolean needChosenTile){
         tiles = new ArrayList<>();
         createBase(height, width, game);
-        setupBorder(height, width);
-        setupChosenEdge();
+        if(needChosenBorderTile)
+            setupBorder(height, width);
+        if (needChosenTile)
+            setupChosenEdge();
         setupSpecialElements();
 
         return tiles;

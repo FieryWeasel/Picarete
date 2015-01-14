@@ -92,14 +92,14 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa) {
-        Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode);
+    public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa, boolean needChosenBorderTile, boolean needChoosenTile) {
+        Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode, needChosenBorderTile, needChoosenTile);
         addFragmentToStack(fragment, Constants.SOLO_GAME);
     }
 
     @Override
-    public void onPlayersReady(EGameMode gameMode, int column, int row) {
-        Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode);
+    public void onPlayersReady(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile) {
+        Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode, needChosenBorderTile, needChosenTile);
         addFragmentToStack(fragment, Constants.MULTI_GAME);
     }
 

@@ -23,8 +23,10 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
-import io.picarete.picarete.game_logics.UITile;
-import io.picarete.picarete.model.CustomFontTextView;
+import io.picarete.picarete.game_logics.ui.UITile;
+import io.picarete.picarete.model.data_sets.GameModeSet;
+import io.picarete.picarete.ui.custom.CustomFontTextView;
+import io.picarete.picarete.ui.custom.CustomFontGridLayout;
 import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.Constants;
 
@@ -33,19 +35,23 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected EGameMode mode;
     protected int column;
     protected int row;
+    protected boolean needChosenBorderTile;
+    protected boolean needChosenTile;
     protected Game game;
 
     protected List<UITile> UITiles;
     private int size;
 
-    protected GridLayout UIGridGame;
+    protected CustomFontGridLayout UIGridGame;
     protected RelativeLayout UIRoot;
     protected TextView UITurnPlayer1;
     protected TextView UITurnPlayer2;
     protected TextView UIScorePlayer1;
     protected TextView UIScorePlayer2;
     private LinearLayout scores;
-    private CustomFontTextView title_soloGame;
+    private CustomFontTextView UISubTitle;
+    protected CustomFontTextView UITitle;
+    private LinearLayout UIHeader;
 
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
     protected abstract void createFragment(Bundle savedInstanceState);
@@ -63,6 +69,8 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
             column = getArguments().getInt(Constants.COLUMN_KEY);
             row = getArguments().getInt(Constants.ROW_KEY);
             mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
+            needChosenBorderTile = getArguments().getBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY);
+            needChosenTile = getArguments().getBoolean(Constants.NEED_TILE_CHOSEN_KEY);
         }
         createFragment(savedInstanceState);
     }
@@ -73,16 +81,21 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         // Inflate the layout for this fragment
         View view = createViewFragment(inflater, container, savedInstanceState);
 
-        UITurnPlayer1 = (TextView) view.findViewById(R.id.turn_p1);
-        UITurnPlayer2 = (TextView) view.findViewById(R.id.turn_p2);
-        UIScorePlayer1 = (TextView) view.findViewById(R.id.score_1);
-        UIScorePlayer2 = (TextView) view.findViewById(R.id.score_2);
+        UITurnPlayer1 = (TextView) view.findViewById(R.id.game_turn_p1);
+        UITurnPlayer2 = (TextView) view.findViewById(R.id.game_turn_p2);
+        UIScorePlayer1 = (TextView) view.findViewById(R.id.game_score_p1);
+        UIScorePlayer2 = (TextView) view.findViewById(R.id.game_score_p2);
 
-        UIGridGame = (GridLayout) view.findViewById(R.id.grid_game);
+        UIGridGame = (CustomFontGridLayout) view.findViewById(R.id.game_grid);
         UIRoot = (RelativeLayout) view.findViewById(R.id.game_root);
 
-        scores = (LinearLayout) view.findViewById(R.id.scores);
-        title_soloGame = (CustomFontTextView) view.findViewById(R.id.title_soloGame);
+        scores = (LinearLayout) view.findViewById(R.id.game_scores);
+        UISubTitle = (CustomFontTextView) view.findViewById(R.id.game_sub_title);
+        UITitle = (CustomFontTextView) view.findViewById(R.id.game_title);
+        UIHeader = (LinearLayout) view.findViewById(R.id.game_header);
+
+        UISubTitle.setText(GameModeSet.gameModes.get(mode).title);
+        initializeComponent();
 
         scores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -97,12 +110,13 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         return view;
     }
 
+    protected abstract void initializeComponent();
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         attachFragment(activity);
     }
-
 
     @Override
     public void onDetach() {
@@ -113,7 +127,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected void createGame(){
         game = new Game(getActivity(), mode, row, column);
         game.setEventListener(this);
-        List<Tile> tiles = game.createGame();
+        List<Tile> tiles = game.createGame(needChosenBorderTile, needChosenTile);
 
         UIGridGame.removeAllViews();
         UIGridGame.setRowCount(row);
@@ -147,7 +161,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         display.getSize(size);
         int width = size.x;
         int heigth =  size.y;
-        int headerSize = title_soloGame.getHeight() + title_soloGame.getPaddingBottom() + title_soloGame.getPaddingTop();
+        int headerSize = UIHeader.getHeight() + UIHeader.getPaddingBottom() + UIHeader.getPaddingTop();
         int footerSize = scores.getHeight() + scores.getPaddingBottom() + scores.getPaddingTop();
 
         heigth -= (headerSize + footerSize + dpToPx(Constants.GRID_PADDING));

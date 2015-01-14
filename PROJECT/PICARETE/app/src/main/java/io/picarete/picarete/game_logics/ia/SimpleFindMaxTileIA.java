@@ -14,7 +14,7 @@ import io.picarete.picarete.model.NoDuplicatesList;
  */
 public class SimpleFindMaxTileIA extends AIA {
     @Override
-    public Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
+    protected Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
         Map<Edge, Integer> allEdgesPossibleWithMaxTile = new HashMap<>();
         int bestClose  = 0;

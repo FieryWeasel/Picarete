@@ -1,4 +1,4 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -205,7 +205,7 @@ public class UITile extends ImageView implements View.OnTouchListener{
                 edges = tile.getEdges();
                 try {
                     Edge edge = choseEdge((int) event.getX(), (int) event.getY(), getWidth());
-                    //Log.d(this.getClass().getName(), "Position : ("+(int)event.getX()+";"+(int)event.getY()+") / Width : "+getWidth()+" / Chose edge : "+edge);
+                    Log.d(this.getClass().getName(), "Position : ("+(int)event.getX()+";"+(int)event.getY()+") / Width : "+getWidth()+" / Chose edge : "+edge);
                     tile.onClick(edge);
                 } catch (ArithmeticException e){
                     Log.d(this.getClass().getName(), e.getMessage());

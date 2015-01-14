@@ -15,6 +15,7 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
+import io.picarete.picarete.ui.custom.CustomFontSwitch;
 
 public abstract class ChooserFragment extends Fragment {
 
@@ -22,6 +23,8 @@ public abstract class ChooserFragment extends Fragment {
     private EGameMode mGameMode;
     protected NumberPicker mColumnPicker;
     private NumberPicker mRowPicker;
+    private CustomFontSwitch mSwitchChosenBorderTile;
+    private CustomFontSwitch mSwitchChosenTile;
 
     /**
      * Use this factory method to create a new instance of
@@ -29,7 +32,7 @@ public abstract class ChooserFragment extends Fragment {
      */
     protected abstract void createFragment();
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container);
-    protected abstract void onValidate(EGameMode gameMode, int column, int row);
+    protected abstract void onValidate(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile);
     protected abstract void attachFragment(Activity activity);
     protected abstract void detachFragment();
 
@@ -49,7 +52,7 @@ public abstract class ChooserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = createViewFragment(inflater, container);
 
-        Spinner spinnerMode = (Spinner) view.findViewById(R.id.spinner_mode);
+        Spinner spinnerMode = (Spinner) view.findViewById(R.id.mode_chooser_spinner_game_mode);
         spinnerMode.setAdapter(new SpinnerModeAdapter(getActivity(),
                 android.R.layout.simple_spinner_item,
                 GameModeSet.getTitles(getActivity()),
@@ -67,17 +70,21 @@ public abstract class ChooserFragment extends Fragment {
             }
         });
 
-        mColumnPicker = (NumberPicker)view.findViewById(R.id.picker_column);
+        mColumnPicker = (NumberPicker) view.findViewById(R.id.mode_chooser_picker_column);
         mColumnPicker.setMaxValue(Constants.COLUMN_ROW_MAX);
         mColumnPicker.setMinValue(Constants.COLUMN_ROW_MIN);
-        mRowPicker = (NumberPicker)view.findViewById(R.id.picker_row);
+
+        mRowPicker = (NumberPicker) view.findViewById(R.id.mode_chooser_picker_row);
         mRowPicker.setMaxValue(Constants.COLUMN_ROW_MAX);
         mRowPicker.setMinValue(Constants.COLUMN_ROW_MIN);
 
-        (view.findViewById(R.id.validate_modeChooser)).setOnClickListener(new View.OnClickListener() {
+        mSwitchChosenBorderTile = (CustomFontSwitch) view.findViewById(R.id.mode_chooser_switch_chosen_border_tile);
+        mSwitchChosenTile = (CustomFontSwitch) view.findViewById(R.id.mode_chooser_switch_chosen_tile);
+
+        (view.findViewById(R.id.mode_chooser_validate)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onValidate(mGameMode, mColumnPicker.getValue(), mRowPicker.getValue());
+                onValidate(mGameMode, mColumnPicker.getValue(), mRowPicker.getValue(), mSwitchChosenBorderTile.isChecked(), mSwitchChosenTile.isChecked());
             }
         });
 

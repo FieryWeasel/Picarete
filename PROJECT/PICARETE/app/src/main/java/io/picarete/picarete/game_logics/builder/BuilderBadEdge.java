@@ -1,20 +1,20 @@
-package io.picarete.picarete.game_logics;
+package io.picarete.picarete.game_logics.builder;
 
 import android.util.Log;
 
 import java.util.List;
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.ETileSide;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.EdgeBad;
-import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 
 /**
  * Created by root on 1/12/15.
  */
-public class BuilderGoodEdge extends ABuilder {
+public class BuilderBadEdge extends ABuilder {
 
     private static final int PROBA_SPECIAL_EDGE = 3;
 
@@ -24,9 +24,9 @@ public class BuilderGoodEdge extends ABuilder {
     private int nbSpecialEdges = 0;
 
     @Override
-    public List<Tile> createGame(int height, int width, Game game) {
+    public List<Tile> createGame(int height, int width, Game game, boolean needChosenBorderTile, boolean needChosenTile) {
         nbSpecialEdges = 0;
-        return super.createGame(height, width, game);
+        return super.createGame(height, width, game, needChosenBorderTile, needChosenTile);
     }
 
     @Override
@@ -105,6 +105,6 @@ public class BuilderGoodEdge extends ABuilder {
     }
 
     private Edge generateSpecialEdge(){
-        return new EdgeGood();
+        return new EdgeBad();
     }
 }

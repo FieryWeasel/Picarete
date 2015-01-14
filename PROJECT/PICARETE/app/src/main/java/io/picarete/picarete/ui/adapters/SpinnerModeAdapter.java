@@ -2,18 +2,13 @@ package io.picarete.picarete.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-
-import java.util.List;
 
 import io.picarete.picarete.R;
-import io.picarete.picarete.model.CustomFontTextView;
+import io.picarete.picarete.ui.custom.CustomFontTextView;
 
 /**
  * Created by iem on 07/01/15.

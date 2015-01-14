@@ -12,18 +12,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/title_modeChooser"
+            android:id="@+id/mode_chooser_title"
             android:layout_marginTop="20dp"
             android:background="@color/orange"
             android:gravity="center">
 
-            <io.picarete.picarete.model.CustomFontButton
+            <io.picarete.picarete.ui.custom.CustomFontButton
                 android:id="@+id/edit_profile"
                 android:background="@drawable/btn_modify_profil"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile"
@@ -32,16 +32,16 @@
 
             </RelativeLayout>
 
-        <io.picarete.picarete.model.CustomFontTextView
+        <io.picarete.picarete.ui.custom.CustomFontTextView
             android:id="@+id/label_xp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/xp"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:layout_below="@+id/title_modeChooser"
+            android:layout_below="@+id/mode_chooser_title"
             style="@style/top_label"/>
 
-        <io.picarete.picarete.model.CustomFontTextView
+        <io.picarete.picarete.ui.custom.CustomFontTextView
             android:id="@+id/lvl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,14 +64,14 @@
             android:layout_below="@+id/seekBar_xp"
             style="@style/horizontal_label">
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/label_playedGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/playedGames"/>
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/value_playedGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,14 +90,14 @@
             android:layout_marginLeft="@dimen/paddingGameGrid"
             android:layout_marginBottom="@dimen/paddingGameGrid">
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/label_wonGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/WonGames"/>
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/value_wonGames"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,14 +114,14 @@
             android:layout_below="@+id/wonGames"
             style="@style/horizontal_label">
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/label_ratio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ratioPlayer"/>
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/value_ratio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
 
         </LinearLayout>
 
-        <io.picarete.picarete.model.CustomFontTextView
+        <io.picarete.picarete.ui.custom.CustomFontTextView
             android:id="@+id/label_titles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
             android:layout_below="@+id/spinner_title"
             style="@style/horizontal_label">
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/label_colorP1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
             android:layout_below="@+id/colorP1"
             style="@style/horizontal_label">
 
-            <io.picarete.picarete.model.CustomFontTextView
+            <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:id="@+id/label_colorP2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

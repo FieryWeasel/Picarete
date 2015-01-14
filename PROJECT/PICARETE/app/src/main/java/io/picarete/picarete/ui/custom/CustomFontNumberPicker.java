@@ -1,4 +1,4 @@
-package io.picarete.picarete.model;
+package io.picarete.picarete.ui.custom;
 
 import android.content.Context;
 import android.graphics.Canvas;
