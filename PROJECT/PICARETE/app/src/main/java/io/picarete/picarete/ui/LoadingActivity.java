@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.model.container.User;
+import io.picarete.picarete.model.container.userdata.User;
 import io.picarete.picarete.model.data_sets.Config;
 import io.picarete.picarete.model.data_sets.TitleSet;
 

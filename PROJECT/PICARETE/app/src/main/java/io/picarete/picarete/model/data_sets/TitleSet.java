@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.tools.XMLParser;
-import io.picarete.picarete.model.container.Title;
+import io.picarete.picarete.model.container.userdata.Title;
 
 /**
  * Created by iem on 13/01/15.

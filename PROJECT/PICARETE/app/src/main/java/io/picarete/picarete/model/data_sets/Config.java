@@ -10,12 +10,12 @@ import java.util.List;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.tools.XMLParser;
-import io.picarete.picarete.model.container.AUnlock;
+import io.picarete.picarete.model.container.userdata.AUnlock;
 import io.picarete.picarete.model.container.ColorCustom;
-import io.picarete.picarete.model.container.Level;
-import io.picarete.picarete.model.container.UnlockColor;
-import io.picarete.picarete.model.container.UnlockIA;
-import io.picarete.picarete.model.container.UnlockMode;
+import io.picarete.picarete.model.container.userdata.Level;
+import io.picarete.picarete.model.container.userdata.UnlockColor;
+import io.picarete.picarete.model.container.userdata.UnlockIA;
+import io.picarete.picarete.model.container.userdata.UnlockMode;
 
 /**
  * Created by iem on 13/01/15.

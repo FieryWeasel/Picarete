@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,8 +20,7 @@ import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.model.data_sets.IASet;
-import io.picarete.picarete.model.container.User;
+import io.picarete.picarete.model.container.userdata.User;
 
 /**
  * A simple {@link Fragment} subclass.

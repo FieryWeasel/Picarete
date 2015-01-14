@@ -1,6 +1,9 @@
-package io.picarete.picarete.model.container;
+package io.picarete.picarete.model.container.userdata;
 
 import java.util.List;
+
+import io.picarete.picarete.model.container.userdata.Condition;
+import io.picarete.picarete.model.container.userdata.User;
 
 /**
  * Created by iem on 13/01/15.

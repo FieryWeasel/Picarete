@@ -24,7 +24,7 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.ui.UITile;
-import io.picarete.picarete.model.container.User;
+import io.picarete.picarete.model.container.userdata.User;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.custom.CustomFontTextView;
 import io.picarete.picarete.ui.custom.CustomFontGridLayout;

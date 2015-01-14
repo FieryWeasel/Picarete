@@ -13,7 +13,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
-import io.picarete.picarete.model.container.User;
+import io.picarete.picarete.model.container.userdata.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,8 +78,13 @@ public class MultiGameFragment extends GameFragment {
 
     @Override
     public void OnFinished() {
+        int res = 0;
+        if(game.getScores().get(0) > game.getScores().get(1))
+            res = 1;
+        else if(game.getScores().get(0) < game.getScores().get(1))
+            res = -1;
 
-        user.computeXpEarned(EMode.MULTI, mode, null);
+        user.userFinishedAGame(EMode.MULTI, mode, null, 0, 0, 0, game.getScores().get(0), game.getScores().get(1), res);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(game.getScores().get(0) > game.getScores().get(1)){

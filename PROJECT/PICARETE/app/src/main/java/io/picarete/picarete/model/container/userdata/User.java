@@ -1,4 +1,4 @@
-package io.picarete.picarete.model.container;
+package io.picarete.picarete.model.container.userdata;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
 
@@ -34,6 +35,27 @@ public class User implements Serializable{
     private int nextXp;
     private int level;
 
+    public static final double MULTIPLIER_SOLO = 1;
+    public static final double MULTIPLIER_MULTI = 0.5;
+
+    public static final double MULTIPLIER_EASY = 1;
+    public static final double MULTIPLIER_EASY_MAX_TILE = 2;
+    public static final double MULTIPLIER_AGGRESSIVE = 2;
+    public static final double MULTIPLIER_MINIMAX = 3;
+
+    public static final double MULTIPLIER_CLASSIC = 1;
+    public static final double MULTIPLIER_EDGE_BAD = 2;
+    public static final double MULTIPLIER_EDGE_GOOD = 2;
+    public static final double MULTIPLIER_TILE_BAD = 2;
+    public static final double MULTIPLIER_TILE_GOOD = 2;
+    public static final double MULTIPLIER_BEST_AREA = 3;
+    public static final double MULTIPLIER_CONTINUE_TO_PLAY = 4;
+
+    public static final double VALUE_TILES_WIN = 1;
+    public static final double VALUE_GAME_WON = 10;
+    public static final double MULTIPLIER_GAME_EQUALITY = 0.7;
+    public static final double MULTIPLIER_GAME_LOST = 0.5;
+
     public User(Context context) {
         previousXp = 0;
         actualXp = 0;
@@ -51,20 +73,68 @@ public class User implements Serializable{
         }
     }
 
-    public void computeXpEarned(EMode mode, EGameMode gameMode, Object difficulty) {
-
-    }
-
-    private void userEarnedXp(int xp){
+    public void userFinishedAGame(EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
         computeXpNeededNextLevel();
-        actualXp += xp;
+        actualXp += computeXpEarned(mode, gameMode, difficulty, tilesP1, result);
         if(actualXp > nextXp){
             previousXp = nextXp;
             actualXp = actualXp-nextXp;
             level++;
 
         }
+        //TODO save stats and user
     }
+
+    private double computeXpEarned(EMode mode, EGameMode gameMode, EIA difficulty, int tilesWin, int result) {
+        double xpBase = VALUE_GAME_WON + (VALUE_TILES_WIN * tilesWin) + (result == -1 ? VALUE_GAME_WON : 0);
+        double xpDifficulty = 0;
+        double xpGameMode = 0;
+
+        if(difficulty == EIA.EASY){
+            xpDifficulty = xpBase * MULTIPLIER_EASY;
+
+        }else if(difficulty == EIA.EASY_MAX_TILE){
+            xpDifficulty = xpBase * MULTIPLIER_EASY_MAX_TILE;
+
+        }else if(difficulty == EIA.AGGRESSIVE){
+            xpDifficulty = xpBase * MULTIPLIER_AGGRESSIVE;
+
+        }else if(difficulty == EIA.MINIMAX){
+            xpDifficulty = xpBase * MULTIPLIER_MINIMAX;
+
+        }
+
+        if(gameMode == EGameMode.CLASSIC){
+            xpGameMode = xpDifficulty * MULTIPLIER_CLASSIC;
+
+        }else if(gameMode == EGameMode.EDGE_BAD){
+            xpGameMode = xpDifficulty * MULTIPLIER_EDGE_BAD;
+
+        }else if(gameMode == EGameMode.EDGE_GOOD){
+            xpGameMode = xpDifficulty * MULTIPLIER_EDGE_GOOD;
+
+        }else if(gameMode == EGameMode.TILE_BAD){
+            xpGameMode = xpDifficulty * MULTIPLIER_TILE_BAD;
+
+        }else if(gameMode == EGameMode.TILE_GOOD){
+            xpGameMode = xpDifficulty * MULTIPLIER_TILE_GOOD;
+
+        }else if(gameMode == EGameMode.BEST_AREA){
+            xpGameMode = xpDifficulty * MULTIPLIER_BEST_AREA;
+
+        }else if(gameMode == EGameMode.CONTINUE_TO_PLAY){
+            xpGameMode = xpDifficulty * MULTIPLIER_CONTINUE_TO_PLAY;
+
+        }
+
+        if(result == 0)
+            xpGameMode = xpGameMode * MULTIPLIER_GAME_EQUALITY;
+        else if(result == 1)
+            xpGameMode = xpGameMode * MULTIPLIER_GAME_LOST;
+
+        return xpGameMode * (mode == EMode.SOLO ? MULTIPLIER_SOLO : MULTIPLIER_MULTI);
+    }
+
     //(i-1)+(i*const)
     private void computeXpNeededNextLevel(){
         nextXp = previousXp + (level * Constants.CONSTANT_LEVEL);

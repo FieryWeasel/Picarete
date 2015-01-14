@@ -14,14 +14,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import io.picarete.picarete.model.container.AUnlock;
+import io.picarete.picarete.model.container.userdata.AUnlock;
 import io.picarete.picarete.model.container.ColorCustom;
-import io.picarete.picarete.model.container.Condition;
-import io.picarete.picarete.model.container.Level;
-import io.picarete.picarete.model.container.Title;
-import io.picarete.picarete.model.container.UnlockColor;
-import io.picarete.picarete.model.container.UnlockIA;
-import io.picarete.picarete.model.container.UnlockMode;
+import io.picarete.picarete.model.container.userdata.Condition;
+import io.picarete.picarete.model.container.userdata.Level;
+import io.picarete.picarete.model.container.userdata.Title;
+import io.picarete.picarete.model.container.userdata.UnlockColor;
+import io.picarete.picarete.model.container.userdata.UnlockIA;
+import io.picarete.picarete.model.container.userdata.UnlockMode;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
 
@@ -125,6 +125,8 @@ public class XMLParser {
                     String PLAY = parser.getAttributeValue(null, "played");
                     String LEVEL = parser.getAttributeValue(null, "level");
                     String DIFFICULTY = parser.getAttributeValue(null, "difficulty");
+                    String TILE_USER = parser.getAttributeValue(null, "tile_user");
+                    String TILE_OPPONENT = parser.getAttributeValue(null, "tile_opponent");
 
                     if(GAME_MODE != null){
                         map.put(Condition.EConditionType.GAME_MODE, GAME_MODE);
@@ -159,6 +161,16 @@ public class XMLParser {
                     if(DIFFICULTY != null){
                         map.put(Condition.EConditionType.DIFFICULTY, DIFFICULTY);
                         Log.d("PARSE TITLE", DIFFICULTY);
+                    }
+
+                    if(DIFFICULTY != null){
+                        map.put(Condition.EConditionType.TILE_USER, TILE_USER);
+                        Log.d("PARSE TITLE", TILE_USER);
+                    }
+
+                    if(DIFFICULTY != null){
+                        map.put(Condition.EConditionType.TILE_OPPONENT, TILE_OPPONENT);
+                        Log.d("PARSE TITLE", TILE_OPPONENT);
                     }
 
 

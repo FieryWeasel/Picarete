@@ -1,4 +1,4 @@
-package io.picarete.picarete.model.container;
+package io.picarete.picarete.model.container.userdata;
 
 import java.util.LinkedList;
 import java.util.List;
