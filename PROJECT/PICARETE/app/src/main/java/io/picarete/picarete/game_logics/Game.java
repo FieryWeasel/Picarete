@@ -13,6 +13,7 @@ import io.picarete.picarete.game_logics.gameplay.EdgeBad;
 import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.gameplay.TileBrother;
+import io.picarete.picarete.model.NoDuplicatesList;
 
 
 public class Game implements Tile.TileEventListener{
@@ -76,25 +77,33 @@ public class Game implements Tile.TileEventListener{
         }
 
         List<Tile> neighbor = findNeighbor(edge);
+        List<Tile> tileToRedraw = new NoDuplicatesList<>();
         for(Tile t : neighbor){
             if(t.isComplete()){
                 t.setIdPlayer(idPlayer);
                 hasCompletedATile = true;
             }
+            tileToRedraw.add(t);
         }
         for(Tile t : neighbor){
             if(t.isComplete()){
                 if(gameMode == EGameMode.BEST_AREA && t instanceof TileBrother){
-                    addScoreForPlayer(idPlayer, ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>()).size());
+                    List<Tile> tileBrothers = ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>());
+                    for (Tile tBrother : tileBrothers)
+                        tileToRedraw.add(tBrother);
+                    addScoreForPlayer(idPlayer, tileToRedraw.size());
                 } else {
                     addScoreForPlayer(idPlayer, t.getScoreForPlayer());
                 }
             }
         }
-        if(eventListener != null)
-            eventListener.OnMajTile(neighbor);
 
-        idPlayer = (idPlayer + 1) % 2;
+        if(eventListener != null)
+            eventListener.OnMajTile(tileToRedraw);
+
+        if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
+            idPlayer = (idPlayer + 1) % 2;
+        }
 
         if(eventListener != null)
             eventListener.OnMajGUI(idPlayer);
@@ -105,10 +114,8 @@ public class Game implements Tile.TileEventListener{
             return;
         }
 
-        if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
-            if(eventListener != null)
-                eventListener.OnNextPlayer(idPlayer);
-        }
+        if(eventListener != null)
+            eventListener.OnNextPlayer(idPlayer);
     }
 
     private void addScoreForPlayer(int idPlayer, int score){

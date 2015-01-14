@@ -12,7 +12,6 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.container.User;
-import io.picarete.picarete.ui.fragments.CustomFragment;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
 import io.picarete.picarete.ui.fragments.MultiGameFragment;
@@ -31,8 +30,9 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = new User(this);
-        user.load();
+        // Todo Uncomment this
+        //user = new User(this);
+        //user.load();
         // Instantiate a new fragment.
         Fragment newFragment = HomeFragment.newInstance();
         addFragmentToStack(newFragment, Constants.HOME);

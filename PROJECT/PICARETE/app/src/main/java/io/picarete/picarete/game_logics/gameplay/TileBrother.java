@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TileBrother extends Tile {
-    Map<ETileSide, Tile> brothers = null;
+    private Map<ETileSide, Tile> brothers = null;
 
     public TileBrother(int id, Edge left, Edge top, Edge right, Edge bottom){
         super(id, left, top, right, bottom);
@@ -39,4 +39,7 @@ public class TileBrother extends Tile {
         return tilesBrothers;
     }
 
+    public Map<ETileSide, Tile> getBrothers() {
+        return brothers;
+    }
 }

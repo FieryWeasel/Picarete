@@ -31,8 +31,8 @@ public class Condition {
         this.map = map;
     }
 
-    public boolean isConditionValidated(){
-        List<Stat> statsSearched = User.getStat(GameModeSet.searchGameMode(map.get(EConditionType.GAME_MODE)),
+    public boolean isConditionValidated(User user){
+        List<Stat> statsSearched = user.getStat(GameModeSet.searchGameMode(map.get(EConditionType.GAME_MODE)),
                 IASet.searchIA(map.get(EConditionType.DIFFICULTY)),
                 (map.get(EConditionType.MODE).compareTo("SOLO") == 0 ? EMode.SOLO : EMode.MULTI));
         int valueStatsFound = 0;

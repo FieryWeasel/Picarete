@@ -15,6 +15,7 @@ import io.picarete.picarete.game_logics.gameplay.EdgeBad;
 import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.gameplay.TileBad;
+import io.picarete.picarete.game_logics.gameplay.TileBrother;
 import io.picarete.picarete.game_logics.gameplay.TileGood;
 
 /**
@@ -24,6 +25,8 @@ public class AssetsSet {
     private static Bitmap tileBackground = null;
     private static Bitmap tileBackgroundOverlayGood = null;
     private static Bitmap tileBackgroundOverlayBad = null;
+    private static Bitmap tileOnEdgeOverlay = null;
+    private static Map<ETileSide, Bitmap> tileOnEdgeOverlayRotated = new HashMap<>();
     private static Bitmap edgeBackground = null;
     private static Bitmap edgeBackgroundGood = null;
     private static Bitmap edgeBackgroundBad = null;
@@ -37,11 +40,18 @@ public class AssetsSet {
         return tileBackground;
     }
 
-    public static Bitmap getEdgeBackground(Context context, Edge edge) {
+    public static Bitmap getEdgeBackground(Context context) {
         if(edgeBackground == null)
             edgeBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_bg);
 
         return edgeBackground;
+    }
+
+    public static Bitmap getEdgeBackgroundRotated(Context context, Edge edge, ETileSide side, Matrix matrix){
+        if(!edgesBackgroundRotated.containsKey(side))
+            edgesBackgroundRotated.put(side, Bitmap.createBitmap(getEdgeBackground(context), 0, 0, getEdgeBackground(context).getWidth(), getEdgeBackground(context).getHeight(), matrix, true));
+
+        return edgesBackgroundRotated.get(side);
     }
 
     public static Bitmap getEdgeBackgroundOverlay(Context context, Edge edge) {
@@ -55,17 +65,9 @@ public class AssetsSet {
                 edgeBackgroundGood = BitmapFactory.decodeResource(context.getResources(), R.drawable.edge_good_bg);
 
             return edgeBackgroundGood;
-
         }
 
         return null;
-    }
-
-    public static Bitmap getEdgeBackgroundRotated(Context context, Edge edge, ETileSide side, Matrix matrix){
-        if(!edgesBackgroundRotated.containsKey(side))
-            edgesBackgroundRotated.put(side, Bitmap.createBitmap(getEdgeBackground(context, edge), 0, 0, getEdgeBackground(context, edge).getWidth(), getEdgeBackground(context, edge).getHeight(), matrix, true));
-
-        return edgesBackgroundRotated.get(side);
     }
 
     public static Bitmap getEdgeBackgroundOverlayRotated(Context context, Edge edge, ETileSide side, Matrix matrix){
@@ -79,7 +81,24 @@ public class AssetsSet {
                 edgesBackgroundGoodRotated.put(side, Bitmap.createBitmap(getEdgeBackgroundOverlay(context, edge), 0, 0, getEdgeBackgroundOverlay(context, edge).getWidth(), getEdgeBackgroundOverlay(context, edge).getHeight(), matrix, true));
 
             return edgesBackgroundGoodRotated.get(side);
+        }
 
+        return null;
+    }
+
+    public static Bitmap getTileOnEdgeOverlay(Context context) {
+        if(tileOnEdgeOverlay == null)
+            tileOnEdgeOverlay = BitmapFactory.decodeResource(context.getResources(), R.drawable.tile_brother);
+
+        return tileOnEdgeOverlay;
+    }
+
+    public static Bitmap getTileOnEdgeBackgroundOverlayRotated(Context context, Tile tile, ETileSide side, Matrix matrix){
+        if (tile instanceof TileBrother) {
+            if(!tileOnEdgeOverlayRotated.containsKey(side))
+                tileOnEdgeOverlayRotated.put(side, Bitmap.createBitmap(getTileOnEdgeOverlay(context), 0, 0, getTileOnEdgeOverlay(context).getWidth(), getTileOnEdgeOverlay(context).getHeight(), matrix, true));
+
+            return tileOnEdgeOverlayRotated.get(side);
         }
 
         return null;
