@@ -52,7 +52,7 @@ public class User implements Serializable{
     }
 
     public void computeXpEarned(EMode mode, EGameMode gameMode, Object difficulty) {
-        
+
     }
 
     private void userEarnedXp(int xp){

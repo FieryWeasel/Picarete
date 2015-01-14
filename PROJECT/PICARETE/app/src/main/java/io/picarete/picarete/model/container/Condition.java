@@ -39,7 +39,7 @@ public class Condition {
 
         if(map.containsKey(EConditionType.WIN)){
             for (Stat s : statsSearched){
-                valueStatsFound += s.win;
+                valueStatsFound += s.getWin();
             }
             int valueWin = Integer.parseInt(map.get(EConditionType.WIN));
             if(valueWin < valueStatsFound)
@@ -48,7 +48,7 @@ public class Condition {
 
         if(map.containsKey(EConditionType.LOST)){
             for (Stat s : statsSearched){
-                valueStatsFound += s.lost;
+                valueStatsFound += s.getLost();
             }
             int valueLost = Integer.parseInt(map.get(EConditionType.LOST));
             if(valueLost < valueStatsFound)
@@ -57,7 +57,7 @@ public class Condition {
 
         if(map.containsKey(EConditionType.PLAY)){
             for (Stat s : statsSearched){
-                valueStatsFound += s.played;
+                valueStatsFound += s.getPlayed();
             }
             int valuePlayed = Integer.parseInt(map.get(EConditionType.PLAY));
             if(valuePlayed < valueStatsFound)

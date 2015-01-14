@@ -24,4 +24,15 @@ public class Stat implements Serializable{
         this.mode = mode;
         this.statGame = new ArrayList<>();
     }
+    //TODO
+    public int getWin(){
+        return 0;
+    }
+     public int getLost(){
+         return 0;
+     }
+
+    public int getPlayed(){
+        return 0;
+    }
 }
