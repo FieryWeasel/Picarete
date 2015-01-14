@@ -22,6 +22,7 @@ import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.data_sets.IASet;
+import io.picarete.picarete.model.container.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +41,7 @@ public class SoloGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile) {
+    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile, User user) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);//col
@@ -49,6 +50,7 @@ public class SoloGameFragment extends GameFragment {
         args.putSerializable(Constants.MODE_KEY, mode);
         args.putBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY, needChosenBorderTile);
         args.putBoolean(Constants.NEED_TILE_CHOSEN_KEY, needChosenTile);
+        args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }

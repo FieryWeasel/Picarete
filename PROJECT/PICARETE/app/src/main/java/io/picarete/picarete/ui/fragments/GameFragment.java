@@ -23,7 +23,8 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
-import io.picarete.picarete.game_logics.ui.UITile;
+import io.picarete.picarete.game_logics.UITile;
+import io.picarete.picarete.model.container.User;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.custom.CustomFontTextView;
 import io.picarete.picarete.ui.custom.CustomFontGridLayout;
@@ -38,6 +39,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected boolean needChosenBorderTile;
     protected boolean needChosenTile;
     protected Game game;
+    protected User user;
 
     protected List<UITile> UITiles;
     private int size;
@@ -69,8 +71,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
             column = getArguments().getInt(Constants.COLUMN_KEY);
             row = getArguments().getInt(Constants.ROW_KEY);
             mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
-            needChosenBorderTile = getArguments().getBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY);
-            needChosenTile = getArguments().getBoolean(Constants.NEED_TILE_CHOSEN_KEY);
+            user = (User) getArguments().getSerializable(Constants.USER_KEY);
         }
         createFragment(savedInstanceState);
     }

@@ -1,11 +1,15 @@
 package io.picarete.picarete.model.data_sets;
 
+import android.content.Context;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
+import io.picarete.picarete.game_logics.tools.XMLParser;
 import io.picarete.picarete.model.container.AUnlock;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.container.Level;
@@ -20,15 +24,18 @@ public class Config {
 
     private static List<Level> levels;
 
-    private static void loadConfig(){
+    private static void loadConfig(Context context){
         levels = new ArrayList<>();
-        //TODO load from parser
+        try {
+            XMLParser.getLevels(context.getAssets().open("config.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static List<Level> getLevels(){
+    public static List<Level> getLevels(Context context){
         if(levels == null)
-            loadConfig();
-
+            loadConfig(context);
         return levels;
     }
 

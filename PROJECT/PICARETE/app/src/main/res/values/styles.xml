@@ -45,4 +45,8 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="ClassicText" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">@dimen/classicText</item>
+    </style>
+
 </resources>

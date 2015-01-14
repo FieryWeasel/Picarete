@@ -1,5 +1,9 @@
 package io.picarete.picarete.model.container;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.EMode;
@@ -7,21 +11,17 @@ import io.picarete.picarete.model.EMode;
 /**
  * Created by iem on 13/01/15.
  */
-public class Stat {
+public class Stat implements Serializable{
 
-    EIA ia;
-    EGameMode gameMode;
-    EMode mode;
-    int win;
-    int lost;
-    int played;
+    public EIA ia;
+    public EGameMode gameMode;
+    public EMode mode;
+    public List<StatGame> statGame;
 
     public Stat(EIA ia, EGameMode gameMode, EMode mode) {
         this.ia = ia;
         this.gameMode = gameMode;
         this.mode = mode;
-        win = 0;
-        lost = 0;
-        played = 0;
+        this.statGame = new ArrayList<>();
     }
 }
