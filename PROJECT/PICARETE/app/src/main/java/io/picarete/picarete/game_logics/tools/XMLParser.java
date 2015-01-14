@@ -1,5 +1,6 @@
 package io.picarete.picarete.game_logics.tools;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -19,8 +20,10 @@ import io.picarete.picarete.model.container.Condition;
 import io.picarete.picarete.model.container.Level;
 import io.picarete.picarete.model.container.Title;
 import io.picarete.picarete.model.container.UnlockColor;
+import io.picarete.picarete.model.container.UnlockIA;
 import io.picarete.picarete.model.container.UnlockMode;
 import io.picarete.picarete.model.data_sets.GameModeSet;
+import io.picarete.picarete.model.data_sets.IASet;
 
 /**
  * Created by iem on 13/01/15.
@@ -125,30 +128,37 @@ public class XMLParser {
 
                     if(GAME_MODE != null){
                         map.put(Condition.EConditionType.GAME_MODE, GAME_MODE);
+                        Log.d("PARSE TITLE", GAME_MODE);
                     }
 
                     if(MODE != null){
                         map.put(Condition.EConditionType.MODE, MODE);
+                        Log.d("PARSE TITLE", MODE);
                     }
 
                     if(WIN != null){
                         map.put(Condition.EConditionType.WIN, WIN);
+                        Log.d("PARSE TITLE", WIN);
                     }
 
                     if(LOST != null){
                         map.put(Condition.EConditionType.LOST, LOST);
+                        Log.d("PARSE TITLE", LOST);
                     }
 
                     if(PLAY != null){
                         map.put(Condition.EConditionType.PLAY, PLAY);
+                        Log.d("PARSE TITLE", PLAY);
                     }
 
                     if(LEVEL != null){
                         map.put(Condition.EConditionType.LEVEL, LEVEL);
+                        Log.d("PARSE TITLE", LEVEL);
                     }
 
                     if(DIFFICULTY != null){
                         map.put(Condition.EConditionType.DIFFICULTY, DIFFICULTY);
+                        Log.d("PARSE TITLE", DIFFICULTY);
                     }
 
 
@@ -187,16 +197,19 @@ public class XMLParser {
                     if (color != null) {
                         UnlockColor unlockColor = new UnlockColor(new ColorCustom(color));
                         currentLevel.unlocks.add(unlockColor);
+                        Log.d("PARSE LEVELS", color);
                     }
 
                     if (mode != null) {
-                        UnlockMode unlockColor = new UnlockMode(GameModeSet.searchGameMode(mode));
-                        currentLevel.unlocks.add(unlockColor);
+                        UnlockMode unlockMode = new UnlockMode(GameModeSet.searchGameMode(mode));
+                        currentLevel.unlocks.add(unlockMode);
+                        Log.d("PARSE LEVELS", mode);
                     }
 
                     if (ia != null) {
-                        UnlockColor unlockColor = new UnlockColor(new ColorCustom(color));
-                        currentLevel.unlocks.add(unlockColor);
+                        UnlockIA unlockIa = new UnlockIA(IASet.searchIA(ia));
+                        currentLevel.unlocks.add(unlockIa);
+                        Log.d("PARSE LEVELS", ia);
                     }
 
                     levels.add(currentLevel);

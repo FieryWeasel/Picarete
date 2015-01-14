@@ -22,4 +22,8 @@ public class Constants {
     public static final String ROW_KEY = "ROW_KEY";
     public static final String MODE_KEY = "MODE_KEY";
     public static final String IA_KEY = "IA_KEY";
+    public static final String USER_KEY = "USER_KEY";
+    public static final String PREFERENCES_USER = "preferences_user";
+    public static final String EXTRA_USER = "extra_user";
+    public static final int CONSTANT_LEVEL = 8;
 }

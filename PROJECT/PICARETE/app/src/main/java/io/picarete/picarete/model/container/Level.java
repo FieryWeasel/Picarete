@@ -11,7 +11,7 @@ public class Level {
     public List<AUnlock> unlocks;
 
     public Level(LinkedList<AUnlock> aUnlocks) {
-        unlocks = unlocks;
+        this.unlocks = aUnlocks;
     }
 
 }

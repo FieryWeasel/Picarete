@@ -25,6 +25,7 @@ import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.UITile;
 import io.picarete.picarete.model.CustomFontTextView;
+import io.picarete.picarete.model.container.User;
 import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.Constants;
 
@@ -34,6 +35,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected int column;
     protected int row;
     protected Game game;
+    protected User user;
 
     protected List<UITile> UITiles;
     private int size;
@@ -63,6 +65,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
             column = getArguments().getInt(Constants.COLUMN_KEY);
             row = getArguments().getInt(Constants.ROW_KEY);
             mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
+            user = (User) getArguments().getSerializable(Constants.USER_KEY);
         }
         createFragment(savedInstanceState);
     }

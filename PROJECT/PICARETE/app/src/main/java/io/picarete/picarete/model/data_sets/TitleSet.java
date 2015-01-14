@@ -17,7 +17,7 @@ public class TitleSet {
 
     public static List<Title> getTitles(Context context){
         if (titles == null){
-            XMLParser.getTitles(context.getResources().openRawResource(R.raw.titles));
+            titles = XMLParser.getTitles(context.getResources().openRawResource(R.raw.titles));
         }
 
         return titles;

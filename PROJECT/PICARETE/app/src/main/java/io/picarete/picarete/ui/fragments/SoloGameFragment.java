@@ -20,6 +20,7 @@ import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.container.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,13 +37,14 @@ public class SoloGameFragment extends GameFragment {
     private EIA IAEnum;
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode) {
+    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, User user) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);//col
         args.putInt(Constants.ROW_KEY, row);//row
         args.putSerializable(Constants.IA_KEY, iaName);//IA Name
         args.putSerializable(Constants.MODE_KEY, mode);
+        args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }

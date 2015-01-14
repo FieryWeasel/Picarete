@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.EMode;
+import io.picarete.picarete.model.container.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,12 +28,13 @@ public class MultiGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static MultiGameFragment newInstance(int col, int row, EGameMode mode) {
+    public static MultiGameFragment newInstance(int col, int row, EGameMode mode, User user) {
         MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.COLUMN_KEY, col);
         args.putInt(Constants.ROW_KEY, row);
         args.putSerializable(Constants.MODE_KEY, mode);
+        args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +70,9 @@ public class MultiGameFragment extends GameFragment {
 
     @Override
     public void OnFinished() {
+
+        user.computeXpEarned(EMode.MULTI, mode, null);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(game.getScores().get(0) > game.getScores().get(1)){
             // 2. Chain together various setter methods to set the dialog

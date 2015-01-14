@@ -44,5 +44,7 @@
     <string name="edit">Edit</string>
     <string name="colorP1">Color player 1</string>
     <string name="colorP2">Color player 2 / IA</string>
+    <string name="title_activity_loading">LoadingActivity</string>
+    <string name="loading">Loading...</string>
 
 </resources>

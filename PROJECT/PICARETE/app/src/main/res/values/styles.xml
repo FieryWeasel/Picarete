@@ -40,4 +40,8 @@
         <item name="android:layout_marginTop">@dimen/marginHomeBtnTop</item>
     </style>
 
+    <style name="ClassicText" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">@dimen/classicText</item>
+    </style>
+
 </resources>
