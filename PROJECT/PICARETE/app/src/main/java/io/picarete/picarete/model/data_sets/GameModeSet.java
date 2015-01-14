@@ -84,6 +84,7 @@ public class GameModeSet {
     }
 
     public static EGameMode searchGameMode(String gameModeName){
+        // Todo See if changing is needed
         EGameMode mode;
         switch (gameModeName){
             case "CLASSIC":

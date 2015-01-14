@@ -9,5 +9,6 @@ public enum EIA implements Serializable {
     EASY,
     EASY_MAX_TILE,
     AGGRESSIVE,
-    MINIMAX
+    MINIMAX,
+    MCTS
 };

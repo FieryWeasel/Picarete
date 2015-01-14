@@ -1,5 +1,6 @@
 package io.picarete.picarete.game_logics.ia;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,10 @@ public class SimpleFindMaxTileIA extends AIA {
             int nbEdgeFree = 4;
             Edge edgeFree = null;
             for(Edge e : t.getEdges().values()){
-                if(!e.isChosen()){
+                if(e.isChosen()){
                     nbEdgeFree--;
+
+                } else {
                     edgeFree = e;
                 }
             }
@@ -51,19 +54,29 @@ public class SimpleFindMaxTileIA extends AIA {
 
         // Search to chose an edge free and with more 2 edge free
         allEdgesPossible.clear();
+        List<Edge> badEdge = new NoDuplicatesList<>();
+        List<Edge> possibleGoodEdge = new NoDuplicatesList<>();
         for(Tile t : game){
             int nbEdgeFree = 4;
-            List<Edge> edgesFree = null;
+            List<Edge> edgesFree = new ArrayList<>();
             for(Edge e : t.getEdges().values()){
-                if(!e.isChosen()){
+                if(e.isChosen()){
                     nbEdgeFree--;
+                } else {
                     edgesFree.add(e);
                 }
             }
             if(nbEdgeFree > 2){
                 for(Edge e : edgesFree)
-                    allEdgesPossible.add(e);
+                    possibleGoodEdge.add(e);
+            } else {
+                for(Edge e : edgesFree)
+                    badEdge.add(e);
             }
+        }
+        for(Edge e : possibleGoodEdge){
+            if(!badEdge.contains(e))
+                allEdgesPossible.add(e);
         }
         bestEdge = choseEdge(allEdgesPossible);
         if(bestEdge != null)
@@ -72,7 +85,7 @@ public class SimpleFindMaxTileIA extends AIA {
         // Search to chose a free edge
         allEdgesPossible.clear();
         for(Tile t : game){
-            List<Edge> edgesFree = null;
+            List<Edge> edgesFree = new ArrayList<>();;
             for(Edge e : t.getEdges().values()){
                 if(!e.isChosen()){
                     edgesFree.add(e);
@@ -82,12 +95,15 @@ public class SimpleFindMaxTileIA extends AIA {
             for(Edge e : edgesFree)
                 allEdgesPossible.add(e);
         }
-
-        bestEdge = choseEdge(allEdgesPossible);
-        if(bestEdge != null)
-            return bestEdge;
-        else
+        if(allEdgesPossible.size() > 0) {
+            Random r = new Random();
+            int Low = 0;
+            int High = allEdgesPossible.size();
+            int R = r.nextInt(High - Low) + Low;
+            return allEdgesPossible.get(R);
+        } else {
             throw new ArithmeticException(this.getClass().getName()+ " - No such edge can be found with this algorithm");
+        }
     }
 
     public Edge choseEdge(List<Edge> edgesPossibles){

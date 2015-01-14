@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +20,6 @@ import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.model.data_sets.IASet;
 import io.picarete.picarete.model.container.User;
 
 /**
@@ -171,7 +169,7 @@ public class SoloGameFragment extends GameFragment {
 
             final Runnable r = new Runnable() {
                 public void run() {
-                    edgeFoundByIA = IAFactory.getIA(IAEnum).getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
+                    edgeFoundByIA = IA.getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
                     List<Tile> t = game.findNeighbor(edgeFoundByIA);
                     t.get(0).onClick(edgeFoundByIA);
                 }

@@ -15,6 +15,7 @@ public class SimpleIA extends AIA {
     @Override
     protected Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
+        Edge bestEdge = null;
 
         // Search to complete an existing UITile
         for(Tile t : game){
@@ -32,13 +33,9 @@ public class SimpleIA extends AIA {
                 allEdgesPossible.add(edgeFree);
             }
         }
-        if(allEdgesPossible.size() > 0){
-            Random r = new Random();
-            int Low = 0;
-            int High = allEdgesPossible.size();
-            int R = r.nextInt(High-Low) + Low;
-            return allEdgesPossible.get(R);
-        }
+        bestEdge = choseEdge(allEdgesPossible);
+        if(bestEdge != null)
+            return bestEdge;
 
         // Search to chose an edge free and with more 2 edge free
         allEdgesPossible.clear();
@@ -66,13 +63,9 @@ public class SimpleIA extends AIA {
             if(!badEdge.contains(e))
                 allEdgesPossible.add(e);
         }
-        if(allEdgesPossible.size() > 0){
-            Random r = new Random();
-            int Low = 0;
-            int High = allEdgesPossible.size();
-            int R = r.nextInt(High-Low) + Low;
-            return allEdgesPossible.get(R);
-        }
+        bestEdge = choseEdge(allEdgesPossible);
+        if(bestEdge != null)
+            return bestEdge;
 
         // Search to chose a free edge
         allEdgesPossible.clear();
@@ -96,6 +89,17 @@ public class SimpleIA extends AIA {
         } else {
             throw new ArithmeticException(this.getClass().getName()+ " - No such edge can be found with this algorithm");
         }
+    }
 
+    public Edge choseEdge(List<Edge> edgesPossibles){
+        if(edgesPossibles.size() > 0){
+            Random r = new Random();
+            int Low = 0;
+            int High = edgesPossibles.size();
+            int R = r.nextInt(High-Low) + Low;
+            return edgesPossibles.get(R);
+        }
+
+        return null;
     }
 }
