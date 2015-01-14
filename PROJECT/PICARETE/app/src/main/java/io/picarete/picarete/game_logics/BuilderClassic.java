@@ -13,64 +13,9 @@ import io.picarete.picarete.game_logics.gameplay.Tile;
  * Created by root on 1/12/15.
  */
 public class BuilderClassic extends ABuilder {
+
     @Override
-    public List<Tile> createGame(int height, int width, Game game) {
-        for(int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                Edge left;
-                Edge top;
-                Edge right = new Edge();
-                Edge bottom = new Edge();
-                if(i == 0){
-                    top = new Edge();
-                } else {
-                    top = tiles.get((i-1)*width+j).getEdges().get(ETileSide.BOTTOM);
-                    Log.d(this.getClass().getName(), "For UITile " + (i * width + j) + " / Top : " + Integer.toString((i - 1) * width + j));
-                }
+    protected void setupSpecialElements() {
 
-                if(j == 0){
-                    left = new Edge();
-                } else {
-                    left = tiles.get(i*width+j-1).getEdges().get(ETileSide.RIGHT);
-                    Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
-                }
-
-                Tile t = new Tile(i*width+j, left, top, right, bottom);
-                t.row = i;
-                t.col = j;
-                t.setEventListener(game);
-                tiles.add(t);
-            }
-        }
-
-        for(int i = 0; i < tiles.size(); i++){
-            int xPosition = i % width;
-            int yPosition = i / width;
-            if(xPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.LEFT).setChosen(true);
-            if(yPosition == 0)
-                tiles.get(i).getEdges().get(ETileSide.TOP).setChosen(true);
-            if(xPosition == width-1)
-                tiles.get(i).getEdges().get(ETileSide.RIGHT).setChosen(true);
-            if(yPosition == height-1)
-                tiles.get(i).getEdges().get(ETileSide.BOTTOM).setChosen(true);
-        }
-
-        int minEdges = 30;
-        int maxEdges = 35;
-
-        Random r = new Random();
-        int percentOfEdges = r.nextInt(maxEdges - minEdges + 1) + minEdges;
-        int numberOfEdge = percentOfEdges * getAllEdges().size() / 100;
-
-        for (int i = 0; i < numberOfEdge; i++){
-            int edgeID = new Random().nextInt(getAllEdges().size());
-            Edge edge = getAllEdges().get(edgeID);
-            if(!edge.isChosen()){
-                edge.setChosen(true);
-            }
-        }
-
-        return tiles;
     }
 }

@@ -26,9 +26,12 @@ public class GameModeSet {
         String[] gameModesDesc = context.getResources().getStringArray(R.array.game_modes_descriptions);
 
         gameModes.put(EGameMode.CLASSIC, new GameModeCustom(gameModesTitle[0], gameModesDesc[0]));
+        gameModes.put(EGameMode.EDGE_BAD, new GameModeCustom(gameModesTitle[1], gameModesDesc[1]));
         gameModes.put(EGameMode.TILE_BAD, new GameModeCustom(gameModesTitle[2], gameModesDesc[2]));
+        gameModes.put(EGameMode.EDGE_GOOD, new GameModeCustom(gameModesTitle[3], gameModesDesc[3]));
         gameModes.put(EGameMode.TILE_GOOD, new GameModeCustom(gameModesTitle[4], gameModesDesc[4]));
-
+        gameModes.put(EGameMode.BEST_AREA, new GameModeCustom(gameModesTitle[5], gameModesDesc[5]));
+        gameModes.put(EGameMode.CONTINUE_TO_PLAY, new GameModeCustom(gameModesTitle[6], gameModesDesc[6]));
     }
 
     public static Map<EGameMode, GameModeCustom> getGameModes(Context context){

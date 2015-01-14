@@ -9,15 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <io.picarete.picarete.model.CustomFontTextView
-            android:id="@+id/title_modeChooser"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/profile"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="25dp"
-            android:paddingBottom="25dp"/>
+            android:id="@+id/title_modeChooser"
+            android:layout_marginTop="20dp"
+            android:background="@color/orange"
+            android:gravity="center">
+
+            <io.picarete.picarete.model.CustomFontButton
+                android:id="@+id/edit_profile"
+                android:background="@drawable/btn_modify_profil"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+
+            <io.picarete.picarete.model.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                style="@style/TitleTheme"
+                android:gravity="center" />
+
+            </RelativeLayout>
 
         <io.picarete.picarete.model.CustomFontTextView
             android:id="@+id/label_xp"
@@ -181,13 +194,6 @@
 
         </LinearLayout>
 
-        <io.picarete.picarete.model.CustomFontButton
-            android:id="@+id/edit_profile"
-            android:background="@drawable/btn_modify_profil"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
-
     </RelativeLayout>
-
 
 </ScrollView>

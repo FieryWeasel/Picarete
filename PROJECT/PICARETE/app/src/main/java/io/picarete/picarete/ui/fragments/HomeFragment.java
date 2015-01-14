@@ -64,13 +64,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        (view.findViewById(R.id.b_custom)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onModeChosen(R.id.b_custom);
-            }
-        });
-
         (view.findViewById(R.id.b_profile)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +85,6 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.b_profile:
                     mListener.onModeChosen(Constants.PROFILE);
-                    break;
-                case R.id.b_custom:
-                    mListener.onModeChosen(Constants.CUSTOM);
                     break;
             }
         }

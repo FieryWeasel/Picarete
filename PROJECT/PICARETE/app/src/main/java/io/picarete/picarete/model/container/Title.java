@@ -14,12 +14,12 @@ public class Title {
         this.conditions = conditions;
     }
 
-    public boolean isUnlocked(){
+    public boolean isUnlocked(User user){
         boolean isUnlocked = true;
 
         if(conditions != null){
             for (Condition c : conditions){
-                if (!c.isConditionValidated())
+                if (!c.isConditionValidated(user))
                     isUnlocked = false;
             }
         }
