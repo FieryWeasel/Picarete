@@ -72,6 +72,8 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
             row = getArguments().getInt(Constants.ROW_KEY);
             mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
             user = (User) getArguments().getSerializable(Constants.USER_KEY);
+            needChosenBorderTile = getArguments().getBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY);
+            needChosenTile = getArguments().getBoolean(Constants.NEED_TILE_CHOSEN_KEY);
         }
         createFragment(savedInstanceState);
     }

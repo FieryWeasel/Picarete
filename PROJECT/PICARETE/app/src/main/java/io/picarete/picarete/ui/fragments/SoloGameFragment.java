@@ -169,7 +169,7 @@ public class SoloGameFragment extends GameFragment {
 
             final Runnable r = new Runnable() {
                 public void run() {
-                    edgeFoundByIA = IAFactory.getIA(IAEnum).getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
+                    edgeFoundByIA = IA.getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
                     List<Tile> t = game.findNeighbor(edgeFoundByIA);
                     t.get(0).onClick(edgeFoundByIA);
                 }

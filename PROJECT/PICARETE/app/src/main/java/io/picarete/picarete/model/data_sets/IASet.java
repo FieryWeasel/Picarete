@@ -26,6 +26,8 @@ public class IASet {
         String[] iaName = context.getResources().getStringArray(R.array.ia_difficulty);
 
         IAs.put(EIA.EASY, new IACustom(iaName[0], 0));
+        IAs.put(EIA.EASY_MAX_TILE, new IACustom(iaName[1], 1));
+        IAs.put(EIA.MCTS, new IACustom(iaName[3], 3));
     }
 
     public static Map<EIA, IACustom> getIAs(Context context){
@@ -69,13 +71,17 @@ public class IASet {
 
         EIA[] IAsArr = new EIA[IAs.keySet().size()];
         int i = 0;
-        for(EIA e : IAs.keySet())
+        for(EIA e : IAs.keySet()){
             IAsArr[i] = e;
+            i++;
+        }
+
 
         return IAsArr;
     }
 
     public static EIA searchIA(String ia){
+        // Todo See if changing is needed
         EIA mode;
         switch (ia){
             case "EASY":
@@ -89,6 +95,9 @@ public class IASet {
                 break;
             case "MINIMAX":
                 mode = EIA.MINIMAX;
+                break;
+            case "MCTS":
+                mode = EIA.MCTS;
                 break;
             default:
                 mode = EIA.EASY;

@@ -157,6 +157,17 @@ public class Game implements Tile.TileEventListener{
         return tiles;
     }
 
+    public List<Tile> getTilesForPlayer(int idPlayer){
+        List<Tile> tilesForPlayer = new ArrayList<>();
+
+        for(Tile t : tiles){
+            if(t.getIdPlayer() == idPlayer)
+                tilesForPlayer.add(t);
+        }
+
+        return tilesForPlayer;
+    }
+
     public List<Edge> getEdgesPreviousPlayed() {
         return edgesPreviousPlayed;
     }

@@ -11,6 +11,10 @@ public class IAFactory {
 
         if(eIA == EIA.EASY){
             IA = new SimpleIA();
+        } if(eIA == EIA.EASY_MAX_TILE){
+            IA = new SimpleFindMaxTileIA();
+        } if(eIA == EIA.MCTS){
+            IA = new MCTSIA();
         } else {
             Log.d("BuilderFactory", "IA (" + eIA.toString() + ") is not recognized, default mode : " + EIA.EASY.toString());
         }

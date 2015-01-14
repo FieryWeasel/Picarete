@@ -1,7 +1,5 @@
 package io.picarete.picarete.game_logics.gameplay;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
