@@ -68,12 +68,12 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            column = getArguments().getInt(Constants.COLUMN_KEY);
-            row = getArguments().getInt(Constants.ROW_KEY);
-            mode = (EGameMode) getArguments().getSerializable(Constants.MODE_KEY);
+            column = getArguments().getInt(Constants.CHOSER_COLUMN_KEY);
+            row = getArguments().getInt(Constants.CHOSER_ROW_KEY);
+            mode = (EGameMode) getArguments().getSerializable(Constants.CHOSER_GAME_MODE_KEY);
             user = (User) getArguments().getSerializable(Constants.USER_KEY);
-            needChosenBorderTile = getArguments().getBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY);
-            needChosenTile = getArguments().getBoolean(Constants.NEED_TILE_CHOSEN_KEY);
+            needChosenBorderTile = getArguments().getBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY);
+            needChosenTile = getArguments().getBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY);
         }
         createFragment(savedInstanceState);
     }

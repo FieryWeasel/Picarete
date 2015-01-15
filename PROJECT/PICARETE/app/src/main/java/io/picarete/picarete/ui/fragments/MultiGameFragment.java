@@ -31,11 +31,11 @@ public class MultiGameFragment extends GameFragment {
     public static MultiGameFragment newInstance(int col, int row, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile, User user) {
         MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
-        args.putInt(Constants.COLUMN_KEY, col);
-        args.putInt(Constants.ROW_KEY, row);
-        args.putSerializable(Constants.MODE_KEY, mode);
-        args.putBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY, needChosenBorderTile);
-        args.putBoolean(Constants.NEED_TILE_CHOSEN_KEY, needChosenTile);
+        args.putInt(Constants.CHOSER_COLUMN_KEY, col);
+        args.putInt(Constants.CHOSER_ROW_KEY, row);
+        args.putSerializable(Constants.CHOSER_GAME_MODE_KEY, mode);
+        args.putBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY, needChosenBorderTile);
+        args.putBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY, needChosenTile);
         args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
