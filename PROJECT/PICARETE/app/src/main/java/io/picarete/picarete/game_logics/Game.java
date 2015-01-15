@@ -77,30 +77,32 @@ public class Game implements Tile.TileEventListener{
             addScoreForPlayer(idPlayer, edge.getScoreForPlayer());
         }
 
-        List<Tile> neighbor = findNeighbor(edge);
-        List<Tile> tileToRedraw = new NoDuplicatesList<>();
-        for(Tile t : neighbor){
-            if(t.isComplete()){
+        List<Tile> neighborTilesFromEdge = findNeighborFromEdge(edge);
+        List<Tile> tilesToRedraw = new NoDuplicatesList<>();
+        List<Tile> tilesCompleted = new NoDuplicatesList<>();
+
+        for(Tile t : neighborTilesFromEdge){
+            if(t.isComplete() && t.getIdPlayer() == -1){
                 t.setIdPlayer(idPlayer);
                 hasCompletedATile = true;
+                tilesCompleted.add(t);
             }
-            tileToRedraw.add(t);
+            tilesToRedraw.add(t);
         }
-        for(Tile t : neighbor){
-            if(t.isComplete()){
-                if(gameMode == EGameMode.BEST_AREA && t instanceof TileBrother){
-                    List<Tile> tileBrothers = ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>());
-                    for (Tile tBrother : tileBrothers)
-                        tileToRedraw.add(tBrother);
-                    addScoreForPlayer(idPlayer, tileToRedraw.size());
-                } else {
-                    addScoreForPlayer(idPlayer, t.getScoreForPlayer());
-                }
+
+        for(Tile t : tilesCompleted){
+            if(gameMode == EGameMode.BEST_AREA && t instanceof TileBrother){
+                List<Tile> tileBrothers = ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>());
+                for (Tile tBrother : tileBrothers)
+                    tilesToRedraw.add(tBrother);
+                addScoreForPlayer(idPlayer, tileBrothers.size());
+            } else {
+                addScoreForPlayer(idPlayer, t.getScoreForPlayer());
             }
         }
 
         if(eventListener != null)
-            eventListener.OnMajTile(tileToRedraw);
+            eventListener.OnMajTile(tilesToRedraw);
 
         if(gameMode != EGameMode.CONTINUE_TO_PLAY || (gameMode == EGameMode.CONTINUE_TO_PLAY && !hasCompletedATile)){
             idPlayer = (idPlayer + 1) % 2;
@@ -123,13 +125,29 @@ public class Game implements Tile.TileEventListener{
         scores.put(idPlayer, scores.get(idPlayer)+score);
     }
 
-    public List<Tile> findNeighbor(Edge edge){
+    public List<Tile> findNeighborFromEdge(Edge edge){
         List<Tile> tilesNeighbor = new ArrayList<Tile>();
 
         for(int i = 0; i < tiles.size(); i++){
             for(Edge e : tiles.get(i).getEdges().values()){
                 if(e == edge)
                     tilesNeighbor.add(tiles.get(i));
+            }
+        }
+
+        return tilesNeighbor;
+    }
+
+    public List<Tile> findNeighborFromTile(Tile tile){
+        List<Tile> tilesNeighbor = new ArrayList<Tile>();
+
+        for(int i = 0; i < tiles.size(); i++){
+            for(Edge e : tiles.get(i).getEdges().values()){
+                for(Edge edgeFromTileSearch : tile.getEdges().values()){
+                    if(e == edgeFromTileSearch)
+                        tilesNeighbor.add(tiles.get(i));
+                }
+
             }
         }
 

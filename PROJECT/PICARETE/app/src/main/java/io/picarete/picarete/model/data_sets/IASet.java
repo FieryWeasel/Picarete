@@ -80,29 +80,22 @@ public class IASet {
         return IAsArr;
     }
 
-    public static EIA searchIA(String ia){
-        // Todo See if changing is needed
-        EIA mode;
-        switch (ia){
-            case "EASY":
-                mode = EIA.EASY;
-                break;
-            case "EASY_MAX_TILE":
-                mode = EIA.EASY_MAX_TILE;
-                break;
-            case "AGGRESSIVE":
-                mode = EIA.AGGRESSIVE;
-                break;
-            case "MINIMAX":
-                mode = EIA.MINIMAX;
-                break;
-            case "MCTS":
-                mode = EIA.MCTS;
-                break;
-            default:
-                mode = EIA.EASY;
-                break;
-        }
-        return mode;
+    public static EIA searchIA(String iaName){
+        EIA ia;
+
+        if(iaName.compareToIgnoreCase(EIA.EASY.toString()) == 0)
+            ia = EIA.EASY;
+        else if(iaName.compareToIgnoreCase(EIA.EASY_MAX_TILE.toString()) == 0)
+            ia = EIA.EASY_MAX_TILE;
+        else if(iaName.compareToIgnoreCase(EIA.AGGRESSIVE.toString()) == 0)
+            ia = EIA.AGGRESSIVE;
+        else if(iaName.compareToIgnoreCase(EIA.MINIMAX.toString()) == 0)
+            ia = EIA.MINIMAX;
+        else if(iaName.compareToIgnoreCase(EIA.MCTS.toString()) == 0)
+            ia = EIA.MCTS;
+        else
+            ia = EIA.EASY;
+
+        return ia;
     }
 }

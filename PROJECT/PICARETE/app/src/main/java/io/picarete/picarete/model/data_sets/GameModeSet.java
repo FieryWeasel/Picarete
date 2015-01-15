@@ -84,34 +84,25 @@ public class GameModeSet {
     }
 
     public static EGameMode searchGameMode(String gameModeName){
-        // Todo See if changing is needed
         EGameMode mode;
-        switch (gameModeName){
-            case "CLASSIC":
-                mode = EGameMode.CLASSIC;
-                break;
-            case "EDGE_BAD":
-                mode = EGameMode.EDGE_BAD;
-                break;
-            case "EDGE_GOOD":
-                mode = EGameMode.EDGE_GOOD;
-                break;
-            case "TILE_BAD":
-                mode = EGameMode.TILE_BAD;
-                break;
-            case "TILE_GOOD":
-                mode = EGameMode.TILE_GOOD;
-                break;
-            case "BEST_AREA":
-                mode = EGameMode.BEST_AREA;
-                break;
-            case "CONTINUE_TO_PLAY":
-                mode = EGameMode.CONTINUE_TO_PLAY;
-                break;
-            default:
-                mode = EGameMode.CLASSIC;
-                break;
-        }
+
+        if(gameModeName.compareToIgnoreCase(EGameMode.CLASSIC.toString()) == 0)
+            mode = EGameMode.CLASSIC;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.EDGE_BAD.toString()) == 0)
+            mode = EGameMode.EDGE_BAD;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.EDGE_GOOD.toString()) == 0)
+            mode = EGameMode.EDGE_GOOD;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.TILE_BAD.toString()) == 0)
+            mode = EGameMode.TILE_BAD;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.TILE_GOOD.toString()) == 0)
+            mode = EGameMode.TILE_GOOD;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.BEST_AREA.toString()) == 0)
+            mode = EGameMode.BEST_AREA;
+        else if(gameModeName.compareToIgnoreCase(EGameMode.CONTINUE_TO_PLAY.toString()) == 0)
+            mode = EGameMode.CONTINUE_TO_PLAY;
+        else
+            mode = EGameMode.CLASSIC;
+
         return mode;
     }
 }

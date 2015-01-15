@@ -84,9 +84,12 @@ public abstract class ChooserFragment extends Fragment {
         (view.findViewById(R.id.mode_chooser_validate)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Todo Save data configuration
                 onValidate(mGameMode, mColumnPicker.getValue(), mRowPicker.getValue(), mSwitchChosenBorderTile.isChecked(), mSwitchChosenTile.isChecked());
             }
         });
+
+        // Todo Restore data configuration
 
         return view;
     }

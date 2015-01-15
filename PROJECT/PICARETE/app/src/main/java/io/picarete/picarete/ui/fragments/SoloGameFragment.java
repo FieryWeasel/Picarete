@@ -20,6 +20,7 @@ import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.container.userdata.User;
 
 /**
@@ -89,6 +90,14 @@ public class SoloGameFragment extends GameFragment {
 
     @Override
     public void OnFinished() {
+        int res = 0;
+        if(game.getScores().get(0) > game.getScores().get(1))
+            res = 1;
+        else if(game.getScores().get(0) < game.getScores().get(1))
+            res = -1;
+
+        user.userFinishedAGame(EMode.SOLO, mode, IAEnum, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(), game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(game.getScores().get(0) > game.getScores().get(1)){
             // 2. Chain together various setter methods to set the dialog
@@ -170,7 +179,7 @@ public class SoloGameFragment extends GameFragment {
             final Runnable r = new Runnable() {
                 public void run() {
                     edgeFoundByIA = IA.getEdgeFound(row, column, game.getTiles(), game.getEdgesPreviousPlayed());
-                    List<Tile> t = game.findNeighbor(edgeFoundByIA);
+                    List<Tile> t = game.findNeighborFromEdge(edgeFoundByIA);
                     t.get(0).onClick(edgeFoundByIA);
                 }
             };

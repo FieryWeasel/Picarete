@@ -14,21 +14,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/mode_chooser_title"
             android:layout_marginTop="20dp"
-            android:background="@color/orange"
-            android:gravity="center">
+            android:background="@color/orange">
 
-            <io.picarete.picarete.ui.custom.CustomFontButton
+            <ImageView
                 android:id="@+id/edit_profile"
-                android:background="@drawable/btn_modify_profil"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/profil_title"
+                android:layout_alignTop="@+id/profil_title"
+                android:src="@android:drawable/ic_menu_edit"/>
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile"
                 style="@style/TitleTheme"
-                android:gravity="center" />
+                android:gravity="center"
+                android:id="@+id/profil_title"/>
 
             </RelativeLayout>
 
@@ -49,13 +51,17 @@
             android:layout_above="@+id/seekBar_xp"
             android:layout_centerHorizontal="true"/>
 
-        <SeekBar
+        <ProgressBar
             android:id="@+id/seekBar_xp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_xp"
-            android:enabled="false"
-            style="@style/horizontal_label" />
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/progress_xp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:max="100"
+            android:progress="50" />
 
         <LinearLayout
             android:id="@+id/playedGames"

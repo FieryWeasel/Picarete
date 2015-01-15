@@ -163,12 +163,12 @@ public class XMLParser {
                         Log.d("PARSE TITLE", DIFFICULTY);
                     }
 
-                    if(DIFFICULTY != null){
+                    if(TILE_USER != null){
                         map.put(Condition.EConditionType.TILE_USER, TILE_USER);
                         Log.d("PARSE TITLE", TILE_USER);
                     }
 
-                    if(DIFFICULTY != null){
+                    if(TILE_OPPONENT != null){
                         map.put(Condition.EConditionType.TILE_OPPONENT, TILE_OPPONENT);
                         Log.d("PARSE TITLE", TILE_OPPONENT);
                     }
