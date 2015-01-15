@@ -3,7 +3,7 @@
 
     <!-- (i-1)+(i*const) -->
 
-    <config level="0" ia="Easy" />
+    <config level="0" ia="Easy" color="#09C2BF"/>
 
     <config level="1" />
 

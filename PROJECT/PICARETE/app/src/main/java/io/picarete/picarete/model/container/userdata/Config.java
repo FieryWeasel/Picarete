@@ -1,4 +1,4 @@
-package io.picarete.picarete.model.data_sets;
+package io.picarete.picarete.model.container.userdata;
 
 import android.content.Context;
 
@@ -27,7 +27,7 @@ public class Config {
     private static void loadConfig(Context context){
         levels = new ArrayList<>();
         try {
-            XMLParser.getLevels(context.getAssets().open("config.xml"));
+            levels = XMLParser.getLevels(context.getAssets().open("config.xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

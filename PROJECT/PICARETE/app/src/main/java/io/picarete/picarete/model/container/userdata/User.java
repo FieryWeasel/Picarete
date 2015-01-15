@@ -26,14 +26,14 @@ import io.picarete.picarete.model.data_sets.IASet;
 public class User implements Serializable{
 
     private List<Stat> stats;
-    private String name;
-    private String title;
-    private ColorCustom player1;
-    private ColorCustom player2;
+    private String name = "";
+    private String title = "";
+    public ColorCustom colorPlayer1;
+    public ColorCustom colorPlayer2;
     private int previousXp;
-    private int actualXp;
-    private int nextXp;
-    private int level;
+    public int actualXp;
+    public int nextXp;
+    public int level;
 
     public static final double MULTIPLIER_SOLO = 1;
     public static final double MULTIPLIER_MULTI = 0.5;
@@ -61,8 +61,9 @@ public class User implements Serializable{
         actualXp = 0;
         nextXp = 0;
         level = 0;
-        player1 = new ColorCustom();
-        player2 = new ColorCustom();
+        computeXpNeededNextLevel();
+        colorPlayer1 = new ColorCustom();
+        colorPlayer2 = new ColorCustom();
         stats = new ArrayList<>();
         Log.d("NEW USER", "new");
         for( EGameMode gameMode : GameModeSet.getEGameMode(context)){
@@ -73,20 +74,20 @@ public class User implements Serializable{
         }
     }
 
-    public void userFinishedAGame(EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
+    public void userFinishedAGame(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
         computeXpNeededNextLevel();
         actualXp += computeXpEarned(mode, gameMode, difficulty, tilesP1, result);
-        if(actualXp > nextXp){
+        while(actualXp > nextXp){
             previousXp = nextXp;
             actualXp = actualXp-nextXp;
             level++;
-
+            computeXpNeededNextLevel();
         }
-        //TODO save stats and user
+        saveStatAndUser(context, mode, gameMode, difficulty, tilesP1, tilesP2, tilesNeutral, scoreP1, scoreP2, result);
     }
 
     private double computeXpEarned(EMode mode, EGameMode gameMode, EIA difficulty, int tilesWin, int result) {
-        double xpBase = VALUE_GAME_WON + (VALUE_TILES_WIN * tilesWin) + (result == -1 ? VALUE_GAME_WON : 0);
+        double xpBase = (VALUE_TILES_WIN * tilesWin) + (result == -1 ? VALUE_GAME_WON : 0);
         double xpDifficulty = 0;
         double xpGameMode = 0;
 
@@ -136,8 +137,8 @@ public class User implements Serializable{
     }
 
     //(i-1)+(i*const)
-    private void computeXpNeededNextLevel(){
-        nextXp = previousXp + (level * Constants.CONSTANT_LEVEL);
+    public void computeXpNeededNextLevel(){
+        nextXp = previousXp + ((level+1) * Constants.CONSTANT_LEVEL);
     }
 
     public List<Stat> getStat(EGameMode gameMode, EIA ia, EMode mode){
@@ -185,6 +186,33 @@ public class User implements Serializable{
 
     }
 
+    public int getPlayedGames(){
+        int played = 0;
+
+        for(Stat stat : stats){
+            played += stat.getPlayed();
+        }
+
+        return played;
+    }
+
+    public int getWonGames(){
+        int won = 0;
+
+        for(Stat stat : stats){
+            won += stat.getWin();
+        }
+
+        return won;
+    }
+
+    public float getRatio(){
+        float ratio =0;
+        if(getPlayedGames() != 0)
+           ratio = getWonGames()/getPlayedGames();
+        return ratio;
+    }
+
     public void save(Context context){
         Gson gson = new Gson();
         String userJson = gson.toJson(this);
@@ -192,6 +220,23 @@ public class User implements Serializable{
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Constants.PREFERENCES_USER, userJson);
         editor.apply();
+    }
+
+    private void saveStatAndUser(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result) {
+
+        for(Stat stat : stats) {
+            if (stat.gameMode == gameMode && stat.ia == difficulty && stat.mode == mode) {
+                StatGame statGame = new StatGame();
+                statGame.tileP1 = tilesP1;
+                statGame.tileP2 = tilesP2;
+                statGame.tileNeutral = tilesNeutral;
+                statGame.scoreP1 = scoreP1;
+                statGame.scoreP2 = scoreP2;
+                statGame.setIdWinner(result);
+                stat.statGames.add(statGame);
+            }
+        }
+        save(context);
     }
 
     public User load(Context context){

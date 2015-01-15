@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
@@ -29,7 +31,8 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Gson gson = new Gson();
+        user= gson.fromJson(getIntent().getStringExtra(Constants.EXTRA_USER), User.class);
 
         // Instantiate a new fragment.
         Fragment newFragment = HomeFragment.newInstance();
@@ -81,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 addFragmentToStack(fragment, Constants.SOLO_GAME_CHOOSER);
                 break;
             case Constants.PROFILE :
-                fragment = ProfileFragment.newInstance();
+                fragment = ProfileFragment.newInstance(user);
                 addFragmentToStack(fragment, Constants.PROFILE);
                 break;
             default :

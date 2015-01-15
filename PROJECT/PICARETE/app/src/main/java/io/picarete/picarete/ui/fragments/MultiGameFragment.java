@@ -80,11 +80,12 @@ public class MultiGameFragment extends GameFragment {
     public void OnFinished() {
         int res = 0;
         if(game.getScores().get(0) > game.getScores().get(1))
-            res = 1;
-        else if(game.getScores().get(0) < game.getScores().get(1))
             res = -1;
+        else if(game.getScores().get(0) < game.getScores().get(1))
+            res = 1;
 
-        user.userFinishedAGame(EMode.MULTI, mode, null, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(), game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
+        user.userFinishedAGame(getActivity(), EMode.MULTI, mode, null, game.getTilesForPlayer(0).size(),
+                game.getTilesForPlayer(1).size(), game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(game.getScores().get(0) > game.getScores().get(1)){

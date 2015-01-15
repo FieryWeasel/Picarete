@@ -127,7 +127,7 @@
                 android:layout_weight="1"
                 android:text="@string/ratioPlayer"/>
 
-            <io.picarete.picarete.ui.custom.CustomFontTextView
+            <RatingBar
                 android:id="@+id/value_ratio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -166,13 +166,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:text="@string/colorP1"/>
 
             <ImageView
                 android:id="@+id/value_colorP1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/color_swatch_small"
+                android:layout_height="@dimen/color_swatch_small"
                 android:gravity="right"/>
 
         </LinearLayout>
@@ -189,13 +189,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:text="@string/colorP2"/>
 
             <ImageView
                 android:id="@+id/value_colorP2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/color_swatch_small"
+                android:layout_height="@dimen/color_swatch_small"
                 android:gravity="right"/>
 
         </LinearLayout>
