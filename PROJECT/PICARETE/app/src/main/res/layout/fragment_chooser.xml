@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/flat_brown_light"
     tools:context="io.picarete.picarete.ui.fragments.SoloChooserFragment">
 
@@ -52,13 +52,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/mode_choser_pre_chosen_border_tile"
-                    android:id="@+id/mode_chooser_switch_chosen_border_tile" />
+                    android:id="@+id/mode_chooser_switch_chosen_border_tile"
+                    style="@style/horizontal_label"/>
 
                 <io.picarete.picarete.ui.custom.CustomFontSwitch
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/mode_choser_pre_chosen_tile"
-                    android:id="@+id/mode_chooser_switch_chosen_tile" />
+                    android:id="@+id/mode_chooser_switch_chosen_tile"
+                    style="@style/horizontal_label"/>
 
             </LinearLayout>
 
@@ -67,7 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/game_chosen_tiles"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                style="@style/horizontal_label">
 
                 <io.picarete.picarete.ui.custom.CustomFontTextView
                     android:id="@+id/mode_chooser_label_column"
@@ -137,8 +140,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:text="@string/validate"
-        style="@style/home_btn_last" />
+        style="@style/home_btn_last"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

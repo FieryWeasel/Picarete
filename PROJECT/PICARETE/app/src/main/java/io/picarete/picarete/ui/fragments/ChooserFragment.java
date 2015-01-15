@@ -1,6 +1,7 @@
 package io.picarete.picarete.ui.fragments;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 import io.picarete.picarete.ui.custom.CustomFontSwitch;
@@ -20,11 +22,12 @@ import io.picarete.picarete.ui.custom.CustomFontSwitch;
 public abstract class ChooserFragment extends Fragment {
 
 
-    private EGameMode mGameMode;
+    protected EGameMode mGameMode;
     protected NumberPicker mColumnPicker;
-    private NumberPicker mRowPicker;
-    private CustomFontSwitch mSwitchChosenBorderTile;
-    private CustomFontSwitch mSwitchChosenTile;
+    protected NumberPicker mRowPicker;
+    protected CustomFontSwitch mSwitchChosenBorderTile;
+    protected CustomFontSwitch mSwitchChosenTile;
+    protected Spinner mSpinnerGameMode;
 
     /**
      * Use this factory method to create a new instance of
@@ -52,13 +55,13 @@ public abstract class ChooserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = createViewFragment(inflater, container);
 
-        Spinner spinnerMode = (Spinner) view.findViewById(R.id.mode_chooser_spinner_game_mode);
-        spinnerMode.setAdapter(new SpinnerModeAdapter(getActivity(),
+        mSpinnerGameMode = (Spinner) view.findViewById(R.id.mode_chooser_spinner_game_mode);
+        mSpinnerGameMode.setAdapter(new SpinnerModeAdapter(getActivity(),
                 android.R.layout.simple_spinner_item,
                 GameModeSet.getTitles(getActivity()),
                 GameModeSet.getDesc(getActivity())));
-        spinnerMode.setSelection(0);
-        spinnerMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerGameMode.setSelection(0);
+        mSpinnerGameMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mGameMode = GameModeSet.getEGameMode(getActivity())[position];
@@ -84,14 +87,29 @@ public abstract class ChooserFragment extends Fragment {
         (view.findViewById(R.id.mode_chooser_validate)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Todo Save data configuration
                 onValidate(mGameMode, mColumnPicker.getValue(), mRowPicker.getValue(), mSwitchChosenBorderTile.isChecked(), mSwitchChosenTile.isChecked());
             }
         });
 
-        // Todo Restore data configuration
+        initializeElements();
 
         return view;
+    }
+
+    protected abstract void initializeElements();
+
+    protected abstract EMode getMode();
+
+    public String getPref(String file, String key, String defaultValue) {
+        String s = key;
+        SharedPreferences preferences = getActivity().getSharedPreferences(file, 0);
+        return preferences.getString(s, defaultValue);
+    }
+    public void setPref(String file, String key, String value) {
+        SharedPreferences preferences = getActivity().getSharedPreferences(file, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.commit();
     }
 
     @Override

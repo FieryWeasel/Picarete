@@ -43,12 +43,12 @@ public class SoloGameFragment extends GameFragment {
     public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile, User user) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
-        args.putInt(Constants.COLUMN_KEY, col);//col
-        args.putInt(Constants.ROW_KEY, row);//row
-        args.putSerializable(Constants.IA_KEY, iaName);//IA Name
-        args.putSerializable(Constants.MODE_KEY, mode);
-        args.putBoolean(Constants.NEED_BORDER_TILE_CHOSEN_KEY, needChosenBorderTile);
-        args.putBoolean(Constants.NEED_TILE_CHOSEN_KEY, needChosenTile);
+        args.putInt(Constants.CHOSER_COLUMN_KEY, col);//col
+        args.putInt(Constants.CHOSER_ROW_KEY, row);//row
+        args.putSerializable(Constants.CHOSER_IA_KEY, iaName);//IA Name
+        args.putSerializable(Constants.CHOSER_GAME_MODE_KEY, mode);
+        args.putBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY, needChosenBorderTile);
+        args.putBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY, needChosenTile);
         args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +63,7 @@ public class SoloGameFragment extends GameFragment {
     @Override
     protected void createFragment(Bundle savedInstanceState) {
         if (getArguments() != null) {
-            IAEnum = (EIA) getArguments().getSerializable(Constants.IA_KEY);
+            IAEnum = (EIA) getArguments().getSerializable(Constants.CHOSER_IA_KEY);
         }
     }
 
