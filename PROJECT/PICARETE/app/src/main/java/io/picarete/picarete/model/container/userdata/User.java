@@ -17,6 +17,7 @@ import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.NoDuplicatesList;
 import io.picarete.picarete.model.container.ColorCustom;
+import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
 
@@ -26,10 +27,10 @@ import io.picarete.picarete.model.data_sets.IASet;
 public class User implements Serializable{
 
     private List<Stat> stats;
-    private String name = "";
-    private String title = "";
-    public ColorCustom colorPlayer1;
-    public ColorCustom colorPlayer2;
+    private String name;
+    private Title title;
+    private ColorCustom colorPlayer1;
+    private ColorCustom colorPlayer2;
     private int previousXp;
     public int actualXp;
     public int nextXp;
@@ -62,9 +63,11 @@ public class User implements Serializable{
         nextXp = 0;
         level = 0;
         computeXpNeededNextLevel();
-        colorPlayer1 = new ColorCustom();
-        colorPlayer2 = new ColorCustom();
+        setColorPlayer1(new ColorCustom("#09C2BF"));
+        setColorPlayer2(new ColorCustom("#FF6C6B"));
+        title = new Title("", null);
         stats = new ArrayList<>();
+        name = "";
         Log.d("NEW USER", "new");
         for( EGameMode gameMode : GameModeSet.getEGameMode(context)){
             for(EIA ia : IASet.getEIAs(context)){
@@ -250,4 +253,23 @@ public class User implements Serializable{
             return new User(context);
     }
 
+    public ColorCustom getColorPlayer1() {
+        return colorPlayer1;
+    }
+
+    public void setColorPlayer1(ColorCustom colorPlayer1) {
+        this.colorPlayer1 = colorPlayer1;
+        ColorSet.colorEdgePlayer1 = colorPlayer1;
+        ColorSet.colorTileBgPlayer1 = colorPlayer1;
+    }
+
+    public ColorCustom getColorPlayer2() {
+        return colorPlayer2;
+    }
+
+    public void setColorPlayer2(ColorCustom colorPlayer2) {
+        this.colorPlayer2 = colorPlayer2;
+        ColorSet.colorEdgePlayer2 = colorPlayer2;
+        ColorSet.colorTileBgPlayer2 = colorPlayer2;
+    }
 }

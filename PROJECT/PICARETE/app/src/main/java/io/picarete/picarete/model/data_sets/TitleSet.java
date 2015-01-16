@@ -22,4 +22,15 @@ public class TitleSet {
 
         return titles;
     }
+
+    public static Title searchTitle(String titleName){
+        Title titleSearch = null;
+
+        for(Title title : titles){
+            if(title.title == titleName)
+                titleSearch = title;
+        }
+
+        return titleSearch;
+    }
 }

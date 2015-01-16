@@ -207,9 +207,12 @@ public class XMLParser {
                     currentLevel.id = Integer.parseInt(lvl);
 
                     if (color != null) {
-                        UnlockColor unlockColor = new UnlockColor(new ColorCustom(color));
-                        currentLevel.unlocks.add(unlockColor);
-                        Log.d("PARSE LEVELS", color);
+                        String[] allColorsForLevel = color.split("[|]");
+                        for (String colorForLevel : allColorsForLevel){
+                            UnlockColor unlockColor = new UnlockColor(new ColorCustom(colorForLevel));
+                            currentLevel.unlocks.add(unlockColor);
+                            Log.d("PARSE LEVELS", color);
+                        }
                     }
 
                     if (mode != null) {
