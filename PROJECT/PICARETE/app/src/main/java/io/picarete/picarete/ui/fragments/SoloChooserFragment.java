@@ -122,8 +122,8 @@ public class SoloChooserFragment extends ChooserFragment {
     @Override
     protected void initializeElements() {
         EGameMode dGameMode = GameModeSet.searchGameMode(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_GAME_MODE_KEY + getMode().toString(), ""));
-        boolean dNeedChosenBorderTile = (getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY + getMode().toString(), "1") == "1" ? true : false);
-        boolean dNeedChosenTile = (getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_NEED_CHOSEN_TILE_KEY + getMode().toString(), "1") == "1" ? true : false);
+        boolean dNeedChosenBorderTile = (getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY + getMode().toString(), "1").compareTo("1") == 0 ? true : false);
+        boolean dNeedChosenTile = (getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_NEED_CHOSEN_TILE_KEY + getMode().toString(), "1").compareTo("1") == 0 ? true : false);
         int dColumn = Integer.parseInt(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_COLUMN_KEY + getMode().toString(), "3"));
         int dRow = Integer.parseInt(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_ROW_KEY + getMode().toString(), "3"));
         EIA dIA = IASet.searchIA(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_IA_KEY + getMode().toString(), ""));
