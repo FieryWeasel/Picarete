@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
         // on to the back stack.
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.frame, fragment, tag);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(fragment.getTag());
         ft.commit();
     }

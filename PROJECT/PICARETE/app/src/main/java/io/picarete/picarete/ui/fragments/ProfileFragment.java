@@ -28,6 +28,9 @@ public class ProfileFragment extends Fragment {
 
     int colorPlayer1;
     int colorPlayer2;
+    private ImageView imageColorPlayer1;
+    private ImageView imageColorPlayer2;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -68,28 +71,29 @@ public class ProfileFragment extends Fragment {
         RatingBar ratio = (RatingBar) view.findViewById(R.id.value_ratio);
         ratio.setRating(UserAccessor.getUser(getActivity()).getRatio()*5);
 
-        ImageView colorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
-        initColorImage(colorPlayer1, 0);
-        colorPlayer1.setOnClickListener(new View.OnClickListener() {
+        imageColorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
+        initColorImage(imageColorPlayer1, 0);
+        imageColorPlayer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for(ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)){
+                for (ColorCustom color : Config.getColors(user.level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
                 showColorPickerDialog(colors, 0);
             }
         });
-        ImageView colorPlayer2 = (ImageView) view.findViewById(R.id.value_colorP2);
-        initColorImage(colorPlayer2, 1);
-        colorPlayer2.setOnClickListener(new View.OnClickListener() {
+
+        imageColorPlayer2 = (ImageView) view.findViewById(R.id.value_colorP2);
+        initColorImage(imageColorPlayer2, 1);
+        imageColorPlayer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for(ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)){
+                for (ColorCustom color : Config.getColors(user.level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
@@ -111,20 +115,10 @@ public class ProfileFragment extends Fragment {
         };
         switch (player){
             case 0 :
-                if(colorPlayer1 == 0){
-                    colorPlayer1 = ColorSet.colorTileBgPlayer1.getColor();
-                }else{
-                    colorPlayer1 = UserAccessor.getUser(getActivity()).colorPlayer1.getColor();
-                }
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, colorPlayer1));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer1().getColor()));
                 break;
             case 1:
-                if(colorPlayer2 == 0){
-                    colorPlayer2 = ColorSet.colorTileBgPlayer2.getColor();
-                }else{
-                    colorPlayer2 = UserAccessor.getUser(getActivity()).colorPlayer2.getColor();
-                }
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, colorPlayer2));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer2().getColor()));
                 break;
         }
 
@@ -136,7 +130,7 @@ public class ProfileFragment extends Fragment {
         ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
                 R.string.color_picker_default_title,
                 colors,
-                (player == 0 ? colorPlayer1 : colorPlayer2),
+                (player == 0 ? user.getColorPlayer1().getColor() : user.getColorPlayer2().getColor()),
                 5,
                 ColorPickerDialog.SIZE_SMALL);
 
@@ -145,7 +139,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onColorSelected(int color) {
-                resetColor(player, color);
+                changeColorForPlayer(player, color);
             }
 
         });
@@ -153,12 +147,13 @@ public class ProfileFragment extends Fragment {
         colorcalendar.show(getFragmentManager(),"cal");
     }
 
-    private void resetColor(int player, int color){
-        //TODO switch displayed color
-        if(player == 0) {
-            colorPlayer1 = color;
-        }else {
-            colorPlayer2 = color;
+    private void changeColorForPlayer(int player, int color){
+        if(player == 0 && color != user.getColorPlayer2().getColor()) {
+            user.setColorPlayer1(new ColorCustom(color));
+            initColorImage(imageColorPlayer1, 0);
+        } else if(player == 1 && color != user.getColorPlayer1().getColor()) {
+            user.setColorPlayer2(new ColorCustom(color));
+            initColorImage(imageColorPlayer2, 1);
         }
     }
 
