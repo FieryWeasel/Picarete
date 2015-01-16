@@ -22,6 +22,7 @@ import io.picarete.picarete.game_logics.ia.IAFactory;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.container.userdata.User;
+import io.picarete.picarete.model.container.userdata.UserAccessor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +41,7 @@ public class SoloGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile, User user) {
+    public static SoloGameFragment newInstance(int col, int row, EIA iaName, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile) {
         SoloGameFragment fragment = new SoloGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.CHOSER_COLUMN_KEY, col);//col
@@ -49,7 +50,6 @@ public class SoloGameFragment extends GameFragment {
         args.putSerializable(Constants.CHOSER_GAME_MODE_KEY, mode);
         args.putBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY, needChosenBorderTile);
         args.putBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY, needChosenTile);
-        args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,7 +96,7 @@ public class SoloGameFragment extends GameFragment {
         else if(game.getScores().get(0) < game.getScores().get(1))
             res = 1;
 
-        user.userFinishedAGame(getActivity(), EMode.SOLO, mode, IAEnum, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(),
+        UserAccessor.getUser(getActivity()).userFinishedAGame(getActivity(), EMode.SOLO, mode, IAEnum, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(),
                 game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

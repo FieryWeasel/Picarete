@@ -72,9 +72,6 @@ public class SoloChooserFragment extends ChooserFragment {
             }
         });
 
-
-
-
         return view;
     }
 

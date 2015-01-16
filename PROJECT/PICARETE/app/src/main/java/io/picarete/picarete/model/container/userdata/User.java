@@ -209,17 +209,8 @@ public class User implements Serializable{
     public float getRatio(){
         float ratio =0;
         if(getPlayedGames() != 0)
-           ratio = getWonGames()/getPlayedGames();
+           ratio = (float) getWonGames() / (float) getPlayedGames();
         return ratio;
-    }
-
-    public void save(Context context){
-        Gson gson = new Gson();
-        String userJson = gson.toJson(this);
-        SharedPreferences sharedPref = ((Activity)context).getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(Constants.PREFERENCES_USER, userJson);
-        editor.apply();
     }
 
     private void saveStatAndUser(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result) {
@@ -239,15 +230,34 @@ public class User implements Serializable{
         save(context);
     }
 
+    public void save(Context context){
+        Gson gson = new Gson();
+        String userJson = gson.toJson(this);
+        setPref(context, Constants.FILE_USER, Constants.PREFERENCES_USER, userJson);
+    }
+
+    public void setPref(Context context, String file, String key, String value) {
+        SharedPreferences preferences = context.getSharedPreferences(file, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
     public User load(Context context){
         Log.d("LOAD USER", "load");
-        SharedPreferences sharedPref = ((Activity)context).getPreferences(Context.MODE_PRIVATE);
-        String userJson = sharedPref.getString(Constants.PREFERENCES_USER, "");
+
+        String userJson = getPref(context, Constants.FILE_USER, Constants.PREFERENCES_USER, "");
         Gson gson = new Gson();
         if(!userJson.equalsIgnoreCase(""))
             return gson.fromJson(userJson, User.class);
         else
             return new User(context);
+    }
+
+    public String getPref(Context context, String file, String key, String defaultValue) {
+        String s = key;
+        SharedPreferences preferences = context.getSharedPreferences(file, 0);
+        return preferences.getString(s, defaultValue);
     }
 
 }

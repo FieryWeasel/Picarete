@@ -25,14 +25,11 @@ import io.picarete.picarete.ui.fragments.SoloGameFragment;
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
         SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener {
 
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Gson gson = new Gson();
-        user= gson.fromJson(getIntent().getStringExtra(Constants.EXTRA_USER), User.class);
 
         // Instantiate a new fragment.
         Fragment newFragment = HomeFragment.newInstance();
@@ -84,7 +81,7 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
                 addFragmentToStack(fragment, Constants.SOLO_GAME_CHOOSER);
                 break;
             case Constants.PROFILE :
-                fragment = ProfileFragment.newInstance(user);
+                fragment = ProfileFragment.newInstance();
                 addFragmentToStack(fragment, Constants.PROFILE);
                 break;
             default :
@@ -94,13 +91,13 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
 
     @Override
     public void onPlayerReady(EGameMode gameMode, int columnCount, int rowCount, EIA nameIa, boolean needChosenBorderTile, boolean needChoosenTile) {
-        Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode, needChosenBorderTile, needChoosenTile, user);
+        Fragment fragment = SoloGameFragment.newInstance(columnCount, rowCount, nameIa, gameMode, needChosenBorderTile, needChoosenTile);
         addFragmentToStack(fragment, Constants.SOLO_GAME);
     }
 
     @Override
     public void onPlayersReady(EGameMode gameMode, int column, int row, boolean needChosenBorderTile, boolean needChosenTile) {
-        Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode, needChosenBorderTile, needChosenTile, user);
+        Fragment fragment = MultiGameFragment.newInstance(column, row, gameMode, needChosenBorderTile, needChosenTile);
         addFragmentToStack(fragment, Constants.MULTI_GAME);
     }
 

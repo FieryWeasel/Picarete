@@ -13,7 +13,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
-import io.picarete.picarete.model.container.userdata.User;
+import io.picarete.picarete.model.container.userdata.UserAccessor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +28,7 @@ public class MultiGameFragment extends GameFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static MultiGameFragment newInstance(int col, int row, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile, User user) {
+    public static MultiGameFragment newInstance(int col, int row, EGameMode mode, boolean needChosenBorderTile, boolean needChosenTile) {
         MultiGameFragment fragment = new MultiGameFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.CHOSER_COLUMN_KEY, col);
@@ -36,7 +36,6 @@ public class MultiGameFragment extends GameFragment {
         args.putSerializable(Constants.CHOSER_GAME_MODE_KEY, mode);
         args.putBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY, needChosenBorderTile);
         args.putBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY, needChosenTile);
-        args.putSerializable(Constants.USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,7 +83,7 @@ public class MultiGameFragment extends GameFragment {
         else if(game.getScores().get(0) < game.getScores().get(1))
             res = 1;
 
-        user.userFinishedAGame(getActivity(), EMode.MULTI, mode, null, game.getTilesForPlayer(0).size(),
+        UserAccessor.getUser(getActivity()).userFinishedAGame(getActivity(), EMode.MULTI, mode, null, game.getTilesForPlayer(0).size(),
                 game.getTilesForPlayer(1).size(), game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
