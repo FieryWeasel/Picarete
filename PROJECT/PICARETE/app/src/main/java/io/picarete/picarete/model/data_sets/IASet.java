@@ -27,6 +27,7 @@ public class IASet {
 
         IAs.put(EIA.EASY, new IACustom(iaName[0], 0));
         IAs.put(EIA.EASY_MAX_TILE, new IACustom(iaName[1], 1));
+        IAs.put(EIA.AGGRESSIVE, new IACustom(iaName[2], 2));
         IAs.put(EIA.MCTS, new IACustom(iaName[3], 3));
     }
 

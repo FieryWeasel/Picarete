@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for (ColorCustom color : Config.getColors(user.level)) {
+                for (ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for (ColorCustom color : Config.getColors(user.level)) {
+                for (ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
@@ -115,10 +115,10 @@ public class ProfileFragment extends Fragment {
         };
         switch (player){
             case 0 :
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer1().getColor()));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, UserAccessor.getUser(getActivity()).getColorPlayer1().getColor()));
                 break;
             case 1:
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer2().getColor()));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()));
                 break;
         }
 
@@ -130,7 +130,7 @@ public class ProfileFragment extends Fragment {
         ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
                 R.string.color_picker_default_title,
                 colors,
-                (player == 0 ? user.getColorPlayer1().getColor() : user.getColorPlayer2().getColor()),
+                (player == 0 ? UserAccessor.getUser(getActivity()).getColorPlayer1().getColor() : UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()),
                 5,
                 ColorPickerDialog.SIZE_SMALL);
 
@@ -148,11 +148,11 @@ public class ProfileFragment extends Fragment {
     }
 
     private void changeColorForPlayer(int player, int color){
-        if(player == 0 && color != user.getColorPlayer2().getColor()) {
-            user.setColorPlayer1(new ColorCustom(color));
+        if(player == 0 && color != UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()) {
+            UserAccessor.getUser(getActivity()).setColorPlayer1(new ColorCustom(color));
             initColorImage(imageColorPlayer1, 0);
-        } else if(player == 1 && color != user.getColorPlayer1().getColor()) {
-            user.setColorPlayer2(new ColorCustom(color));
+        } else if(player == 1 && color != UserAccessor.getUser(getActivity()).getColorPlayer1().getColor()) {
+            UserAccessor.getUser(getActivity()).setColorPlayer2(new ColorCustom(color));
             initColorImage(imageColorPlayer2, 1);
         }
     }

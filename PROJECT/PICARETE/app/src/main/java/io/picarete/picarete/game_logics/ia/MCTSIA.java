@@ -19,6 +19,42 @@ public class MCTSIA extends AIA {
         return bestEdge;
     }
 
+    public class TreeNodeMCTS {
+        List<Tile> game;
+
+        public void getAction(Edge edgeNode, List<Tile> game, int idPlayer, int scoreP1, int scoreP2){
+            this.game = game;
+
+            for(Tile t : game){
+                for (Edge e : t.getEdges().values()){
+                    if(edgeNode == e){
+                        edgeNode.isChosen();
+                        edgeNode.setIdPlayer(idPlayer);
+                    }
+                }
+            }
+
+
+        }
+
+        private int getScoreForPlayer(int idPlayer){
+            int scoreForPlayer = 0;
+
+            return 0;
+        }
+
+        private boolean isLeaf(){
+            boolean isLeaf = true;
+
+            for(Tile t : game){
+                if(!t.isComplete())
+                    isLeaf = false;
+            }
+
+            return isLeaf;
+        }
+    }
+
     public class TreeNode {
         Random r = new Random();
         int nActions = 5;
