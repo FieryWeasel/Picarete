@@ -54,6 +54,14 @@
                 android:text="@string/profile"
                 style="@style/home_btn_middle"
                 android:layout_gravity="center_horizontal"/>
+
+            <io.picarete.picarete.ui.custom.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_version"
+                android:textColor="@color/white"
+                android:gravity="right"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
         </LinearLayout>

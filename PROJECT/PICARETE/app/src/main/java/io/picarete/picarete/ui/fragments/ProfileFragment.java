@@ -109,7 +109,8 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for (ColorCustom color : Config.getColors((UserAccessor.getUser(getActivity()).level))) {
+				
+                for (ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
