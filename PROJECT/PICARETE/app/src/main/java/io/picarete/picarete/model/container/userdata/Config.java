@@ -10,6 +10,7 @@ import java.util.List;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.tools.XMLParser;
+import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.container.userdata.AUnlock;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.container.userdata.Level;
@@ -86,5 +87,25 @@ public class Config {
             }
         }
         return colors;
+    }
+
+    public static int getRow(int level){
+        int row = Constants.COLUMN_ROW_MIN;
+        for(int i = 0 ; i < levels.size() ; i ++){
+            if(levels.get(i).id <= level){
+                row = Math.max(row, levels.get(i).row);
+            }
+        }
+        return row;
+    }
+
+    public static int getColumn(int level){
+        int column = Constants.COLUMN_ROW_MIN;
+        for(int i = 0 ; i < levels.size() ; i ++){
+            if(levels.get(i).id <= level){
+                column = Math.max(column, levels.get(i).column);
+            }
+        }
+        return column;
     }
 }

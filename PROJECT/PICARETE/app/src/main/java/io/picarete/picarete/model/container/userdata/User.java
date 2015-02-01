@@ -27,8 +27,8 @@ import io.picarete.picarete.model.data_sets.IASet;
 public class User implements Serializable{
 
     private List<Stat> stats;
-    private String name;
-    private Title title;
+    public String name;
+    public Title title;
     private ColorCustom colorPlayer1;
     private ColorCustom colorPlayer2;
     private int previousXp;

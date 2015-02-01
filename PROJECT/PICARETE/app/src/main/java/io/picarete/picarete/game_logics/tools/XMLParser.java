@@ -201,6 +201,8 @@ public class XMLParser {
                     String color = parser.getAttributeValue(null, "color");
                     String mode = parser.getAttributeValue(null, "mode");
                     String ia = parser.getAttributeValue(null, "ia");
+                    String row = parser.getAttributeValue(null, "row");
+                    String column = parser.getAttributeValue(null, "column");
 
                     currentLevel = new Level(new LinkedList<AUnlock>());
 
@@ -225,6 +227,16 @@ public class XMLParser {
                         UnlockIA unlockIa = new UnlockIA(IASet.searchIA(ia));
                         currentLevel.unlocks.add(unlockIa);
                         Log.d("PARSE LEVELS", ia);
+                    }
+
+                    if (row != null) {
+                        currentLevel.row = Integer.parseInt(row);
+                        Log.d("PARSE LEVELS", row);
+                    }
+
+                    if (column != null) {
+                        currentLevel.column = Integer.parseInt(column);
+                        Log.d("PARSE LEVELS", column);
                     }
 
                     levels.add(currentLevel);

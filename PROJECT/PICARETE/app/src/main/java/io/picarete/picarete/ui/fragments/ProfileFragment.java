@@ -6,19 +6,16 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.container.userdata.Config;
 import io.picarete.picarete.model.container.userdata.UserAccessor;
-import io.picarete.picarete.model.data_sets.ColorSet;
-import io.picarete.picarete.model.data_sets.TitleSet;
 import io.picarete.picarete.ui.color_picker.ColorPickerDialog;
 import io.picarete.picarete.ui.color_picker.ColorPickerSwatch;
 import io.picarete.picarete.ui.color_picker.ColorStateDrawable;
@@ -30,6 +27,10 @@ public class ProfileFragment extends Fragment {
     int colorPlayer2;
     private ImageView imageColorPlayer1;
     private ImageView imageColorPlayer2;
+    private TextView playerNameTV;
+    private EditText playerNameET;
+    private TextView playerTitle;
+    private boolean isInEditMode = false;
 
     /**
      * Use this factory method to create a new instance of
@@ -59,6 +60,13 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        playerNameTV = (TextView) view.findViewById(R.id.profile_player_name_tv);
+        playerNameTV.setText(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase("") ? getString(R.string.profile) : UserAccessor.getUser(getActivity()).name);
+        playerTitle = (TextView) view.findViewById(R.id.profile_player_title_tv);
+        playerTitle.setText(UserAccessor.getUser(getActivity()).title.title.equalsIgnoreCase("") ? getString(R.string.noTitle) : UserAccessor.getUser(getActivity()).title.title);
+        playerNameET = (EditText) view.findViewById(R.id.profile_player_name_et);
+        playerNameET.setVisibility(View.GONE);
+
         ProgressBar progressXp = (ProgressBar)view.findViewById(R.id.seekBar_xp);
         progressXp.setProgress((int) (((double) UserAccessor.getUser(getActivity()).actualXp/ (double) UserAccessor.getUser(getActivity()).nextXp)*100.0));
         CustomFontTextView level = (CustomFontTextView) view.findViewById(R.id.lvl);
@@ -70,6 +78,14 @@ public class ProfileFragment extends Fragment {
 
         RatingBar ratio = (RatingBar) view.findViewById(R.id.value_ratio);
         ratio.setRating(UserAccessor.getUser(getActivity()).getRatio()*5);
+        ImageView edit = (ImageView) view.findViewById(R.id.edit_profile);
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startEditMode();
+            }
+        });
 
         imageColorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
         initColorImage(imageColorPlayer1, 0);
@@ -78,7 +94,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for (ColorCustom color : Config.getColors(user.level)) {
+                for (ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)) {
                     colors[i] = color.getColor();
                     i++;
                 }
@@ -93,7 +109,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-                for (ColorCustom color : Config.getColors(user.level)) {
+                for (ColorCustom color : Config.getColors((UserAccessor.getUser(getActivity()).level))) {
                     colors[i] = color.getColor();
                     i++;
                 }
@@ -101,12 +117,39 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        Spinner titles = (Spinner) view.findViewById(R.id.spinner_title);
         //titles.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, TitleSet.getUnlockedTitles(getActivity())));
         
 
 
         return view;
+    }
+
+    private void startEditMode() {
+        isInEditMode = !isInEditMode;
+        if(isInEditMode){
+            playerNameTV.setVisibility(View.GONE);
+            playerTitle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            titleList();
+                        }
+                    });
+            playerNameET.setVisibility(View.VISIBLE);
+        }else{
+            playerNameET.setVisibility(View.GONE);
+            String name = playerNameET.getText().toString();
+
+            playerNameTV.setText(name);
+            playerNameTV.setVisibility(View.VISIBLE);
+
+            playerTitle.setOnClickListener(null);
+            playerTitle.setText(UserAccessor.getUser(getActivity()).title.title);
+        }
+
+    }
+
+    private void titleList() {
+
     }
 
     private void initColorImage(ImageView colorImage, int player) {
@@ -115,14 +158,12 @@ public class ProfileFragment extends Fragment {
         };
         switch (player){
             case 0 :
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer1().getColor()));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, (UserAccessor.getUser(getActivity()).getColorPlayer1().getColor())));
                 break;
             case 1:
-                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, user.getColorPlayer2().getColor()));
+                colorImage.setImageDrawable(new ColorStateDrawable(colorDrawable, (UserAccessor.getUser(getActivity()).getColorPlayer2().getColor())));
                 break;
         }
-
-
 
     }
 
@@ -130,7 +171,7 @@ public class ProfileFragment extends Fragment {
         ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
                 R.string.color_picker_default_title,
                 colors,
-                (player == 0 ? user.getColorPlayer1().getColor() : user.getColorPlayer2().getColor()),
+                (player == 0 ? UserAccessor.getUser(getActivity()).getColorPlayer1().getColor() : UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()),
                 5,
                 ColorPickerDialog.SIZE_SMALL);
 
@@ -148,11 +189,11 @@ public class ProfileFragment extends Fragment {
     }
 
     private void changeColorForPlayer(int player, int color){
-        if(player == 0 && color != user.getColorPlayer2().getColor()) {
-            user.setColorPlayer1(new ColorCustom(color));
+        if(player == 0 && color != UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()) {
+            UserAccessor.getUser(getActivity()).setColorPlayer1(new ColorCustom(color));
             initColorImage(imageColorPlayer1, 0);
-        } else if(player == 1 && color != user.getColorPlayer1().getColor()) {
-            user.setColorPlayer2(new ColorCustom(color));
+        } else if(player == 1 && color != UserAccessor.getUser(getActivity()).getColorPlayer1().getColor()) {
+            UserAccessor.getUser(getActivity()).setColorPlayer2(new ColorCustom(color));
             initColorImage(imageColorPlayer2, 1);
         }
     }

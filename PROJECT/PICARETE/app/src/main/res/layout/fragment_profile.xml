@@ -21,17 +21,38 @@
                 android:id="@+id/edit_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/profil_title"
-                android:layout_alignTop="@+id/profil_title"
+                android:layout_centerVertical="true"
                 android:src="@android:drawable/ic_menu_edit"/>
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile"
                 style="@style/TitleTheme"
                 android:gravity="center"
-                android:id="@+id/profil_title"/>
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile_player_name_tv"/>
+
+            <io.picarete.picarete.ui.custom.CustomFontEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                style="@style/TitleTheme"
+                android:gravity="center"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile_player_name_et"/>
+
+            <io.picarete.picarete.ui.custom.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                android:gravity="center"
+                style="@style/SubTitleTheme"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_player_name_tv"
+                android:id="@+id/profile_player_title_tv"/>
 
             </RelativeLayout>
 
@@ -140,28 +161,11 @@
 
         </LinearLayout>
 
-        <io.picarete.picarete.ui.custom.CustomFontTextView
-            android:id="@+id/label_titles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ratio"
-            android:text="@string/chooseTitle"
-            style="@style/top_label"/>
-
-        <Spinner
-            android:id="@+id/spinner_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label_titles"
-            style="@style/horizontal_label"
-            android:layout_alignLeft="@+id/label_titles"
-            android:layout_alignStart="@+id/label_titles" />
-
         <LinearLayout
             android:id="@+id/colorP1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner_title"
+            android:layout_below="@+id/ratio"
             style="@style/horizontal_label">
 
             <io.picarete.picarete.ui.custom.CustomFontTextView

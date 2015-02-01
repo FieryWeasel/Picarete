@@ -3,19 +3,19 @@
 
     <!-- (i-1)+(i*const) -->
 
-    <config level="0" ia="Easy" color="#09C2BF|#FF6C6B"/>
+    <config level="0" ia="Easy" color="#09C2BF|#FF6C6B" mode="CLASSIC"/>
 
     <config level="1" color="#EFC94C|#E27A3F"/>
 
-    <config level="2" />
+    <config level="2" row="4"/>
 
     <config level="3" mode="EDGE_BAD" />
 
-    <config level="4" />
+    <config level="4" column="4"/>
 
     <config level="5" />
 
-    <config level="6" />
+    <config level="6" column="5"/>
 
     <config level="7" mode="TILE_BAD" />
 
@@ -23,7 +23,7 @@
 
     <config level="9" color="" />
 
-    <config level="10" />
+    <config level="10" row="5"/>
 
     <config level="11" />
 
@@ -33,7 +33,7 @@
 
     <config level="14" />
 
-    <config level="15" />
+    <config level="15" column="6"/>
 
     <config level="16" />
 
@@ -47,13 +47,13 @@
 
     <config level="21" ia="AGGRESSIVE" />
 
-    <config level="22" />
+    <config level="22" row="6"/>
 
     <config level="23" mode="BEST_AREA" />
 
     <config level="24" />
 
-    <config level="25" />
+    <config level="25" row="7"/>
 
     <config level="26" />
 
@@ -61,7 +61,7 @@
 
     <config level="28" ia="MINIMAX" />
 
-    <config level="29" />
+    <config level="29" column="7" />
 
     <config level="30" color="" />
 
