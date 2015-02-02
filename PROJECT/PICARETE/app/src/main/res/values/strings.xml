@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">PicArete</string>
+    <string name="app_version">v0.82</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -48,5 +49,6 @@
     <string name="mode_choser_pre_chosen_tile">Activate random pre-chosen tile</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="loading">Loading...</string>
+    <string name="noTitle">You don\'t have any title yet :/ Go play some games to win them !</string>
 
 </resources>

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
+import io.picarete.picarete.model.EMode;
 import io.picarete.picarete.model.container.GameModeCustom;
 
 /**
@@ -55,6 +56,20 @@ public class GameModeSet {
         return titles;
     }
 
+    public static String[] getTitles(Context context, List<EGameMode> modes){
+        if(gameModes == null)
+            constructListGameMode(context);
+
+        String[] titles = new String[gameModes.size()];
+
+        for (int i = 0; i< modes.size(); i++){
+            if(gameModes.containsKey(modes.get(i)))
+                titles[i] = gameModes.get(modes.get(i)).title;
+        }
+
+        return titles;
+    }
+
     public static String[] getDesc(Context context){
         if(gameModes == null)
             constructListGameMode(context);
@@ -64,6 +79,20 @@ public class GameModeSet {
 
         for (int i = 0; i< gameModes.size(); i++){
             desc[i] = gameModesArr.get(i).desc;
+        }
+
+        return desc;
+    }
+
+    public static String[] getDesc(Context context, List<EGameMode> modes){
+        if(gameModes == null)
+            constructListGameMode(context);
+
+        String[] desc = new String[gameModes.size()];
+
+        for (int i = 0; i< modes.size(); i++){
+            if(gameModes.containsKey(modes.get(i)))
+                desc[i] = gameModes.get(modes.get(i)).desc;
         }
 
         return desc;

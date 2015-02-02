@@ -14,7 +14,7 @@ import io.picarete.picarete.model.NoDuplicatesList;
 /**
  * Created by root on 1/7/15.
  */
-public class SimpleFindMaxTileIA extends AIA {
+public class AgressivIA extends AIA {
     @Override
     protected Edge findEdge(int height, int width, Game game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
@@ -48,7 +48,7 @@ public class SimpleFindMaxTileIA extends AIA {
                 allEdgesPossible.add(cursor.getKey());
         }
 
-        bestEdge = choseEdge(allEdgesPossible);
+        bestEdge = choseEdge(game.getTiles(), allEdgesPossible, previousEdgesPlayed);
         if(bestEdge != null)
             return bestEdge;
 
@@ -79,7 +79,7 @@ public class SimpleFindMaxTileIA extends AIA {
             if(!badEdge.contains(e))
                 allEdgesPossible.add(e);
         }
-        bestEdge = choseEdge(allEdgesPossible);
+        bestEdge = choseEdge(game.getTiles(), allEdgesPossible, previousEdgesPlayed);
         if(bestEdge != null)
             return bestEdge;
 
@@ -96,28 +96,88 @@ public class SimpleFindMaxTileIA extends AIA {
             for(Edge e : edgesFree)
                 allEdgesPossible.add(e);
         }
-        if(allEdgesPossible.size() > 0) {
-            Random r = new Random();
-            int Low = 0;
-            int High = allEdgesPossible.size();
-            int R = r.nextInt(High - Low) + Low;
-            return allEdgesPossible.get(R);
-        } else {
+
+        bestEdge = choseEdge(game.getTiles(), allEdgesPossible, previousEdgesPlayed);
+        if(bestEdge != null)
+            return bestEdge;
+        else
             throw new ArithmeticException(this.getClass().getName()+ " - No such edge can be found with this algorithm");
-        }
     }
 
-    public Edge choseEdge(List<Edge> edgesPossibles){
+    public Edge choseEdge(List<Tile> game, List<Edge> edgesPossibles, List<Edge> previousEdges){
         Edge edge = null;
 
-        if(edgesPossibles.size() > 0){
-            Random r = new Random();
-            int Low = 0;
-            int High = edgesPossibles.size();
-            int R = r.nextInt(High-Low) + Low;
-            edge = edgesPossibles.get(R);
+        edge = findNearest(game, edgesPossibles, previousEdges);
+
+        return edge;
+    }
+
+    public Edge findNearest(List<Tile> game, List<Edge> edgesPossibles, List<Edge> previousEdges){
+        Edge edge = null;
+
+        if(previousEdges.size() == 0){
+            if(edgesPossibles.size() > 0){
+                Random r = new Random();
+                int Low = 0;
+                int High = edgesPossibles.size();
+                int R = r.nextInt(High-Low) + Low;
+                edge = edgesPossibles.get(R);
+            }
+        } else {
+            Edge previousEdge = previousEdges.get(previousEdges.size()-1);
+            List<Tile> tilesAssociatedWithPreviousEdge = findAssociatedTile(game, previousEdge);
+
+            List<Edge> edgesWithMinDistancePossible = new NoDuplicatesList<>();
+
+            double minDistance = -1;
+
+            for(Edge e : edgesPossibles){
+                List<Tile> tilesAssociatedWithEdgePossible = findAssociatedTile(game, e);
+                double minDistanceForEdgePossible = getDistance(tilesAssociatedWithPreviousEdge, tilesAssociatedWithEdgePossible);
+                if(minDistance == -1 || (minDistanceForEdgePossible != -1 && minDistanceForEdgePossible < minDistance)){
+                    minDistance = minDistanceForEdgePossible;
+                    edgesWithMinDistancePossible.clear();
+                    edgesWithMinDistancePossible.add(e);
+                } else if(minDistance == -1 || (minDistanceForEdgePossible != -1 && minDistanceForEdgePossible == minDistance)){
+                    edgesWithMinDistancePossible.add(e);
+                }
+            }
+
+            if(edgesWithMinDistancePossible.size() > 0){
+                Random r = new Random();
+                int Low = 0;
+                int High = edgesWithMinDistancePossible.size();
+                int R = r.nextInt(High-Low) + Low;
+                edge = edgesWithMinDistancePossible.get(R);
+            }
         }
 
         return edge;
+    }
+
+    private double getDistance(List<Tile> tilesList1, List<Tile> tilesList2) {
+        double distanceMin = 0;
+
+        for (Tile t : tilesList1){
+            for (Tile t2 : tilesList2){
+                int distance = (int) Math.sqrt(Math.pow(t.col - t2.col, 2.0) + Math.pow(t.row - t2.row, 2.0));
+                distanceMin += distance;
+            }
+        }
+
+        return distanceMin;
+    }
+
+    private List<Tile> findAssociatedTile(List<Tile> game, Edge edge) {
+        List<Tile> tilesAssociated = new NoDuplicatesList<>();
+
+        for (Tile t : game){
+            for (Edge e : t.getEdges().values()){
+                if(e == edge)
+                    tilesAssociated.add(t);
+            }
+        }
+
+        return tilesAssociated;
     }
 }

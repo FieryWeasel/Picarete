@@ -11,11 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 
+import java.util.List;
+
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
+import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.container.userdata.Config;
+import io.picarete.picarete.model.container.userdata.UserAccessor;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
 
@@ -58,7 +63,7 @@ public class SoloChooserFragment extends ChooserFragment {
         mSpinnerIA = (Spinner) view.findViewById(R.id.mode_chooser_spinner_ia);
         mSpinnerIA.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
-                IASet.getNames(getActivity())));
+                IASet.getNamesForIAs(getActivity(), getIAForLevel(UserAccessor.getUser(getActivity()).level))));
         mSpinnerIA.setSelection(0);
         mSpinnerIA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -72,10 +77,15 @@ public class SoloChooserFragment extends ChooserFragment {
             }
         });
 
-
-
-
         return view;
+    }
+
+    private List<EIA> getIAForLevel(int level) {
+        List<EIA> availableIA = new NoDuplicatesList<>();
+        for(int i = 0 ; i <= level ; i++){
+            availableIA.addAll(Config.getIAs(i));
+        }
+        return availableIA;
     }
 
     @Override

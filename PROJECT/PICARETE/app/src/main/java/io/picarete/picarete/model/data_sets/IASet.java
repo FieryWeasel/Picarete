@@ -1,5 +1,6 @@
 package io.picarete.picarete.model.data_sets;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -20,26 +21,27 @@ import io.picarete.picarete.model.container.IACustom;
 public class IASet {
     public static Map<EIA, IACustom> IAs = null;
 
-    public static void constructListGameMode(Context context){
+    public static void constructListIas(Context context){
         IAs = new LinkedHashMap<>();
 
         String[] iaName = context.getResources().getStringArray(R.array.ia_difficulty);
 
         IAs.put(EIA.EASY, new IACustom(iaName[0], 0));
         IAs.put(EIA.EASY_MAX_TILE, new IACustom(iaName[1], 1));
+        IAs.put(EIA.AGGRESSIVE, new IACustom(iaName[2], 2));
         IAs.put(EIA.MCTS, new IACustom(iaName[3], 3));
     }
 
     public static Map<EIA, IACustom> getIAs(Context context){
         if(IAs == null)
-            constructListGameMode(context);
+            constructListIas(context);
 
         return IAs;
     }
 
     public static String[] getNames(Context context){
         if(IAs == null)
-            constructListGameMode(context);
+            constructListIas(context);
 
         String[] name = new String[IAs.size()];
         List<IACustom> IAsArr = new LinkedList<>(IAs.values());
@@ -53,7 +55,7 @@ public class IASet {
 
     public static int[] getRating(Context context){
         if(IAs == null)
-            constructListGameMode(context);
+            constructListIas(context);
 
         int[] rating = new int[IAs.size()];
         List<IACustom> IAsArr = new ArrayList<>(IAs.values());
@@ -67,7 +69,7 @@ public class IASet {
 
     public static EIA[] getEIAs(Context context){
         if(IAs == null)
-            constructListGameMode(context);
+            constructListIas(context);
 
         EIA[] IAsArr = new EIA[IAs.keySet().size()];
         int i = 0;
@@ -97,5 +99,19 @@ public class IASet {
             ia = EIA.EASY;
 
         return ia;
+    }
+
+    public static String[] getNamesForIAs(Context context, List<EIA> iaForLevel) {
+        if(IAs == null)
+            constructListIas(context);
+
+        String[] names = new String[IAs.size()];
+
+        for (int i = 0; i< iaForLevel.size(); i++){
+            if(IAs.containsKey(iaForLevel.get(i)))
+                names[i] = IAs.get(iaForLevel.get(i)).name;
+        }
+
+        return names;
     }
 }

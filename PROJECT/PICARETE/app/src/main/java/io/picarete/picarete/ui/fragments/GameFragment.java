@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,6 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected boolean needChosenBorderTile;
     protected boolean needChosenTile;
     protected Game game;
-    protected User user;
 
     protected List<UITile> UITiles;
     private int size;
@@ -71,7 +72,6 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
             column = getArguments().getInt(Constants.CHOSER_COLUMN_KEY);
             row = getArguments().getInt(Constants.CHOSER_ROW_KEY);
             mode = (EGameMode) getArguments().getSerializable(Constants.CHOSER_GAME_MODE_KEY);
-            user = (User) getArguments().getSerializable(Constants.USER_KEY);
             needChosenBorderTile = getArguments().getBoolean(Constants.CHOSER_NEED_CHOSEN_BORDER_TILE_KEY);
             needChosenTile = getArguments().getBoolean(Constants.CHOSER_NEED_CHOSEN_TILE_KEY);
         }
@@ -128,7 +128,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     }
 
     protected void createGame(){
-        game = new Game(getActivity(), mode, row, column);
+        game = new Game(getActivity(), mode, row, column, 0);
         game.setEventListener(this);
         List<Tile> tiles = game.createGame(needChosenBorderTile, needChosenTile);
 

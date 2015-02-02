@@ -32,5 +32,5 @@ public class Constants {
     public static final int CONSTANT_LEVEL = 8;
 
 
-
+    public static final String FILE_USER = "FILE_USER";
 }
