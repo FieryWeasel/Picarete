@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.model.NoDuplicatesList;
@@ -15,14 +16,14 @@ import io.picarete.picarete.model.NoDuplicatesList;
  */
 public class SimpleFindMaxTileIA extends AIA {
     @Override
-    protected Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
+    protected Edge findEdge(int height, int width, Game game, List<Edge> previousEdgesPlayed) {
         List<Edge> allEdgesPossible = new NoDuplicatesList<>();
         Map<Edge, Integer> allEdgesPossibleWithMaxTile = new HashMap<>();
         int bestClose  = 0;
         Edge bestEdge = null;
 
         // Search to complete an existing UITile
-        for(Tile t : game){
+        for(Tile t : game.getTiles()){
             int nbEdgeFree = 4;
             Edge edgeFree = null;
             for(Edge e : t.getEdges().values()){
@@ -56,7 +57,7 @@ public class SimpleFindMaxTileIA extends AIA {
         allEdgesPossible.clear();
         List<Edge> badEdge = new NoDuplicatesList<>();
         List<Edge> possibleGoodEdge = new NoDuplicatesList<>();
-        for(Tile t : game){
+        for(Tile t : game.getTiles()){
             int nbEdgeFree = 4;
             List<Edge> edgesFree = new ArrayList<>();
             for(Edge e : t.getEdges().values()){
@@ -84,7 +85,7 @@ public class SimpleFindMaxTileIA extends AIA {
 
         // Search to chose a free edge
         allEdgesPossible.clear();
-        for(Tile t : game){
+        for(Tile t : game.getTiles()){
             List<Edge> edgesFree = new ArrayList<>();;
             for(Edge e : t.getEdges().values()){
                 if(!e.isChosen()){

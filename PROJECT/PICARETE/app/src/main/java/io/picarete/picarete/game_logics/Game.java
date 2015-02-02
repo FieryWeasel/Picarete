@@ -19,16 +19,16 @@ import io.picarete.picarete.model.NoDuplicatesList;
 
 public class Game implements Tile.TileEventListener{
     private int idPlayer = 0;
-    private Map<Integer, Integer> scores = null;
+    public Map<Integer, Integer> scores = null;
 
-    private List<Tile> tiles = null;
-    private int width = 0;
-    private int height = 0;
-    private EGameMode gameMode = EGameMode.CLASSIC;
+    public List<Tile> tiles = null;
+    public int width = 0;
+    public int height = 0;
+    public EGameMode gameMode = EGameMode.CLASSIC;
 
     private List<Edge> edgesPreviousPlayed = null;
 
-    private Context context = null;
+    public Context context = null;
 
     // Event Management
     GameEventListener eventListener = null;
@@ -52,7 +52,7 @@ public class Game implements Tile.TileEventListener{
     }
 
     // Constructor
-    public Game(Context context, EGameMode gameMode, int height, int width){
+    public Game(Context context, EGameMode gameMode, int height, int width, int idPlayer){
         this.tiles = new LinkedList<>();
         this.edgesPreviousPlayed = new LinkedList<>();
         this.scores = new HashMap<>();
@@ -64,6 +64,8 @@ public class Game implements Tile.TileEventListener{
         this.width = width;
 
         this.context = context;
+
+        this.idPlayer = idPlayer;
     }
 
     @Override

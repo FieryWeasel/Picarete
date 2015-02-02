@@ -7,6 +7,11 @@ package io.picarete.picarete.game_logics.gameplay;
 public class Edge {
     private int idPlayer = -1;
     private boolean isChosen = false;
+    public int id = -1;
+
+    public Edge(int id){
+        this.id = id;
+    }
 
     public boolean isChosen() {
         return isChosen;

@@ -128,7 +128,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     }
 
     protected void createGame(){
-        game = new Game(getActivity(), mode, row, column);
+        game = new Game(getActivity(), mode, row, column, 0);
         game.setEventListener(this);
         List<Tile> tiles = game.createGame(needChosenBorderTile, needChosenTile);
 

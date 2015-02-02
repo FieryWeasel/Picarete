@@ -1,97 +1,197 @@
 package io.picarete.picarete.game_logics.ia;
 
+import android.content.Context;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import io.picarete.picarete.game_logics.Game;
+import io.picarete.picarete.game_logics.gameplay.ETileSide;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
+import io.picarete.picarete.model.NoDuplicatesList;
 
 /**
  * Created by root on 1/7/15.
  */
 public class MCTSIA extends AIA {
-    // Todo rework on this IA
+
     @Override
-    protected Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed) {
+    protected Edge findEdge(int height, int width, Game game, List<Edge> previousEdgesPlayed) {
         Edge bestEdge = null;
+
+        TreeNodeMCTS nodeRoot = new TreeNodeMCTS(previousEdgesPlayed.get(previousEdgesPlayed.size()-1).id);
+        Game gameCopied = copyGame(game);
+        for(int i = 0; i < 10; i++)
+            nodeRoot.selectAction(gameCopied);
+
+        TreeNodeMCTS bestNode = nodeRoot.getBestNode();
+        for (Tile t : game.getTiles()){
+            for (Edge e : t.getEdges().values()){
+                if(e.id == bestNode.idEdge)
+                    bestEdge = e;
+            }
+        }
 
         return bestEdge;
     }
 
+    private Game copyGame(Game game) {
+        Game gameCopied = new Game(game.context, game.gameMode, game.height, game.width, 0);
+
+        gameCopied.scores.put(0, game.getScores().get(0));
+        gameCopied.scores.put(1, game.getScores().get(1));
+
+        for (Tile t : game.getTiles()){
+            gameCopied.tiles.add(copyTile(t, game.getTiles(), gameCopied));
+        }
+
+        return gameCopied;
+    }
+
+    private Tile copyTile(Tile tile, List<Tile> tiles, Game game) {
+        Edge edgeLeft = new Edge(tile.getEdges().get(ETileSide.LEFT).id);
+        Edge edgeTop = new Edge(tile.getEdges().get(ETileSide.TOP).id);
+        Edge edgeRight = new Edge(tile.getEdges().get(ETileSide.RIGHT).id);
+        Edge edgeBottom = new Edge(tile.getEdges().get(ETileSide.BOTTOM).id);
+
+        for(Tile t : tiles){
+            for (Edge e : t.getEdges().values()){
+                if(e.id == edgeLeft.id)
+                    edgeLeft = e;
+                if(e.id == edgeTop.id)
+                    edgeTop = e;
+                if(e.id == edgeRight.id)
+                    edgeRight = e;
+                if(e.id == edgeBottom.id)
+                    edgeBottom = e;
+            }
+        }
+
+        Tile tileCopied = new Tile(tile.id, edgeLeft, edgeTop, edgeRight, edgeBottom);
+        tileCopied.setEventListener(game);
+
+        return tileCopied;
+    }
+
     public class TreeNodeMCTS {
-        List<Tile> game;
+        int idEdge = -1;
+        List<TreeNodeMCTS> children = new NoDuplicatesList<>();
+        Random r = new Random();
+        double epsilon = 1e-6;
 
-        public void getAction(Edge edgeNode, List<Tile> game, int idPlayer, int scoreP1, int scoreP2){
-            this.game = game;
+        double nVisits = 0, totValue = 0;
 
-            for(Tile t : game){
+        public TreeNodeMCTS(int idEdge){
+            this.idEdge = idEdge;
+        }
+
+        public int selectAction(Game game) {
+            int score;
+            if(this.isLeaf()){
+                this.expand(game);
+                TreeNodeMCTS e = selectEdgeToPlay();
+                score = e.play(game);
+            } else {
+                TreeNodeMCTS e = selectBestEdge();
+                score = e.selectAction(game);
+            }
+
+            updateStats(score);
+
+            return score;
+        }
+
+        private int play(Game game) {
+            int score = -1;
+
+            game = playEdge(game, idEdge);
+
+            if(!isFinish(game)){
+                this.expand(game);
+                TreeNodeMCTS e = selectEdgeToPlay();
+                score = e.play(game);
+            } else {
+                int scoreP1 = game.getScores().get(0);
+                int scoreP2 = game.getScores().get(1);
+
+                if(scoreP1 >= scoreP2) score = 0;
+                else score = 1;
+            }
+
+            updateStats(score);
+
+            return score;
+        }
+
+        private Game playEdge(Game game, int idEdge){
+            for (Tile t : game.getTiles()){
                 for (Edge e : t.getEdges().values()){
-                    if(edgeNode == e){
-                        edgeNode.isChosen();
-                        edgeNode.setIdPlayer(idPlayer);
+                    if(e.id == idEdge){
+                        t.onClick(e);
+                        return game;
                     }
                 }
             }
 
-
+            return game;
         }
 
-        private int getScoreForPlayer(int idPlayer){
-            int scoreForPlayer = 0;
+        public TreeNodeMCTS getBestNode(){
+            double bestScore = -1;
+            TreeNodeMCTS bestNode = null;
 
-            return 0;
+            for (TreeNodeMCTS n : children){
+                if(totValue / nVisits > bestScore){
+                    bestNode = n;
+                    bestScore = totValue / nVisits;
+                }
+            }
+
+            return bestNode;
         }
 
-        private boolean isLeaf(){
-            boolean isLeaf = true;
+        private boolean isFinish(Game game) {
+            boolean isFinished = true;
 
-            for(Tile t : game){
+            for (Tile t : game.getTiles())
                 if(!t.isComplete())
-                    isLeaf = false;
-            }
+                    isFinished = false;
 
-            return isLeaf;
+            return isFinished;
         }
-    }
 
-    public class TreeNode {
-        Random r = new Random();
-        int nActions = 5;
-        double epsilon = 1e-6;
+        private void expand(Game game) {
+            for (int i = 0; i < game.getTiles().size(); i++) {
+                for (Edge e : game.getTiles().get(i).getEdges().values()){
 
-        TreeNode[] children;
-        double nVisits, totValue;
-
-        public void selectAction() {
-            List<TreeNode> visited = new LinkedList<TreeNode>();
-            TreeNode cur = this;
-            visited.add(this);
-            while (!cur.isLeaf()) {
-                cur = cur.select();
-                visited.add(cur);
-            }
-            cur.expand();
-            TreeNode newNode = cur.select();
-            visited.add(newNode);
-            double value = rollOut(newNode);
-            for (TreeNode node : visited) {
-                // would need extra logic for n-player game
-                node.updateStats(value);
+                    if(!e.isChosen()){
+                        boolean isAlready = false;
+                        for (TreeNodeMCTS n : children){
+                            if(n.idEdge == e.id )
+                                isAlready = true;
+                        }
+                        if(!isAlready)
+                            children.add(new TreeNodeMCTS(e.id));
+                    }
+                }
             }
         }
 
-        public void expand() {
-            children = new TreeNode[nActions];
-            for (int i=0; i<nActions; i++) {
-                children[i] = new TreeNode();
-            }
+        private void updateStats(double value) {
+            nVisits++;
+            totValue += value;
         }
 
-        private TreeNode select() {
-            TreeNode selected = null;
+        private boolean isLeaf() {
+            return (children.size() == 0 ? true : false);
+        }
+
+        private TreeNodeMCTS selectBestEdge() {
+            TreeNodeMCTS selected = null;
             double bestValue = Double.MIN_VALUE;
-            for (TreeNode c : children) {
+            for (TreeNodeMCTS c : children) {
                 double uctValue = c.totValue / (c.nVisits + epsilon) +
                         Math.sqrt(Math.log(nVisits+1) / (c.nVisits + epsilon)) +
                         r.nextDouble() * epsilon;
@@ -104,24 +204,9 @@ public class MCTSIA extends AIA {
             return selected;
         }
 
-        public boolean isLeaf() {
-            return children == null;
+        private TreeNodeMCTS selectEdgeToPlay() {
+            return children.get(r.nextInt(children.size()));
         }
 
-        public double rollOut(TreeNode tn) {
-            // ultimately a roll out will end in some value
-            // assume for now that it ends in a win or a loss
-            // and just return this at random
-            return r.nextInt(2);
-        }
-
-        public void updateStats(double value) {
-            nVisits++;
-            totValue += value;
-        }
-
-        public int arity() {
-            return children == null ? 0 : children.length;
-        }
     }
 }

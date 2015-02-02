@@ -2,6 +2,7 @@ package io.picarete.picarete.game_logics.ia;
 
 import java.util.List;
 
+import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 
@@ -12,9 +13,9 @@ public abstract class AIA extends Thread {
 
     public static final double MIN_TIME_TO_FIND = 0.6 * 1000; // In seconds
 
-    protected abstract Edge findEdge(int height, int width, List<Tile> game, List<Edge> previousEdgesPlayed);
+    protected abstract Edge findEdge(int height, int width, Game game, List<Edge> previousEdgesPlayed);
 
-    public Edge getEdgeFound(int height, int width, List<Tile> game, List<Edge> previousEdgePlayed){
+    public Edge getEdgeFound(int height, int width, Game game, List<Edge> previousEdgePlayed){
         Edge edge = null;
 
         long timeBefore = System.currentTimeMillis();

@@ -19,21 +19,26 @@ public class BuilderBestArea extends ABuilder {
 
     @Override
     protected void createBase(int height, int width, Game game){
+        int idEdge = 0;
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
                 Edge left;
                 Edge top;
-                Edge right = new Edge();
-                Edge bottom = new Edge();
+                Edge right = new Edge(idEdge);
+                idEdge++;
+                Edge bottom = new Edge(idEdge);
+                idEdge++;
                 if(i == 0){
-                    top = new Edge();
+                    top = new Edge(idEdge);
+                    idEdge++;
                 } else {
                     top = tiles.get((i-1)*width+j).getEdges().get(ETileSide.BOTTOM);
                     Log.d(this.getClass().getName(), "For UITile " + (i * width + j) + " / Top : " + Integer.toString((i - 1) * width + j));
                 }
 
                 if(j == 0){
-                    left = new Edge();
+                    left = new Edge(idEdge);
+                    idEdge++;
                 } else {
                     left = tiles.get(i*width+j-1).getEdges().get(ETileSide.RIGHT);
                     Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
