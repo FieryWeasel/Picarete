@@ -104,9 +104,11 @@ public abstract class ChooserFragment extends Fragment {
 
     private List<EGameMode> getTitlesForLevel(int level) {
         List<EGameMode> availableModes = new NoDuplicatesList<>();
+
         for(int i = 0 ; i <= level ; i++){
             availableModes.addAll(Config.getGameModes(i));
         }
+
         return availableModes;
     }
 

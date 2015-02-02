@@ -59,7 +59,7 @@ public class Config {
     }
 
     public static List<EIA> getIAs(int level){
-        List<EIA> colors = new LinkedList<>();
+        List<EIA> ias = new LinkedList<>();
 
         for(Level lvl : levels){
 
@@ -67,26 +67,24 @@ public class Config {
 
                 for (AUnlock unlock : lvl.unlocks) {
                     if (unlock instanceof UnlockIA)
-                        colors.add(((UnlockIA) unlock).ia);
+                        ias.add(((UnlockIA) unlock).ia);
                 }
-
             }
-
         }
-        return colors;
+        return ias;
     }
 
     public static List<EGameMode> getGameModes(int level){
-        List<EGameMode> colors = new LinkedList<>();
+        List<EGameMode> gameModes = new LinkedList<>();
         for(Level lvl : levels){
             if(lvl.id<=level && lvl.unlocks!=null) {
                 for (AUnlock unlock : lvl.unlocks) {
                     if (unlock instanceof UnlockMode)
-                        colors.add(((UnlockMode) unlock).gameMode);
+                        gameModes.add(((UnlockMode) unlock).gameMode);
                 }
             }
         }
-        return colors;
+        return gameModes;
     }
 
     public static int getRow(int level){
