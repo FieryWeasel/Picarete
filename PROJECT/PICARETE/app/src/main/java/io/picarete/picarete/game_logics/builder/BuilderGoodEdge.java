@@ -41,7 +41,7 @@ public class BuilderGoodEdge extends ABuilder {
             for (int i = 0; i < nbEdgeToBeSpecial; i++){
                 int edgeID = new Random().nextInt(getAllEdges().size());
                 Edge e = getAllEdges().get(edgeID);
-                Edge eSpecial = generateSpecialEdge();
+                Edge eSpecial = generateSpecialEdge(e.id);
                 for (Tile t : tiles){
                     for (ETileSide key : t.getEdges().keySet()){
                         if(t.getEdges().get(key) == e){
@@ -56,21 +56,26 @@ public class BuilderGoodEdge extends ABuilder {
     @Override
     protected void createBase(int height, int width, Game game) {
         // Create all edges and tiles
+        int idEdge = 0;
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
                 Edge left;
                 Edge top;
-                Edge right = generateEdge();
-                Edge bottom = generateEdge();
+                Edge right = generateEdge(idEdge);
+                idEdge++;
+                Edge bottom = generateEdge(idEdge);
+                idEdge++;
                 if(i == 0){
-                    top = generateEdge();
+                    top = generateEdge(idEdge);
+                    idEdge++;
                 } else {
                     top = tiles.get((i-1)*width+j).getEdges().get(ETileSide.BOTTOM);
                     Log.d(this.getClass().getName(), "For UITile " + (i * width + j) + " / Top : " + Integer.toString((i - 1) * width + j));
                 }
 
                 if(j == 0){
-                    left = generateEdge();
+                    left = generateEdge(idEdge);
+                    idEdge++;
                 } else {
                     left = tiles.get(i*width+j-1).getEdges().get(ETileSide.RIGHT);
                     Log.d(this.getClass().getName(), "For UITile "+(i*width+j)+" / Left : "+Integer.toString((i)*width+j-1));
@@ -91,20 +96,20 @@ public class BuilderGoodEdge extends ABuilder {
         return (percentOfEdges == 1 ? true : false);
     }
 
-    private Edge generateEdge(){
+    private Edge generateEdge(int idEdge){
         Edge e;
 
         if(hasToGenerateSpecialEdge()){
             nbSpecialEdges++;
-            e = generateSpecialEdge();
+            e = generateSpecialEdge(idEdge);
         }
         else
-            e = new Edge();
+            e = new Edge(idEdge);
 
         return e;
     }
 
-    private Edge generateSpecialEdge(){
-        return new EdgeGood();
+    private Edge generateSpecialEdge(int idEdge){
+        return new EdgeGood(idEdge);
     }
 }
