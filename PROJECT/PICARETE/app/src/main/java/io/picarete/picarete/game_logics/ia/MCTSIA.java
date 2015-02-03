@@ -25,11 +25,13 @@ public class MCTSIA extends AIA {
         Log.d(this.getName(), "MCTS");
 
         TreeNodeMCTS nodeRoot = new TreeNodeMCTS(previousEdgesPlayed.get(previousEdgesPlayed.size()-1).id);
-        Game gameCopied = copyGame(game);
-        for(int i = 0; i < 100000000; i++)
+        for(int i = 0; i < 100; i++){
+            Game gameCopied = copyGame(game);
+            gameCopied.idPlayer = 1;
             nodeRoot.selectAction(gameCopied);
+        }
 
-        TreeNodeMCTS bestNode = nodeRoot.getBestNode();
+        TreeNodeMCTS bestNode = nodeRoot.selectBestEdge();
         for (Tile t : game.getTiles()){
             for (Edge e : t.getEdges().values()){
                 if(e.id == bestNode.idEdge)
@@ -47,32 +49,77 @@ public class MCTSIA extends AIA {
         gameCopied.scores.put(1, game.getScores().get(1));
 
         for (Tile t : game.getTiles()){
-            gameCopied.tiles.add(copyTile(t, game.getTiles(), gameCopied));
+            gameCopied.tiles.add(createBase(t, gameCopied.getTiles(), gameCopied));
         }
 
         return gameCopied;
     }
 
     private Tile copyTile(Tile tile, List<Tile> tiles, Game game) {
-        Edge edgeLeft = new Edge(tile.getEdges().get(ETileSide.LEFT).id);
-        Edge edgeTop = new Edge(tile.getEdges().get(ETileSide.TOP).id);
-        Edge edgeRight = new Edge(tile.getEdges().get(ETileSide.RIGHT).id);
-        Edge edgeBottom = new Edge(tile.getEdges().get(ETileSide.BOTTOM).id);
+        Edge edgeLeft = null;
+        Edge edgeTop = null;
+        Edge edgeRight = null;
+        Edge edgeBottom = null;
+
 
         for(Tile t : tiles){
             for (Edge e : t.getEdges().values()){
-                if(e.id == edgeLeft.id)
+                if(e.id == tile.getEdges().get(ETileSide.LEFT).id)
                     edgeLeft = e;
-                if(e.id == edgeTop.id)
+                if(e.id == tile.getEdges().get(ETileSide.TOP).id)
                     edgeTop = e;
-                if(e.id == edgeRight.id)
+                if(e.id == tile.getEdges().get(ETileSide.RIGHT).id)
                     edgeRight = e;
-                if(e.id == edgeBottom.id)
+                if(e.id == tile.getEdges().get(ETileSide.BOTTOM).id)
                     edgeBottom = e;
             }
         }
 
+        if(edgeLeft == null)
+            edgeLeft = new Edge(tile.getEdges().get(ETileSide.LEFT).id);
+        if(edgeTop == null)
+            edgeTop = new Edge(tile.getEdges().get(ETileSide.TOP).id);
+        if(edgeRight == null)
+            edgeRight = new Edge(tile.getEdges().get(ETileSide.RIGHT).id);
+        if(edgeBottom == null)
+            edgeBottom = new Edge(tile.getEdges().get(ETileSide.BOTTOM).id);
+
+        edgeBottom.setIdPlayer(tile.getEdges().get(ETileSide.BOTTOM).getIdPlayer());
+        edgeRight.setIdPlayer(tile.getEdges().get(ETileSide.RIGHT).getIdPlayer());
+        edgeTop.setIdPlayer(tile.getEdges().get(ETileSide.TOP).getIdPlayer());
+        edgeLeft.setIdPlayer(tile.getEdges().get(ETileSide.LEFT).getIdPlayer());
+
         Tile tileCopied = new Tile(tile.id, edgeLeft, edgeTop, edgeRight, edgeBottom);
+        tileCopied.setEventListener(game);
+        tileCopied.setIdPlayer(tileCopied.getIdPlayer());
+
+        return tileCopied;
+    }
+
+    private Tile createBase(Tile tile, List<Tile> tiles, Game game){
+        Edge left;
+        Edge top;
+        Edge right = new Edge(tile.getEdges().get(ETileSide.RIGHT).id);
+        right.setIdPlayer(tile.getEdges().get(ETileSide.RIGHT).getIdPlayer());
+        Edge bottom = new Edge(tile.getEdges().get(ETileSide.BOTTOM).id);
+        bottom.setIdPlayer(tile.getEdges().get(ETileSide.BOTTOM).getIdPlayer());
+        if(tile.row == 0){
+            top = new Edge(tile.getEdges().get(ETileSide.TOP).id);
+            top.setIdPlayer(tile.getEdges().get(ETileSide.TOP).getIdPlayer());
+        } else {
+            top = tiles.get((tile.row-1)*game.width+tile.col).getEdges().get(ETileSide.BOTTOM);
+        }
+
+        if(tile.col == 0){
+            left = new Edge(tile.getEdges().get(ETileSide.LEFT).id);
+            left.setIdPlayer(tile.getEdges().get(ETileSide.LEFT).getIdPlayer());
+        } else {
+            left = tiles.get(tile.row*game.width+tile.col-1).getEdges().get(ETileSide.RIGHT);
+        }
+
+        Tile tileCopied = new Tile(tile.id, left, top, right, bottom);
+        tileCopied.row = tile.row;
+        tileCopied.col = tile.col;
         tileCopied.setEventListener(game);
 
         return tileCopied;
@@ -92,12 +139,16 @@ public class MCTSIA extends AIA {
 
         public int selectAction(Game game) {
             int score;
+
+            game = playEdge(game, idEdge);
+
             if(this.isLeaf()){
                 this.expand(game);
                 TreeNodeMCTS e = selectEdgeToPlay();
                 score = e.play(game);
             } else {
                 TreeNodeMCTS e = selectBestEdge();
+                Log.d(this.getClass().getName(), ""+e.idEdge);
                 score = e.selectAction(game);
             }
 
@@ -139,20 +190,6 @@ public class MCTSIA extends AIA {
             }
 
             return game;
-        }
-
-        public TreeNodeMCTS getBestNode(){
-            double bestScore = -1;
-            TreeNodeMCTS bestNode = null;
-
-            for (TreeNodeMCTS n : children){
-                if(totValue / nVisits > bestScore){
-                    bestNode = n;
-                    bestScore = totValue / nVisits;
-                }
-            }
-
-            return bestNode;
         }
 
         private boolean isFinish(Game game) {
@@ -204,6 +241,8 @@ public class MCTSIA extends AIA {
                     bestValue = uctValue;
                 }
             }
+
+            Log.d(this.getClass().getName(), ""+selected.idEdge+" with value "+bestValue);
             return selected;
         }
 

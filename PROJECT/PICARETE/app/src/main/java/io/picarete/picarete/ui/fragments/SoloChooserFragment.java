@@ -143,16 +143,16 @@ public class SoloChooserFragment extends ChooserFragment {
         int dRow = Integer.parseInt(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_ROW_KEY + getMode().toString(), "3"));
         EIA dIA = IASet.searchIA(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_IA_KEY + getMode().toString(), ""));
 
-        for(int i = 0; i < GameModeSet.getEGameMode(getActivity()).length; i++){
-            if(GameModeSet.getEGameMode(getActivity())[i] == dGameMode)
+        for(int i = 0; i < mGameModes.size(); i++){
+            if(mGameModes.get(i) == dGameMode)
                 mSpinnerGameMode.setSelection(i);
         }
         mSwitchChosenBorderTile.setChecked(dNeedChosenBorderTile);
         mSwitchChosenTile.setChecked(dNeedChosenTile);
         mColumnPicker.setValue(dColumn);
         mRowPicker.setValue(dRow);
-        for(int i = 0; i < IASet.getEIAs(getActivity()).length; i++){
-            if(IASet.getEIAs(getActivity())[i] == dIA)
+        for(int i = 0; i < mNameIAs.size(); i++){
+            if(mNameIAs.get(i) == dIA)
                 mSpinnerIA.setSelection(i);
         }
     }

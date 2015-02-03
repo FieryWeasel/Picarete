@@ -87,8 +87,8 @@ public class MultiChooserFragment extends ChooserFragment {
         int dRow = Integer.parseInt(getPref(Constants.FILE_CHOSER_DATA, Constants.CHOSER_ROW_KEY + getMode().toString(), "3"));
 
 
-        for(int i = 0; i < GameModeSet.getEGameMode(getActivity()).length; i++){
-            if(GameModeSet.getEGameMode(getActivity())[i] == dGameMode)
+        for(int i = 0; i < mGameModes.size(); i++){
+            if(mGameModes.get(i) == dGameMode)
                 mSpinnerGameMode.setSelection(i);
         }
         mSwitchChosenBorderTile.setChecked(dNeedChosenBorderTile);

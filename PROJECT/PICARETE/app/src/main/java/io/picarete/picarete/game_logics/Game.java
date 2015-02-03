@@ -18,7 +18,7 @@ import io.picarete.picarete.model.NoDuplicatesList;
 
 
 public class Game implements Tile.TileEventListener{
-    private int idPlayer = 0;
+    public int idPlayer = 0;
     public Map<Integer, Integer> scores = null;
 
     public List<Tile> tiles = null;
