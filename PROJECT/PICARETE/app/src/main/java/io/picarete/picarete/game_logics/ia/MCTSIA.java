@@ -1,6 +1,7 @@
 package io.picarete.picarete.game_logics.ia;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,9 +22,11 @@ public class MCTSIA extends AIA {
     protected Edge findEdge(int height, int width, Game game, List<Edge> previousEdgesPlayed) {
         Edge bestEdge = null;
 
+        Log.d(this.getName(), "MCTS");
+
         TreeNodeMCTS nodeRoot = new TreeNodeMCTS(previousEdgesPlayed.get(previousEdgesPlayed.size()-1).id);
         Game gameCopied = copyGame(game);
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 100000000; i++)
             nodeRoot.selectAction(gameCopied);
 
         TreeNodeMCTS bestNode = nodeRoot.getBestNode();

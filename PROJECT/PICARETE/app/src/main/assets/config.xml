@@ -3,7 +3,7 @@
 
     <!-- (i-1)+(i*const) -->
 
-    <config level="0" ia="EASY" color="#09C2BF|#FF6C6B" mode="CLASSIC"/>
+    <config level="0" ia="MCTS" color="#09C2BF|#FF6C6B" mode="CLASSIC" row="5" column="5"/>
 
     <config level="1" color="#EFC94C|#E27A3F"/>
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
+import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
@@ -37,6 +38,7 @@ public class SoloChooserFragment extends ChooserFragment {
 
     private EIA mNameIa;
     private Spinner mSpinnerIA;
+    private List<EIA> mNameIAs;
 
     /**
      * Use this factory method to create a new instance of
@@ -60,15 +62,16 @@ public class SoloChooserFragment extends ChooserFragment {
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_chooser, container, false);
 
+        mNameIAs = getIAForLevel(UserAccessor.getUser(getActivity()).level);
         mSpinnerIA = (Spinner) view.findViewById(R.id.mode_chooser_spinner_ia);
         mSpinnerIA.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
-                IASet.getNamesForIAs(getActivity(), getIAForLevel(UserAccessor.getUser(getActivity()).level))));
+                mNameIAs));
         mSpinnerIA.setSelection(0);
         mSpinnerIA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mNameIa = IASet.getEIAs(getActivity())[position];
+                mNameIa = mNameIAs.get(position);
             }
 
             @Override
@@ -82,9 +85,11 @@ public class SoloChooserFragment extends ChooserFragment {
 
     private List<EIA> getIAForLevel(int level) {
         List<EIA> availableIA = new NoDuplicatesList<>();
+
         for(int i = 0 ; i <= level ; i++){
             availableIA.addAll(Config.getIAs(i));
         }
+
         return availableIA;
     }
 
