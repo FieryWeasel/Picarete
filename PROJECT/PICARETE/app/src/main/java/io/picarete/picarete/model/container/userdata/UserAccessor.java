@@ -11,6 +11,7 @@ public class UserAccessor {
     public static User getUser(Context context){
         if(user == null){
             user = new User(context).load(context);
+            user.level = 30;
         }
         return user;
     }

@@ -3,7 +3,7 @@
 
     <!-- (i-1)+(i*const) -->
 
-    <config level="0" ia="MCTS" color="#09C2BF|#FF6C6B" mode="CLASSIC" row="5" column="5"/>
+    <config level="0" ia="EASY" color="#09C2BF|#FF6C6B" mode="CLASSIC" row="5" column="5"/>
 
     <config level="1" color="#EFC94C|#E27A3F"/>
 
@@ -59,7 +59,7 @@
 
     <config level="27" mode="CONTINUE_TO_PLAY" />
 
-    <config level="28" ia="MINIMAX" />
+    <config level="28" ia="MCTS" />
 
     <config level="29" column="7" />
 
