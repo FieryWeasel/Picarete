@@ -37,6 +37,7 @@ public class XMLParser {
 
     private static List<Level> levels = new ArrayList<>();
     private static List<Title> titles = new ArrayList<>();
+    private static Title title;
 
     public static List<Level> getLevels(InputStream in){
 
@@ -49,7 +50,7 @@ public class XMLParser {
     public static List<Title> getTitles(InputStream in){
 
         if(titles.size() == 0)
-        parse(in, 1);
+            parse(in, 1);
         return titles;
 
     }
@@ -72,7 +73,7 @@ public class XMLParser {
 
         try{
             int eventType = parser.getEventType();
-            Title title = new Title("", new ArrayList<Condition>());
+            title = new Title("", new ArrayList<Condition>());
             while (eventType != XmlPullParser.END_DOCUMENT){
 
                 switch(typeParse) {
@@ -80,7 +81,7 @@ public class XMLParser {
                         parseConfig(parser, eventType);
                         break;
                     case 1:
-                        parseTitles(parser, eventType, title);
+                        parseTitles(parser, eventType);
                         break;
                 }
 
@@ -96,9 +97,9 @@ public class XMLParser {
 
     }
 
-    private static void parseTitles(XmlPullParser parser, int event, Title title) {
+    private static void parseTitles(XmlPullParser parser, int event) {
 
-        switch (event){
+        switch (event) {
 
             case XmlPullParser.START_DOCUMENT:
 
@@ -110,9 +111,14 @@ public class XMLParser {
 
                     title = new Title("", new ArrayList<Condition>());
 
-                }else if(name.equalsIgnoreCase(ELEMENT_TITLE_VALUE)){
+                }
+                else if(name.equalsIgnoreCase(ELEMENT_TITLE_VALUE)){
 
-                    title.title = parser.getText();
+                    try {
+                        title.title = parser.nextText();
+                    } catch (XmlPullParserException | IOException e) {
+                        e.printStackTrace();
+                    }
 
                 }else if(name.equalsIgnoreCase(ELEMENT_TITLE_CONDITION)){
 
@@ -122,11 +128,12 @@ public class XMLParser {
                     String MODE = parser.getAttributeValue(null, "mode");
                     String WIN = parser.getAttributeValue(null, "win");
                     String LOST = parser.getAttributeValue(null, "lost");
-                    String PLAY = parser.getAttributeValue(null, "played");
+                    String PLAY = parser.getAttributeValue(null, "play");
                     String LEVEL = parser.getAttributeValue(null, "level");
                     String DIFFICULTY = parser.getAttributeValue(null, "difficulty");
                     String TILE_USER = parser.getAttributeValue(null, "tile_user");
                     String TILE_OPPONENT = parser.getAttributeValue(null, "tile_opponent");
+                    String RATIO = parser.getAttributeValue(null, "ratio");
 
                     if(GAME_MODE != null){
                         map.put(Condition.EConditionType.GAME_MODE, GAME_MODE);
@@ -173,6 +180,10 @@ public class XMLParser {
                         Log.d("PARSE TITLE", TILE_OPPONENT);
                     }
 
+                    if(RATIO != null){
+                        map.put(Condition.EConditionType.RATIO, RATIO);
+                        Log.d("PARSE TITLE", RATIO);
+                    }
 
                     Condition condition = new Condition(map);
                     title.conditions.add(condition);

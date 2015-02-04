@@ -1,5 +1,7 @@
 package io.picarete.picarete.ui.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,10 +14,13 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.List;
+
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.container.userdata.Config;
 import io.picarete.picarete.model.container.userdata.UserAccessor;
+import io.picarete.picarete.model.data_sets.TitleSet;
 import io.picarete.picarete.ui.color_picker.ColorPickerDialog;
 import io.picarete.picarete.ui.color_picker.ColorPickerSwatch;
 import io.picarete.picarete.ui.color_picker.ColorStateDrawable;
@@ -130,27 +135,63 @@ public class ProfileFragment extends Fragment {
         if(isInEditMode){
             playerNameTV.setVisibility(View.GONE);
             playerTitle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            titleList();
-                        }
-                    });
+                @Override
+                public void onClick(View v) {
+                    titleList();
+                }
+            });
+            playerTitle.setVisibility(View.VISIBLE);
             playerNameET.setVisibility(View.VISIBLE);
+            playerNameET.setHint(getString(R.string.nickname));
+            playerNameET.setText("");
+            playerNameET.requestFocus();
         }else{
             playerNameET.setVisibility(View.GONE);
             String name = playerNameET.getText().toString();
-
-            playerNameTV.setText(name);
+            if(!name.equalsIgnoreCase("")) {
+                playerNameTV.setText(name);
+                UserAccessor.getUser(getActivity()).name = name;
+            }else
+                playerNameTV.setText(getString(R.string.profile));
             playerNameTV.setVisibility(View.VISIBLE);
 
             playerTitle.setOnClickListener(null);
-            playerTitle.setText(UserAccessor.getUser(getActivity()).title.title);
+            if(!UserAccessor.getUser(getActivity()).title.title.equalsIgnoreCase(""))
+                playerTitle.setText(UserAccessor.getUser(getActivity()).title.title);
+            else
+                playerTitle.setText(getString(R.string.noTitle));
         }
 
     }
 
     private void titleList() {
+        List<String> titles  = TitleSet.getUnlockedTitles(getActivity());
+        if(titles.size() == 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.noTitleAvailable)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        }else {
+            final String arrayTitles[] = new String[titles.size()];
+            titles.toArray(arrayTitles);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.pick_title)
+                    .setItems(arrayTitles, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            UserAccessor.getUser(getActivity()).title.title = arrayTitles[which];
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        }
     }
 
     private void initColorImage(ImageView colorImage, int player) {

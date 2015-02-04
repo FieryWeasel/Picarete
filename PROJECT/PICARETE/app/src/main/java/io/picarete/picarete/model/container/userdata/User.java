@@ -70,16 +70,16 @@ public class User implements Serializable{
         name = "";
         Log.d("NEW USER", "new");
         for( EGameMode gameMode : GameModeSet.getEGameMode(context)){
+            stats.add(new Stat(null, gameMode, EMode.MULTI));
             for(EIA ia : IASet.getEIAs(context)){
                 stats.add(new Stat(ia, gameMode, EMode.SOLO));
-                stats.add(new Stat(ia, gameMode, EMode.MULTI));
             }
         }
     }
 
     public void userFinishedAGame(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
         computeXpNeededNextLevel();
-        actualXp += computeXpEarned(mode, gameMode, difficulty, tilesP1, result);
+        actualXp += Math.ceil(computeXpEarned(mode, gameMode, difficulty, tilesP1, result));
         while(actualXp > nextXp){
             previousXp = nextXp;
             actualXp = actualXp-nextXp;
@@ -91,52 +91,49 @@ public class User implements Serializable{
 
     private double computeXpEarned(EMode mode, EGameMode gameMode, EIA difficulty, int tilesWin, int result) {
         double xpBase = (VALUE_TILES_WIN * tilesWin) + (result == -1 ? VALUE_GAME_WON : 0);
-        double xpDifficulty = 0;
-        double xpGameMode = 0;
 
         if(difficulty == EIA.EASY){
-            xpDifficulty = xpBase * MULTIPLIER_EASY;
+            xpBase *= MULTIPLIER_EASY;
 
         }else if(difficulty == EIA.EASY_MAX_TILE){
-            xpDifficulty = xpBase * MULTIPLIER_EASY_MAX_TILE;
+            xpBase *= MULTIPLIER_EASY_MAX_TILE;
 
         }else if(difficulty == EIA.AGGRESSIVE){
-            xpDifficulty = xpBase * MULTIPLIER_AGGRESSIVE;
+            xpBase *= MULTIPLIER_AGGRESSIVE;
 
         }else if(difficulty == EIA.MINIMAX){
-            xpDifficulty = xpBase * MULTIPLIER_MINIMAX;
-
+            xpBase *= MULTIPLIER_MINIMAX;
         }
 
         if(gameMode == EGameMode.CLASSIC){
-            xpGameMode = xpDifficulty * MULTIPLIER_CLASSIC;
+            xpBase *= MULTIPLIER_CLASSIC;
 
         }else if(gameMode == EGameMode.EDGE_BAD){
-            xpGameMode = xpDifficulty * MULTIPLIER_EDGE_BAD;
+            xpBase *= MULTIPLIER_EDGE_BAD;
 
         }else if(gameMode == EGameMode.EDGE_GOOD){
-            xpGameMode = xpDifficulty * MULTIPLIER_EDGE_GOOD;
+            xpBase *= MULTIPLIER_EDGE_GOOD;
 
         }else if(gameMode == EGameMode.TILE_BAD){
-            xpGameMode = xpDifficulty * MULTIPLIER_TILE_BAD;
+            xpBase *= MULTIPLIER_TILE_BAD;
 
         }else if(gameMode == EGameMode.TILE_GOOD){
-            xpGameMode = xpDifficulty * MULTIPLIER_TILE_GOOD;
+            xpBase *= MULTIPLIER_TILE_GOOD;
 
         }else if(gameMode == EGameMode.BEST_AREA){
-            xpGameMode = xpDifficulty * MULTIPLIER_BEST_AREA;
+            xpBase *= MULTIPLIER_BEST_AREA;
 
         }else if(gameMode == EGameMode.CONTINUE_TO_PLAY){
-            xpGameMode = xpDifficulty * MULTIPLIER_CONTINUE_TO_PLAY;
+            xpBase *= MULTIPLIER_CONTINUE_TO_PLAY;
 
         }
 
         if(result == 0)
-            xpGameMode = xpGameMode * MULTIPLIER_GAME_EQUALITY;
+            xpBase *= MULTIPLIER_GAME_EQUALITY;
         else if(result == 1)
-            xpGameMode = xpGameMode * MULTIPLIER_GAME_LOST;
+            xpBase *= MULTIPLIER_GAME_LOST;
 
-        return xpGameMode * (mode == EMode.SOLO ? MULTIPLIER_SOLO : MULTIPLIER_MULTI);
+        return xpBase * (mode == EMode.SOLO ? MULTIPLIER_SOLO : MULTIPLIER_MULTI);
     }
 
     //(i-1)+(i*const)
@@ -219,7 +216,7 @@ public class User implements Serializable{
     private void saveStatAndUser(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result) {
 
         for(Stat stat : stats) {
-            if (stat.gameMode == gameMode && stat.ia == difficulty && stat.mode == mode) {
+            if (stat.gameMode == gameMode &&(stat.ia == null || stat.ia == difficulty) && stat.mode == mode) {
                 StatGame statGame = new StatGame();
                 statGame.tileP1 = tilesP1;
                 statGame.tileP2 = tilesP2;
