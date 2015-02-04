@@ -49,6 +49,10 @@
     <string name="mode_choser_pre_chosen_tile">Activate random pre-chosen tile</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="loading">Loading...</string>
-    <string name="noTitle">You don\'t have any title yet :/ Go play some games to win them !</string>
+    <string name="noTitle">You don\'t have any title yet :/</string>
+    <string name="pick_title">Choose your title</string>
+    <string name="nickname">Nickname</string>
+    <string name="ok">Ok</string>
+    <string name="noTitleAvailable">You don\'t have any title yet ! You need to play to win some  ;)</string>
 
 </resources>

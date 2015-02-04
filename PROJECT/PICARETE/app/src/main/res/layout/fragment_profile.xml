@@ -24,25 +24,33 @@
                 android:layout_centerVertical="true"
                 android:src="@android:drawable/ic_menu_edit"/>
 
-            <io.picarete.picarete.ui.custom.CustomFontTextView
+            <RelativeLayout
+                android:id="@+id/name_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/profile"
-                style="@style/TitleTheme"
-                android:gravity="center"
-                android:background="@null"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile_player_name_tv"/>
+                android:layout_centerHorizontal="true">
+                <io.picarete.picarete.ui.custom.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile"
+                    style="@style/TitleTheme"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/profile_player_name_tv"/>
 
-            <io.picarete.picarete.ui.custom.CustomFontEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile"
-                style="@style/TitleTheme"
-                android:gravity="center"
-                android:background="@null"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile_player_name_et"/>
+                <io.picarete.picarete.ui.custom.CustomFontEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile"
+                    style="@style/TitleTheme"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/profile_player_name_et"/>
+                </RelativeLayout>
+
+
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -51,7 +59,7 @@
                 android:gravity="center"
                 style="@style/SubTitleTheme"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/profile_player_name_tv"
+                android:layout_below="@+id/name_layout"
                 android:id="@+id/profile_player_title_tv"/>
 
             </RelativeLayout>
