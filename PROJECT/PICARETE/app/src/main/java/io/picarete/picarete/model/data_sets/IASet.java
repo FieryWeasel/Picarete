@@ -105,7 +105,7 @@ public class IASet {
         if(IAs == null)
             constructListIas(context);
 
-        String[] names = new String[IAs.size()];
+        String[] names = new String[iaForLevel.size()];
 
         for (int i = 0; i< iaForLevel.size(); i++){
             if(IAs.containsKey(iaForLevel.get(i)))

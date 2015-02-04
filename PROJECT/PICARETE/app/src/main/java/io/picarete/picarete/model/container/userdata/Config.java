@@ -11,6 +11,7 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.tools.XMLParser;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.NoDuplicatesList;
 import io.picarete.picarete.model.container.userdata.AUnlock;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.container.userdata.Level;
@@ -41,7 +42,7 @@ public class Config {
     }
 
     public static List<ColorCustom> getColors(int level){
-        List<ColorCustom> colors = new LinkedList<>();
+        List<ColorCustom> colors = new NoDuplicatesList<>();
 
         for(Level lvl : levels){
 
@@ -59,7 +60,7 @@ public class Config {
     }
 
     public static List<EIA> getIAs(int level){
-        List<EIA> ias = new LinkedList<>();
+        List<EIA> ias = new NoDuplicatesList<>();
 
         for(Level lvl : levels){
 
@@ -75,7 +76,7 @@ public class Config {
     }
 
     public static List<EGameMode> getGameModes(int level){
-        List<EGameMode> gameModes = new LinkedList<>();
+        List<EGameMode> gameModes = new NoDuplicatesList<>();
         for(Level lvl : levels){
             if(lvl.id<=level && lvl.unlocks!=null) {
                 for (AUnlock unlock : lvl.unlocks) {

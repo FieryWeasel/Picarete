@@ -60,7 +60,7 @@ public class GameModeSet {
         if(gameModes == null)
             constructListGameMode(context);
 
-        String[] titles = new String[gameModes.size()];
+        String[] titles = new String[modes.size()];
 
         for (int i = 0; i< modes.size(); i++){
             if(gameModes.containsKey(modes.get(i)))
@@ -88,7 +88,7 @@ public class GameModeSet {
         if(gameModes == null)
             constructListGameMode(context);
 
-        String[] desc = new String[gameModes.size()];
+        String[] desc = new String[modes.size()];
 
         for (int i = 0; i< modes.size(); i++){
             if(gameModes.containsKey(modes.get(i)))
