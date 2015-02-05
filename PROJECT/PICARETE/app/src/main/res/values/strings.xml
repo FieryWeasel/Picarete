@@ -2,12 +2,12 @@
 <resources>
 
     <string name="app_name">PicArete</string>
-    <string name="app_version">v0.82</string>
+    <string name="app_version">v0.9</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="solo">Solo</string>
-    <string name="multi">Multiplayer</string>
+    <string name="multi">Multi-player</string>
     <string name="custom">Customization</string>
     <string name="profile">Profile</string>
     <string name="soloModeChooser">Mode chooser</string>
@@ -25,11 +25,11 @@
     <string name="yourTurn">Your turn !</string>
     <string name="startPoints">0</string>
     <string name="score">Score</string>
-    <string name="xp">Level</string>
+    <string name="xp">Level :</string>
     <string name="dlg_solo_lost_title">Lose</string>
     <string name="dlg_solo_lost_msg">Oh, you lose the game...</string>
     <string name="dlg_solo_equality_title">Equality</string>
-    <string name="dlg_solo_equality_msg">You are eqaulity with your oponen...</string>
+    <string name="dlg_solo_equality_msg">You are equality with your opponent...</string>
     <string name="dlg_multi_retry">Retry</string>
     <string name="dlg_multi_continue">Return to home</string>
     <string name="dlg_multi_equality_msg">Player 1 and player 2 are equals...</string>
@@ -49,10 +49,11 @@
     <string name="mode_choser_pre_chosen_tile">Activate random pre-chosen tile</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="loading">Loading...</string>
-    <string name="noTitle">You don\'t have any title yet :/</string>
+    <string name="noTitle">You don\'t have any title yet</string>
     <string name="pick_title">Choose your title</string>
     <string name="nickname">Nickname</string>
     <string name="ok">Ok</string>
-    <string name="noTitleAvailable">You don\'t have any title yet ! You need to play to win some  ;)</string>
+    <string name="noTitleAvailable">You don\'t have any title yet ! You need to play to win some of them. Try to play.</string>
+    <string name="home_welcome">Welcome</string>
 
 </resources>

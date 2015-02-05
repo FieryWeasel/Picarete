@@ -11,13 +11,13 @@
     </string-array>
 
     <string-array name="game_modes_descriptions">
-        <item>Classic Desc</item>
-        <item>Mean Edge Desc</item>
-        <item>Cursed Tile Desc</item>
-        <item>Magic Edge Desc</item>
-        <item>Enchanted Tile Desc</item>
-        <item>Extensive Desc</item>
-        <item>Berserk Desc</item>
+        <item>No special rules. All tile give one point. Gain most of your opponent to win.</item>
+        <item>Some edges give negative points.</item>
+        <item>Some tiles give negative points.</item>
+        <item>Some edges give bonus points.</item>
+        <item>Some tiles give bonus points.</item>
+        <item>The more side by side tile you have, the more you win points.</item>
+        <item>Complete a tile and replay immediately.</item>
     </string-array>
 
     <string-array name="ia_difficulty">

@@ -101,7 +101,7 @@ public class IASet {
         return ia;
     }
 
-    public static String[] getNamesForIAs(Context context, List<EIA> iaForLevel) {
+    public static String[] getNames(Context context, List<EIA> iaForLevel) {
         if(IAs == null)
             constructListIas(context);
 

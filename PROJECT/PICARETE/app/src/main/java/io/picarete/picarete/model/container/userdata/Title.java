@@ -1,5 +1,6 @@
 package io.picarete.picarete.model.container.userdata;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.picarete.picarete.model.container.userdata.Condition;
@@ -8,7 +9,7 @@ import io.picarete.picarete.model.container.userdata.User;
 /**
  * Created by iem on 13/01/15.
  */
-public class Title {
+public class Title implements Serializable {
     public String title = "";
     public List<Condition> conditions = null;
 

@@ -3,7 +3,7 @@
 
     <!-- (i-1)+(i*const) -->
 
-    <config level="0" ia="EASY" color="#09C2BF|#FF6C6B" mode="CLASSIC" row="5" column="5"/>
+    <config level="0" ia="EASY" color="#09C2BF|#FF6C6B" mode="CLASSIC"/>
 
     <config level="1" color="#EFC94C|#E27A3F"/>
 
@@ -21,7 +21,7 @@
 
     <config level="8" />
 
-    <config level="9" color="" />
+    <config level="9"/>
 
     <config level="10" row="5"/>
 
@@ -41,7 +41,7 @@
 
     <config level="18" />
 
-    <config level="19" color="" />
+    <config level="19"/>
 
     <config level="20" />
 
@@ -63,6 +63,6 @@
 
     <config level="29" column="7" />
 
-    <config level="30" color="" />
+    <config level="30"/>
 
 </configs>

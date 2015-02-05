@@ -6,9 +6,11 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.container.userdata.UserAccessor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +51,15 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        TextView UIWelcomeMsg = (TextView) view.findViewById(R.id.home_welcome);
+        if(UserAccessor.getUser(getActivity()).name.compareToIgnoreCase("") != 0){
+            UIWelcomeMsg.setText(getString(R.string.home_welcome) + " " + UserAccessor.getUser(getActivity()).name);
+            UIWelcomeMsg.setVisibility(View.VISIBLE);
+        }else{
+            UIWelcomeMsg.setText("");
+            UIWelcomeMsg.setVisibility(View.INVISIBLE);
+        }
 
         (view.findViewById(R.id.b_solo)).setOnClickListener(new View.OnClickListener() {
             @Override

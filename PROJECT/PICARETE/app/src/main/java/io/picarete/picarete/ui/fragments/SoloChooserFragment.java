@@ -66,7 +66,7 @@ public class SoloChooserFragment extends ChooserFragment {
         mSpinnerIA = (Spinner) view.findViewById(R.id.mode_chooser_spinner_ia);
         mSpinnerIA.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,
-                mNameIAs));
+                IASet.getNames(getActivity(), mNameIAs)));
         mSpinnerIA.setSelection(0);
         mSpinnerIA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

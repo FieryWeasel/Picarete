@@ -80,7 +80,7 @@ public class Game implements Tile.TileEventListener{
         }
 
         List<Tile> neighborTilesFromEdge = findNeighborFromEdge(edge);
-        List<Tile> tilesToRedraw = new NoDuplicatesList<>();
+        List<Tile> tilesToRedraw = findNeighborFromTile(tile);
         List<Tile> tilesCompleted = new NoDuplicatesList<>();
 
         for(Tile t : neighborTilesFromEdge){
@@ -95,8 +95,6 @@ public class Game implements Tile.TileEventListener{
         for(Tile t : tilesCompleted){
             if(gameMode == EGameMode.BEST_AREA && t instanceof TileBrother){
                 List<Tile> tileBrothers = ((TileBrother) t).getScoreBrothers(new ArrayList<Tile>());
-                for (Tile tBrother : tileBrothers)
-                    tilesToRedraw.add(tBrother);
                 addScoreForPlayer(idPlayer, tileBrothers.size());
             } else {
                 addScoreForPlayer(idPlayer, t.getScoreForPlayer());
@@ -128,7 +126,7 @@ public class Game implements Tile.TileEventListener{
     }
 
     public List<Tile> findNeighborFromEdge(Edge edge){
-        List<Tile> tilesNeighbor = new ArrayList<Tile>();
+        List<Tile> tilesNeighbor = new NoDuplicatesList<Tile>();
 
         for(int i = 0; i < tiles.size(); i++){
             for(Edge e : tiles.get(i).getEdges().values()){
@@ -141,15 +139,12 @@ public class Game implements Tile.TileEventListener{
     }
 
     public List<Tile> findNeighborFromTile(Tile tile){
-        List<Tile> tilesNeighbor = new ArrayList<Tile>();
+        List<Tile> tilesNeighbor = new NoDuplicatesList<>();
 
         for(int i = 0; i < tiles.size(); i++){
             for(Edge e : tiles.get(i).getEdges().values()){
-                for(Edge edgeFromTileSearch : tile.getEdges().values()){
-                    if(e == edgeFromTileSearch)
-                        tilesNeighbor.add(tiles.get(i));
-                }
-
+                for (Tile t : findNeighborFromEdge(e))
+                    tilesNeighbor.add(t);
             }
         }
 

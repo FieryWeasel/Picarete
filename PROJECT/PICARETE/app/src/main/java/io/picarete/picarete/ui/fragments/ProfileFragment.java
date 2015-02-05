@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +32,12 @@ public class ProfileFragment extends Fragment {
 
     int colorPlayer1;
     int colorPlayer2;
-    private ImageView imageColorPlayer1;
-    private ImageView imageColorPlayer2;
-    private TextView playerNameTV;
-    private EditText playerNameET;
-    private TextView playerTitle;
+    private ImageView UIImageColorPlayer1;
+    private ImageView UIImageColorPlayer2;
+    private ImageView UIImageEdit;
+    private TextView UITextViewPlayerName;
+    private EditText UIEditTextPlayerName;
+    private TextView UIPlayerTitle;
     private boolean isInEditMode = false;
 
     /**
@@ -65,12 +68,13 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        playerNameTV = (TextView) view.findViewById(R.id.profile_player_name_tv);
-        playerNameTV.setText(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase("") ? getString(R.string.profile) : UserAccessor.getUser(getActivity()).name);
-        playerTitle = (TextView) view.findViewById(R.id.profile_player_title_tv);
-        playerTitle.setText(UserAccessor.getUser(getActivity()).title.title.equalsIgnoreCase("") ? getString(R.string.noTitle) : UserAccessor.getUser(getActivity()).title.title);
-        playerNameET = (EditText) view.findViewById(R.id.profile_player_name_et);
-        playerNameET.setVisibility(View.GONE);
+        UIImageEdit = (ImageView) view.findViewById(R.id.edit_profile);
+        UITextViewPlayerName = (TextView) view.findViewById(R.id.profile_player_name_tv);
+        UITextViewPlayerName.setText(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase("") ? getString(R.string.profile) : UserAccessor.getUser(getActivity()).name);
+        UIPlayerTitle = (TextView) view.findViewById(R.id.profile_player_title_tv);
+        UIPlayerTitle.setText(UserAccessor.getUser(getActivity()).title.equalsIgnoreCase("") ? getString(R.string.noTitle) : UserAccessor.getUser(getActivity()).title);
+        UIEditTextPlayerName = (EditText) view.findViewById(R.id.profile_player_name_et);
+        UIEditTextPlayerName.setVisibility(View.GONE);
 
         ProgressBar progressXp = (ProgressBar)view.findViewById(R.id.seekBar_xp);
         progressXp.setProgress((int) (((double) UserAccessor.getUser(getActivity()).actualXp/ (double) UserAccessor.getUser(getActivity()).nextXp)*100.0));
@@ -92,9 +96,9 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        imageColorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
-        initColorImage(imageColorPlayer1, 0);
-        imageColorPlayer1.setOnClickListener(new View.OnClickListener() {
+        UIImageColorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
+        initColorImage(UIImageColorPlayer1, 0);
+        UIImageColorPlayer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
@@ -107,14 +111,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        imageColorPlayer2 = (ImageView) view.findViewById(R.id.value_colorP2);
-        initColorImage(imageColorPlayer2, 1);
-        imageColorPlayer2.setOnClickListener(new View.OnClickListener() {
+        UIImageColorPlayer2 = (ImageView) view.findViewById(R.id.value_colorP2);
+        initColorImage(UIImageColorPlayer2, 1);
+        UIImageColorPlayer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int[] colors = new int[Config.getColors(UserAccessor.getUser(getActivity()).level).size()];
                 int i = 0;
-				
+
                 for (ColorCustom color : Config.getColors(UserAccessor.getUser(getActivity()).level)) {
                     colors[i] = color.getColor();
                     i++;
@@ -124,42 +128,48 @@ public class ProfileFragment extends Fragment {
         });
 
         //titles.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, TitleSet.getUnlockedTitles(getActivity())));
-        
-
-
         return view;
     }
 
     private void startEditMode() {
         isInEditMode = !isInEditMode;
         if(isInEditMode){
-            playerNameTV.setVisibility(View.GONE);
-            playerTitle.setOnClickListener(new View.OnClickListener() {
+            UIImageEdit.setImageResource(R.drawable.profil_check);
+            UITextViewPlayerName.setVisibility(View.GONE);
+            UIPlayerTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     titleList();
                 }
             });
-            playerTitle.setVisibility(View.VISIBLE);
-            playerNameET.setVisibility(View.VISIBLE);
-            playerNameET.setHint(getString(R.string.nickname));
-            playerNameET.setText("");
-            playerNameET.requestFocus();
-        }else{
-            playerNameET.setVisibility(View.GONE);
-            String name = playerNameET.getText().toString();
-            if(!name.equalsIgnoreCase("")) {
-                playerNameTV.setText(name);
-                UserAccessor.getUser(getActivity()).name = name;
-            }else
-                playerNameTV.setText(getString(R.string.profile));
-            playerNameTV.setVisibility(View.VISIBLE);
-
-            playerTitle.setOnClickListener(null);
-            if(!UserAccessor.getUser(getActivity()).title.title.equalsIgnoreCase(""))
-                playerTitle.setText(UserAccessor.getUser(getActivity()).title.title);
+            UIPlayerTitle.setVisibility(View.VISIBLE);
+            UIEditTextPlayerName.setVisibility(View.VISIBLE);
+            UIEditTextPlayerName.setHint(getString(R.string.nickname));
+            if(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase(""))
+                UIEditTextPlayerName.setText("");
             else
-                playerTitle.setText(getString(R.string.noTitle));
+                UIEditTextPlayerName.setText(UserAccessor.getUser(getActivity()).name);
+            UIEditTextPlayerName.requestFocus();
+        }else{
+            UIImageEdit.setImageResource(R.drawable.profil_edit);
+            UIEditTextPlayerName.setVisibility(View.GONE);
+            String name = UIEditTextPlayerName.getText().toString();
+            UserAccessor.getUser(getActivity()).name = name;
+            if(!name.equalsIgnoreCase("")) {
+                UITextViewPlayerName.setText(name);
+            }else
+                UITextViewPlayerName.setText(getString(R.string.profile));
+            UITextViewPlayerName.setVisibility(View.VISIBLE);
+
+            String title = UIPlayerTitle.getText().toString();
+            UserAccessor.getUser(getActivity()).title = title;
+            UIPlayerTitle.setOnClickListener(null);
+            if(!UserAccessor.getUser(getActivity()).title.equalsIgnoreCase(""))
+                UIPlayerTitle.setText(UserAccessor.getUser(getActivity()).title);
+            else
+                UIPlayerTitle.setText(getString(R.string.noTitle));
+
+            UserAccessor.getUser(getActivity()).save(getActivity());
         }
 
     }
@@ -186,7 +196,10 @@ public class ProfileFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             // The 'which' argument contains the index position
                             // of the selected item
-                            UserAccessor.getUser(getActivity()).title.title = arrayTitles[which];
+                            if(!arrayTitles[which].equalsIgnoreCase(""))
+                                UIPlayerTitle.setText(arrayTitles[which]);
+                            else
+                                UIPlayerTitle.setText(getString(R.string.noTitle));
                             dialog.dismiss();
                         }
                     });
@@ -210,7 +223,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showColorPickerDialog(int[] colors, final int player){
-        ColorPickerDialog colorcalendar = ColorPickerDialog.newInstance(
+        ColorPickerDialog colorCalendar = ColorPickerDialog.newInstance(
                 R.string.color_picker_default_title,
                 colors,
                 (player == 0 ? UserAccessor.getUser(getActivity()).getColorPlayer1().getColor() : UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()),
@@ -218,7 +231,7 @@ public class ProfileFragment extends Fragment {
                 ColorPickerDialog.SIZE_SMALL);
 
         //Implement listener to get selected color value
-        colorcalendar.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener(){
+        colorCalendar.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 
             @Override
             public void onColorSelected(int color) {
@@ -227,16 +240,18 @@ public class ProfileFragment extends Fragment {
 
         });
 
-        colorcalendar.show(getFragmentManager(),"cal");
+        colorCalendar.show(getFragmentManager(), "cal");
     }
 
     private void changeColorForPlayer(int player, int color){
         if(player == 0 && color != UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()) {
             UserAccessor.getUser(getActivity()).setColorPlayer1(new ColorCustom(color));
-            initColorImage(imageColorPlayer1, 0);
+            UserAccessor.getUser(getActivity()).save(getActivity());
+            initColorImage(UIImageColorPlayer1, 0);
         } else if(player == 1 && color != UserAccessor.getUser(getActivity()).getColorPlayer1().getColor()) {
             UserAccessor.getUser(getActivity()).setColorPlayer2(new ColorCustom(color));
-            initColorImage(imageColorPlayer2, 1);
+            UserAccessor.getUser(getActivity()).save(getActivity());
+            initColorImage(UIImageColorPlayer2, 1);
         }
     }
 

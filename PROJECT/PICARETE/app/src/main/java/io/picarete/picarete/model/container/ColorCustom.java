@@ -2,10 +2,12 @@ package io.picarete.picarete.model.container;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
+
 /**
  * Created by root on 1/9/15.
  */
-public class ColorCustom {
+public class ColorCustom implements Serializable {
     int number = -1;
     String str = "";
 

@@ -2,6 +2,13 @@
 <titles>
 
     <title>
+        <value>Demo maker</value>
+        <condition
+            mode="multi"
+            play="1"
+            />
+    </title>
+    <title>
         <value>AI Fighter</value>
         <condition
             game_mode="CLASSIC"
@@ -39,7 +46,7 @@
     <title>
         <value></value>
         <condition
-            lost="1"
+            play="1"
             />
     </title>
 

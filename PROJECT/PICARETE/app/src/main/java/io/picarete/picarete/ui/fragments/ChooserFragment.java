@@ -64,13 +64,10 @@ public abstract class ChooserFragment extends Fragment {
         mGameModes = getTitlesForLevel(UserAccessor.getUser(getActivity()).level);
 
         mSpinnerGameMode = (Spinner) view.findViewById(R.id.mode_chooser_spinner_game_mode);
-
-
         mSpinnerGameMode.setAdapter(new SpinnerModeAdapter(getActivity(),
                 android.R.layout.simple_spinner_item,
-                GameModeSet.getDesc(getActivity(), mGameModes),
-                GameModeSet.getTitles(getActivity(), mGameModes)));
-
+                GameModeSet.getTitles(getActivity(), mGameModes),
+                GameModeSet.getDesc(getActivity(), mGameModes)));
         mSpinnerGameMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +80,6 @@ public abstract class ChooserFragment extends Fragment {
             }
         });
         mSpinnerGameMode.setSelection(0);
-
 
         mColumnPicker = (NumberPicker) view.findViewById(R.id.mode_chooser_picker_column);
         mColumnPicker.setMaxValue(Config.getColumn(UserAccessor.getUser(getActivity()).level));
@@ -102,7 +98,6 @@ public abstract class ChooserFragment extends Fragment {
                 onValidate(mGameMode, mColumnPicker.getValue(), mRowPicker.getValue(), mSwitchChosenBorderTile.isChecked(), mSwitchChosenTile.isChecked());
             }
         });
-
 
         initializeElements();
 

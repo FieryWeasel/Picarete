@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,6 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.ui.UITile;
-import io.picarete.picarete.model.container.userdata.User;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.custom.CustomFontTextView;
 import io.picarete.picarete.ui.custom.CustomFontGridLayout;
@@ -51,7 +48,8 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     protected TextView UITurnPlayer2;
     protected TextView UIScorePlayer1;
     protected TextView UIScorePlayer2;
-    private LinearLayout scores;
+    private LinearLayout UIScores;
+    private CustomFontTextView UIScoresTitle;
     private CustomFontTextView UISubTitle;
     protected CustomFontTextView UITitle;
     private LinearLayout UIHeader;
@@ -92,7 +90,8 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         UIGridGame = (CustomFontGridLayout) view.findViewById(R.id.game_grid);
         UIRoot = (RelativeLayout) view.findViewById(R.id.game_root);
 
-        scores = (LinearLayout) view.findViewById(R.id.game_scores);
+        UIScores = (LinearLayout) view.findViewById(R.id.game_scores);
+        UIScoresTitle = (CustomFontTextView) view.findViewById(R.id.game_scores_title);
         UISubTitle = (CustomFontTextView) view.findViewById(R.id.game_sub_title);
         UITitle = (CustomFontTextView) view.findViewById(R.id.game_title);
         UIHeader = (LinearLayout) view.findViewById(R.id.game_header);
@@ -100,13 +99,13 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         UISubTitle.setText(GameModeSet.gameModes.get(mode).title);
         initializeComponent();
 
-        scores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        UIScores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 size = getTileMeasure(column);
                 createGame();
                 resetScore();
-                scores.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                UIScores.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
 
@@ -165,7 +164,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         int width = size.x;
         int heigth =  size.y;
         int headerSize = UIHeader.getHeight() + UIHeader.getPaddingBottom() + UIHeader.getPaddingTop();
-        int footerSize = scores.getHeight() + scores.getPaddingBottom() + scores.getPaddingTop();
+        int footerSize = UIScores.getHeight() + UIScores.getPaddingBottom() + UIScores.getPaddingTop() + UIScoresTitle.getHeight() + UIScoresTitle.getPaddingBottom() + UIScoresTitle.getPaddingTop();
 
         heigth -= (headerSize + footerSize + dpToPx(Constants.GRID_PADDING));
         width -= dpToPx(Constants.GRID_PADDING);

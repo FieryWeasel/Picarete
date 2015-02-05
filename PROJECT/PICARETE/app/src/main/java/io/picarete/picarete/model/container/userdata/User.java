@@ -28,7 +28,7 @@ public class User implements Serializable{
 
     private List<Stat> stats;
     public String name;
-    public Title title;
+    public String title;
     private ColorCustom colorPlayer1;
     private ColorCustom colorPlayer2;
     private int previousXp;
@@ -65,7 +65,7 @@ public class User implements Serializable{
         computeXpNeededNextLevel();
         setColorPlayer1(new ColorCustom("#09C2BF"));
         setColorPlayer2(new ColorCustom("#FF6C6B"));
-        title = new Title("", null);
+        title = "";
         stats = new ArrayList<>();
         name = "";
         Log.d("NEW USER", "new");
