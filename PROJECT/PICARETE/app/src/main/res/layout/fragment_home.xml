@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/solo"
+                android:textSize="@dimen/classicText"
                 style="@style/home_btn_first"
                 android:layout_gravity="center_horizontal"/>
 
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/multi"
                 style="@style/home_btn_middle"
+                android:textSize="@dimen/classicText"
                 android:layout_gravity="center_horizontal"/>
 
             <io.picarete.picarete.ui.custom.CustomFontButton
@@ -62,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/profile"
                 style="@style/home_btn_middle"
+                android:textSize="@dimen/classicText"
                 android:layout_gravity="center_horizontal"/>
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
@@ -70,6 +73,7 @@
                 android:text="@string/app_version"
                 android:textColor="@color/white"
                 android:gravity="right"
+                android:textSize="@dimen/classicText"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 

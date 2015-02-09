@@ -50,8 +50,7 @@ public class MultiChooserFragment extends ChooserFragment {
     protected View createViewFragment(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_chooser, container, false);
 
-        (view.findViewById(R.id.mode_chooser_spinner_ia)).setVisibility(View.GONE);
-        (view.findViewById(R.id.mode_chooser_label_ia)).setVisibility(View.GONE);
+        (view.findViewById(R.id.mode_chooser_ia)).setVisibility(View.GONE);
 
         return view;
     }

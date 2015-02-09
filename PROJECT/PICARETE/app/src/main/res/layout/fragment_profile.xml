@@ -27,12 +27,15 @@
                 android:paddingLeft="5dp"/>
 
             <RelativeLayout
-                android:id="@+id/name_layout"
+                android:id="@+id/profil_player_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_toRightOf="@+id/edit_profile"
-                android:layout_toLeftOf="@+id/edit_profile_invis">
+                android:layout_toLeftOf="@+id/edit_profile_invis"
+                android:background="@drawable/btn_bg_orange"
+                android:padding="5dp"
+                android:layout_marginBottom="10dp">
 
                 <io.picarete.picarete.ui.custom.CustomFontTextView
                     android:layout_width="wrap_content"
@@ -47,6 +50,7 @@
                 <io.picarete.picarete.ui.custom.CustomFontEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:text="@string/profile"
                     style="@style/TitleTheme"
                     android:gravity="center"
@@ -61,11 +65,12 @@
             <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_profil"
                 android:text="@string/profile"
+                android:padding="20dp"
                 android:gravity="center"
                 style="@style/SubTitleTheme"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/name_layout"
+                android:layout_below="@+id/profil_player_name"
                 android:id="@+id/profile_player_title_tv"
                 android:textStyle="italic"
                 android:layout_toRightOf="@+id/edit_profile"
@@ -101,6 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/xp"
+                    android:textSize="@dimen/classicText"
                     android:paddingRight="5dp"/>
 
                 <io.picarete.picarete.ui.custom.CustomFontTextView
@@ -108,6 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/startPoints"
+                    android:textSize="@dimen/classicText"
                     android:layout_above="@+id/seekBar_xp"/>
                 </LinearLayout>
 
@@ -141,6 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:text="@string/playedGames"/>
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
@@ -148,6 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:text="@string/startPoints"
                 android:gravity="right"/>
 
@@ -167,6 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:text="@string/WonGames"/>
 
             <io.picarete.picarete.ui.custom.CustomFontTextView
@@ -174,6 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:text="@string/startPoints"
                 android:gravity="right"/>
 
@@ -193,6 +204,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:text="@string/ratioPlayer"/>
 
             <RatingBar
@@ -201,6 +213,7 @@
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="@integer/ratioStars"
+                android:textSize="@dimen/classicText"
                 style="@android:style/Widget.Holo.RatingBar.Small"
                 android:gravity="right"/>
 
@@ -220,6 +233,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:layout_gravity="center_vertical"
                 android:text="@string/colorP1"/>
 
@@ -245,6 +259,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/classicText"
                 android:layout_gravity="center_vertical"
                 android:text="@string/colorP2"/>
 

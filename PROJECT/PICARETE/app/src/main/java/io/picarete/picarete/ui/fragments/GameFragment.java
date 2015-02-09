@@ -102,7 +102,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         UIScores.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                size = getTileMeasure(column);
+                size = getTileMeasure();
                 createGame();
                 resetScore();
                 UIScores.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -157,22 +157,22 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         game.getScores().put(1, 0);
     }
 
-    protected int getTileMeasure(int column) {
+    protected int getTileMeasure() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        int heigth =  size.y;
+        int height =  size.y;
         int headerSize = UIHeader.getHeight() + UIHeader.getPaddingBottom() + UIHeader.getPaddingTop();
         int footerSize = UIScores.getHeight() + UIScores.getPaddingBottom() + UIScores.getPaddingTop() + UIScoresTitle.getHeight() + UIScoresTitle.getPaddingBottom() + UIScoresTitle.getPaddingTop();
 
-        heigth -= (headerSize + footerSize + dpToPx(Constants.GRID_PADDING));
+        height -= (headerSize + footerSize + dpToPx(Constants.GRID_PADDING));
         width -= dpToPx(Constants.GRID_PADDING);
 
-        if(column>=row)
-            return width/column;
-        else
-            return heigth/row;
+        int nbElement = (column >= row ? column : row);
+        int screenSize = (height <= width ? height : width);
+
+        return screenSize / nbElement;
     }
 
     public int dpToPx(int dp) {

@@ -41,21 +41,22 @@ public class Config {
         return levels;
     }
 
+    public static List<AUnlock> getUnlockedElementsForLevel(int level){
+        return levels.get(level).unlocks;
+    }
+
     public static List<ColorCustom> getColors(int level){
         List<ColorCustom> colors = new NoDuplicatesList<>();
 
         for(Level lvl : levels){
-
             if(lvl.id<=level && lvl.unlocks!=null) {
-
                 for (AUnlock unlock : lvl.unlocks) {
                     if (unlock instanceof UnlockColor)
                         colors.add(((UnlockColor) unlock).color);
                 }
-
             }
-
         }
+
         return colors;
     }
 
@@ -63,20 +64,20 @@ public class Config {
         List<EIA> ias = new NoDuplicatesList<>();
 
         for(Level lvl : levels){
-
             if(lvl.id<=level && lvl.unlocks!=null) {
-
                 for (AUnlock unlock : lvl.unlocks) {
                     if (unlock instanceof UnlockIA)
                         ias.add(((UnlockIA) unlock).ia);
                 }
             }
         }
+
         return ias;
     }
 
     public static List<EGameMode> getGameModes(int level){
         List<EGameMode> gameModes = new NoDuplicatesList<>();
+
         for(Level lvl : levels){
             if(lvl.id<=level && lvl.unlocks!=null) {
                 for (AUnlock unlock : lvl.unlocks) {
@@ -85,26 +86,37 @@ public class Config {
                 }
             }
         }
+
         return gameModes;
     }
 
     public static int getRow(int level){
         int row = Constants.COLUMN_ROW_MIN;
-        for(int i = 0 ; i < levels.size() ; i ++){
-            if(levels.get(i).id <= level){
-                row = Math.max(row, levels.get(i).row);
+
+        for(Level lvl : levels){
+            if(lvl.id<=level && lvl.unlocks!=null) {
+                for (AUnlock unlock : lvl.unlocks) {
+                    if (unlock instanceof UnlockRow)
+                        row = Math.max(row, ((UnlockRow) unlock).row);
+                }
             }
         }
+
         return row;
     }
 
     public static int getColumn(int level){
         int column = Constants.COLUMN_ROW_MIN;
-        for(int i = 0 ; i < levels.size() ; i ++){
-            if(levels.get(i).id <= level){
-                column = Math.max(column, levels.get(i).column);
+
+        for(Level lvl : levels){
+            if(lvl.id<=level && lvl.unlocks!=null) {
+                for (AUnlock unlock : lvl.unlocks) {
+                    if (unlock instanceof UnlockColumn)
+                        column = Math.max(column, ((UnlockColumn) unlock).column);
+                }
             }
         }
+
         return column;
     }
 }

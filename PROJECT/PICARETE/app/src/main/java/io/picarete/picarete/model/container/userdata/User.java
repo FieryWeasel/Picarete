@@ -26,6 +26,18 @@ import io.picarete.picarete.model.data_sets.IASet;
  */
 public class User implements Serializable{
 
+    public interface UserEventListener{
+        public void gainALevel(int level);
+        public void gainAGameMode();
+        public void gainARow();
+        public void gainAColumn();
+        public void gainAColor();
+        public void gainAnIA();
+        public void gainATitle();
+    }
+
+    public UserEventListener listener = null;
+
     private List<Stat> stats;
     public String name;
     public String title;
@@ -84,9 +96,28 @@ public class User implements Serializable{
             previousXp = nextXp;
             actualXp = actualXp-nextXp;
             level++;
+            launchEventsForLevel(level);
             computeXpNeededNextLevel();
         }
         saveStatAndUser(context, mode, gameMode, difficulty, tilesP1, tilesP2, tilesNeutral, scoreP1, scoreP2, result);
+    }
+
+    private void launchEventsForLevel(int level) {
+        if(listener != null){
+            listener.gainALevel(level);
+            for(AUnlock unlock : Config.getUnlockedElementsForLevel(level)){
+                if(unlock instanceof UnlockColor)
+                    listener.gainAColor();
+                else if (unlock instanceof UnlockIA)
+                    listener.gainAnIA();
+                else if (unlock instanceof UnlockMode)
+                    listener.gainAGameMode();
+                else if (unlock instanceof UnlockRow)
+                    listener.gainARow();
+                else if (unlock instanceof UnlockColumn)
+                    listener.gainAColumn();
+            }
+        }
     }
 
     private double computeXpEarned(EMode mode, EGameMode gameMode, EIA difficulty, int tilesWin, int result) {

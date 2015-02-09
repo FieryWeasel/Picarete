@@ -11,13 +11,9 @@ import io.picarete.picarete.model.Constants;
 public class Level {
     public int id;
     public List<AUnlock> unlocks;
-    public int row;
-    public int column;
 
     public Level(LinkedList<AUnlock> aUnlocks) {
         this.unlocks = aUnlocks;
-        row = Constants.COLUMN_ROW_MIN;
-        column = Constants.COLUMN_ROW_MIN;
     }
 
 }

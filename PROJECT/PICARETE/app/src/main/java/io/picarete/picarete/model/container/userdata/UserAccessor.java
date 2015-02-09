@@ -7,12 +7,15 @@ import android.content.Context;
  */
 public class UserAccessor {
     private static User user;
+    private static UserNotifications userNotifications;
 
     public static User getUser(Context context){
         if(user == null){
             user = new User(context).load(context);
-            user.level = 30;
+            userNotifications = new UserNotifications();
+            user.listener = userNotifications;
         }
+
         return user;
     }
 }

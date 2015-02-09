@@ -26,7 +26,6 @@ import io.picarete.picarete.ui.custom.CustomFontSwitch;
 
 public abstract class ChooserFragment extends Fragment {
 
-
     protected EGameMode mGameMode;
     protected NumberPicker mColumnPicker;
     protected NumberPicker mRowPicker;

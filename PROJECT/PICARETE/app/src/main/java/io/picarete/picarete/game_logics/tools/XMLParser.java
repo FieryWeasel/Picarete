@@ -20,8 +20,10 @@ import io.picarete.picarete.model.container.userdata.Condition;
 import io.picarete.picarete.model.container.userdata.Level;
 import io.picarete.picarete.model.container.userdata.Title;
 import io.picarete.picarete.model.container.userdata.UnlockColor;
+import io.picarete.picarete.model.container.userdata.UnlockColumn;
 import io.picarete.picarete.model.container.userdata.UnlockIA;
 import io.picarete.picarete.model.container.userdata.UnlockMode;
+import io.picarete.picarete.model.container.userdata.UnlockRow;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
 
@@ -241,12 +243,14 @@ public class XMLParser {
                     }
 
                     if (row != null) {
-                        currentLevel.row = Integer.parseInt(row);
+                        UnlockRow unlockRow = new UnlockRow(Integer.parseInt(row));
+                        currentLevel.unlocks.add(unlockRow);
                         Log.d("PARSE LEVELS", row);
                     }
 
                     if (column != null) {
-                        currentLevel.column = Integer.parseInt(column);
+                        UnlockColumn unlockRow = new UnlockColumn(Integer.parseInt(column));
+                        currentLevel.unlocks.add(unlockRow);
                         Log.d("PARSE LEVELS", column);
                     }
 

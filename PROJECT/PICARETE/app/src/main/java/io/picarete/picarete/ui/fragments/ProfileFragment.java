@@ -5,8 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,15 +30,19 @@ import io.picarete.picarete.ui.custom.CustomFontTextView;
 
 public class ProfileFragment extends Fragment {
 
-    int colorPlayer1;
-    int colorPlayer2;
     private ImageView UIImageColorPlayer1;
     private ImageView UIImageColorPlayer2;
     private ImageView UIImageEdit;
     private TextView UITextViewPlayerName;
     private EditText UIEditTextPlayerName;
     private TextView UIPlayerTitle;
+    private RelativeLayout UIPlayerName;
     private boolean isInEditMode = false;
+    private ProgressBar UIProgressXp;
+    private CustomFontTextView UILevel;
+    private RatingBar UIRatio;
+    private CustomFontTextView UIGameWons;
+    private CustomFontTextView UIGamePlayed;
 
     /**
      * Use this factory method to create a new instance of
@@ -69,32 +73,27 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         UIImageEdit = (ImageView) view.findViewById(R.id.edit_profile);
+        UIPlayerName = (RelativeLayout) view.findViewById(R.id.profil_player_name);
         UITextViewPlayerName = (TextView) view.findViewById(R.id.profile_player_name_tv);
-        UITextViewPlayerName.setText(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase("") ? getString(R.string.profile) : UserAccessor.getUser(getActivity()).name);
         UIPlayerTitle = (TextView) view.findViewById(R.id.profile_player_title_tv);
-        UIPlayerTitle.setText(UserAccessor.getUser(getActivity()).title.equalsIgnoreCase("") ? getString(R.string.noTitle) : UserAccessor.getUser(getActivity()).title);
         UIEditTextPlayerName = (EditText) view.findViewById(R.id.profile_player_name_et);
         UIEditTextPlayerName.setVisibility(View.GONE);
+        UIProgressXp = (ProgressBar)view.findViewById(R.id.seekBar_xp);
+        UILevel = (CustomFontTextView) view.findViewById(R.id.lvl);
+        UIGamePlayed = (CustomFontTextView) view.findViewById(R.id.value_playedGames);
+        UIGameWons = (CustomFontTextView) view.findViewById(R.id.value_wonGames);
+        UIRatio = (RatingBar) view.findViewById(R.id.value_ratio);
 
-        ProgressBar progressXp = (ProgressBar)view.findViewById(R.id.seekBar_xp);
-        progressXp.setProgress((int) (((double) UserAccessor.getUser(getActivity()).actualXp/ (double) UserAccessor.getUser(getActivity()).nextXp)*100.0));
-        CustomFontTextView level = (CustomFontTextView) view.findViewById(R.id.lvl);
-        level.setText(Integer.toString(UserAccessor.getUser(getActivity()).level));
-        CustomFontTextView value_playedGames = (CustomFontTextView) view.findViewById(R.id.value_playedGames);
-        value_playedGames.setText(Integer.toString(UserAccessor.getUser(getActivity()).getPlayedGames()));
-        CustomFontTextView value_wonGames = (CustomFontTextView) view.findViewById(R.id.value_wonGames);
-        value_wonGames.setText(Integer.toString(UserAccessor.getUser(getActivity()).getWonGames()));
+        MajGUI();
 
-        RatingBar ratio = (RatingBar) view.findViewById(R.id.value_ratio);
-        ratio.setRating(UserAccessor.getUser(getActivity()).getRatio()*5);
         ImageView edit = (ImageView) view.findViewById(R.id.edit_profile);
-
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startEditMode();
             }
         });
+        UIEditTextPlayerName.setHint(getString(R.string.nickname));
 
         UIImageColorPlayer1 = (ImageView) view.findViewById(R.id.value_colorP1);
         initColorImage(UIImageColorPlayer1, 0);
@@ -131,47 +130,81 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void MajGUI(){
+        UIProgressXp.setProgress((int) (((double) UserAccessor.getUser(getActivity()).actualXp / (double) UserAccessor.getUser(getActivity()).nextXp) * 100.0));
+        UIPlayerTitle.setText(UserAccessor.getUser(getActivity()).title.equalsIgnoreCase("") ? getString(R.string.noTitle) : UserAccessor.getUser(getActivity()).title);
+        UITextViewPlayerName.setText(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase("") ? getString(R.string.profile) : UserAccessor.getUser(getActivity()).name);
+        UILevel.setText(Integer.toString(UserAccessor.getUser(getActivity()).level));
+        UIGamePlayed.setText(Integer.toString(UserAccessor.getUser(getActivity()).getPlayedGames()));
+        UIGameWons.setText(Integer.toString(UserAccessor.getUser(getActivity()).getWonGames()));
+        UIRatio.setRating(UserAccessor.getUser(getActivity()).getRatio() * 5);
+
+        if(isInEditMode){
+            UIImageEdit.setImageResource(R.drawable.profil_check);
+            UIPlayerTitle.setBackground(getResources().getDrawable(R.drawable.btn_profil));
+            UIEditTextPlayerName.setVisibility(View.VISIBLE);
+            UITextViewPlayerName.setVisibility(View.GONE);
+            UIPlayerTitle.setPadding(20, 20, 20, 20);
+            UIPlayerName.setBackground(getResources().getDrawable(R.drawable.btn_bg_orange));
+        }
+        else{
+            UIImageEdit.setImageResource(R.drawable.profil_edit);
+            UIPlayerTitle.setBackground(null);
+            UIEditTextPlayerName.setVisibility(View.GONE);
+            UITextViewPlayerName.setVisibility(View.VISIBLE);
+            UIPlayerTitle.setPadding(20, 20, 20, 20);
+            UIPlayerName.setBackground(null);
+        }
+    }
+
     private void startEditMode() {
         isInEditMode = !isInEditMode;
         if(isInEditMode){
-            UIImageEdit.setImageResource(R.drawable.profil_check);
-            UITextViewPlayerName.setVisibility(View.GONE);
             UIPlayerTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     titleList();
                 }
             });
-            UIPlayerTitle.setVisibility(View.VISIBLE);
-            UIEditTextPlayerName.setVisibility(View.VISIBLE);
-            UIEditTextPlayerName.setHint(getString(R.string.nickname));
             if(UserAccessor.getUser(getActivity()).name.equalsIgnoreCase(""))
                 UIEditTextPlayerName.setText("");
             else
                 UIEditTextPlayerName.setText(UserAccessor.getUser(getActivity()).name);
             UIEditTextPlayerName.requestFocus();
-        }else{
-            UIImageEdit.setImageResource(R.drawable.profil_edit);
-            UIEditTextPlayerName.setVisibility(View.GONE);
-            String name = UIEditTextPlayerName.getText().toString();
-            UserAccessor.getUser(getActivity()).name = name;
-            if(!name.equalsIgnoreCase("")) {
-                UITextViewPlayerName.setText(name);
-            }else
-                UITextViewPlayerName.setText(getString(R.string.profile));
-            UITextViewPlayerName.setVisibility(View.VISIBLE);
 
+            MajGUI();
+        }else{
+            if(!cheat(UIEditTextPlayerName.getText().toString())){
+                UserAccessor.getUser(getActivity()).name = UIEditTextPlayerName.getText().toString();
+            }
             String title = UIPlayerTitle.getText().toString();
             UserAccessor.getUser(getActivity()).title = title;
             UIPlayerTitle.setOnClickListener(null);
-            if(!UserAccessor.getUser(getActivity()).title.equalsIgnoreCase(""))
-                UIPlayerTitle.setText(UserAccessor.getUser(getActivity()).title);
-            else
-                UIPlayerTitle.setText(getString(R.string.noTitle));
+
+            MajGUI();
 
             UserAccessor.getUser(getActivity()).save(getActivity());
         }
+    }
 
+    private boolean cheat(String name) {
+        boolean isCheat = false;
+        String[] tab = name.split(":");
+
+        if(tab.length == 2){
+            if(tab[0].compareToIgnoreCase("!lvl") == 0){
+                try{
+                    int lvl = Integer.parseInt(tab[1]);
+                    UserAccessor.getUser(getActivity()).level = lvl;
+                    UserAccessor.getUser(getActivity()).actualXp = 0;
+                    isCheat = true;
+                } catch (NumberFormatException e){
+                    Log.d(this.getClass().getName(), "The level "+tab[1]+" is not a number");
+                }
+            }
+        }
+
+        return isCheat;
     }
 
     private void titleList() {
