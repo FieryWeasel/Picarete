@@ -183,7 +183,8 @@ public class ProfileFragment extends Fragment {
 
             MajGUI();
 
-            UserAccessor.getUser(getActivity()).save(getActivity());
+            UserAccessor accessor = new UserAccessor();
+            accessor.save(getActivity());
         }
     }
 
@@ -278,12 +279,14 @@ public class ProfileFragment extends Fragment {
 
     private void changeColorForPlayer(int player, int color){
         if(player == 0 && color != UserAccessor.getUser(getActivity()).getColorPlayer2().getColor()) {
+            UserAccessor accessor = new UserAccessor();
             UserAccessor.getUser(getActivity()).setColorPlayer1(new ColorCustom(color));
-            UserAccessor.getUser(getActivity()).save(getActivity());
+            accessor.save(getActivity());
             initColorImage(UIImageColorPlayer1, 0);
         } else if(player == 1 && color != UserAccessor.getUser(getActivity()).getColorPlayer1().getColor()) {
+            UserAccessor accessor = new UserAccessor();
             UserAccessor.getUser(getActivity()).setColorPlayer2(new ColorCustom(color));
-            UserAccessor.getUser(getActivity()).save(getActivity());
+            accessor.save(getActivity());
             initColorImage(UIImageColorPlayer2, 1);
         }
     }

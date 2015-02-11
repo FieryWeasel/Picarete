@@ -96,7 +96,8 @@ public class SoloGameFragment extends GameFragment {
         else if(game.getScores().get(0) < game.getScores().get(1))
             res = 1;
 
-        UserAccessor.getUser(getActivity()).userFinishedAGame(getActivity(), EMode.SOLO, mode, IAEnum, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(),
+        UserAccessor accessor = new UserAccessor();
+        accessor.userFinishedAGame(getActivity(), EMode.SOLO, mode, IAEnum, game.getTilesForPlayer(0).size(), game.getTilesForPlayer(1).size(),
                 game.getTilesForPlayer(-1).size(), game.getScores().get(0), game.getScores().get(1), res);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

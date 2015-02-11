@@ -1,6 +1,5 @@
 package io.picarete.picarete.model.container.userdata;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -20,6 +19,7 @@ import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.model.data_sets.IASet;
+import io.picarete.picarete.model.data_sets.TitleSet;
 
 /**
  * Created by iem on 13/01/15.
@@ -29,11 +29,11 @@ public class User implements Serializable{
     public interface UserEventListener{
         public void gainALevel(int level);
         public void gainAGameMode();
-        public void gainARow();
-        public void gainAColumn();
-        public void gainAColor();
+        public void gainARow(int row);
+        public void gainAColumn(int column);
+        public void gainAColor(ColorCustom color);
         public void gainAnIA();
-        public void gainATitle();
+        public void gainATitle(String title);
     }
 
     public UserEventListener listener = null;
@@ -89,7 +89,7 @@ public class User implements Serializable{
         }
     }
 
-    public void userFinishedAGame(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
+    public void userFinishedAGame(EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result){
         computeXpNeededNextLevel();
         actualXp += Math.ceil(computeXpEarned(mode, gameMode, difficulty, tilesP1, result));
         while(actualXp > nextXp){
@@ -99,7 +99,6 @@ public class User implements Serializable{
             launchEventsForLevel(level);
             computeXpNeededNextLevel();
         }
-        saveStatAndUser(context, mode, gameMode, difficulty, tilesP1, tilesP2, tilesNeutral, scoreP1, scoreP2, result);
     }
 
     private void launchEventsForLevel(int level) {
@@ -107,15 +106,15 @@ public class User implements Serializable{
             listener.gainALevel(level);
             for(AUnlock unlock : Config.getUnlockedElementsForLevel(level)){
                 if(unlock instanceof UnlockColor)
-                    listener.gainAColor();
+                    listener.gainAColor(((UnlockColor) unlock).color);
                 else if (unlock instanceof UnlockIA)
                     listener.gainAnIA();
                 else if (unlock instanceof UnlockMode)
                     listener.gainAGameMode();
                 else if (unlock instanceof UnlockRow)
-                    listener.gainARow();
+                    listener.gainARow(((UnlockRow) unlock).row);
                 else if (unlock instanceof UnlockColumn)
-                    listener.gainAColumn();
+                    listener.gainAColumn(((UnlockColumn) unlock).column);
             }
         }
     }
@@ -238,14 +237,14 @@ public class User implements Serializable{
     }
 
     public float getRatio(){
-        float ratio =0;
+        float ratio = 0;
         if(getPlayedGames() != 0)
            ratio = (float) getWonGames() / (float) getPlayedGames();
         return ratio;
     }
 
-    private void saveStatAndUser(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result) {
-
+    public void MAJStats(Context context, EMode mode, EGameMode gameMode, EIA difficulty, int tilesP1, int tilesP2, int tilesNeutral, int scoreP1, int scoreP2, int result) {
+        List<String> titlesBefore  = TitleSet.getUnlockedTitles(context);
         for(Stat stat : stats) {
             if (stat.gameMode == gameMode &&(stat.ia == null || stat.ia == difficulty) && stat.mode == mode) {
                 StatGame statGame = new StatGame();
@@ -258,37 +257,14 @@ public class User implements Serializable{
                 stat.statGames.add(statGame);
             }
         }
-        save(context);
-    }
+        List<String> titlesAfter  = TitleSet.getUnlockedTitles(context);
 
-    public void save(Context context){
-        Gson gson = new Gson();
-        String userJson = gson.toJson(this);
-        setPref(context, Constants.FILE_USER, Constants.PREFERENCES_USER, userJson);
-    }
-
-    public void setPref(Context context, String file, String key, String value) {
-        SharedPreferences preferences = context.getSharedPreferences(file, 0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-    public User load(Context context){
-        Log.d("LOAD USER", "load");
-
-        String userJson = getPref(context, Constants.FILE_USER, Constants.PREFERENCES_USER, "");
-        Gson gson = new Gson();
-        if(!userJson.equalsIgnoreCase(""))
-            return gson.fromJson(userJson, User.class);
-        else
-            return new User(context);
-    }
-
-    public String getPref(Context context, String file, String key, String defaultValue) {
-        String s = key;
-        SharedPreferences preferences = context.getSharedPreferences(file, 0);
-        return preferences.getString(s, defaultValue);
+        if(listener != null){
+            for (String t : titlesAfter){
+                if(!titlesBefore.contains(t))
+                    listener.gainATitle(t);
+            }
+        }
     }
 
     public ColorCustom getColorPlayer1() {
