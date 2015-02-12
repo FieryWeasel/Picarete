@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
     private CustomFontTextView UIScoresTitle;
     private CustomFontTextView UISubTitle;
     protected CustomFontTextView UITitle;
+    protected ImageView UIBtnBack;
     private LinearLayout UIHeader;
 
     protected abstract View createViewFragment(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -95,6 +97,14 @@ public abstract class GameFragment extends Fragment implements Game.GameEventLis
         UISubTitle = (CustomFontTextView) view.findViewById(R.id.game_sub_title);
         UITitle = (CustomFontTextView) view.findViewById(R.id.game_title);
         UIHeader = (LinearLayout) view.findViewById(R.id.game_header);
+
+        UIBtnBack = (ImageView) view.findViewById(R.id.game_iv_back);
+        UIBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
         UISubTitle.setText(GameModeSet.gameModes.get(mode).title);
         initializeComponent();

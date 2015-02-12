@@ -107,7 +107,7 @@ public class SoloGameFragment extends GameFragment {
             builder.setTitle(R.string.dlg_solo_win_title);
             builder.setMessage(R.string.dlg_solo_win_msg);
             // 3. Add the buttons
-            builder.setNegativeButton(R.string.dlg_solo_retry,
+            builder.setPositiveButton(R.string.dlg_solo_retry,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -115,7 +115,13 @@ public class SoloGameFragment extends GameFragment {
                             resetScore();
                         }
                     });
-            builder.setPositiveButton(R.string.dlg_solo_continue,
+            builder.setNeutralButton(R.string.dlg_solo_see_grid,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            builder.setNegativeButton(R.string.dlg_solo_continue,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -128,7 +134,7 @@ public class SoloGameFragment extends GameFragment {
             builder.setTitle(R.string.dlg_solo_lost_title);
             builder.setMessage(R.string.dlg_solo_lost_msg);
             // 3. Add the buttons
-            builder.setNegativeButton(R.string.dlg_solo_retry,
+            builder.setPositiveButton(R.string.dlg_solo_retry,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -136,7 +142,13 @@ public class SoloGameFragment extends GameFragment {
                             resetScore();
                         }
                     });
-            builder.setPositiveButton(R.string.dlg_solo_continue,
+            builder.setNeutralButton(R.string.dlg_solo_see_grid,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            builder.setNegativeButton(R.string.dlg_solo_continue,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
