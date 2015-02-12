@@ -94,7 +94,7 @@ public class MultiGameFragment extends GameFragment {
             builder.setTitle(R.string.dlg_multi_p1_win_title);
             builder.setMessage(R.string.dlg_multi_p1_win_msg);
             // 3. Add the buttons
-            builder.setNegativeButton(R.string.dlg_multi_retry,
+            builder.setPositiveButton(R.string.dlg_multi_retry,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -102,7 +102,13 @@ public class MultiGameFragment extends GameFragment {
                             resetScore();
                         }
                     });
-            builder.setPositiveButton(R.string.dlg_multi_continue,
+            builder.setNeutralButton(R.string.dlg_multi_see_grid,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            builder.setNegativeButton(R.string.dlg_multi_continue,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -115,7 +121,7 @@ public class MultiGameFragment extends GameFragment {
             builder.setTitle(R.string.dlg_multi_p2_win_title);
             builder.setMessage(R.string.dlg_multi_p2_win_msg);
             // 3. Add the buttons
-            builder.setNegativeButton(R.string.dlg_multi_retry,
+            builder.setPositiveButton(R.string.dlg_multi_retry,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button
@@ -123,7 +129,13 @@ public class MultiGameFragment extends GameFragment {
                             resetScore();
                         }
                     });
-            builder.setPositiveButton(R.string.dlg_multi_continue,
+            builder.setNeutralButton(R.string.dlg_multi_see_grid,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            builder.setNegativeButton(R.string.dlg_multi_continue,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked Continue button

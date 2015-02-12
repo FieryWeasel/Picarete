@@ -30,7 +30,7 @@
     <string name="dlg_solo_lost_msg">Oh, you lose the game...</string>
     <string name="dlg_solo_equality_title">Equality</string>
     <string name="dlg_solo_equality_msg">You are equality with your opponent...</string>
-    <string name="dlg_multi_retry">Retry</string>
+    <string name="dlg_multi_retry">Replay</string>
     <string name="dlg_multi_continue">Return to home</string>
     <string name="dlg_multi_equality_msg">Player 1 and player 2 are equals...</string>
     <string name="dlg_multi_equality_title">Equality</string>
@@ -55,5 +55,7 @@
     <string name="ok">Ok</string>
     <string name="noTitleAvailable">You don\'t have any title yet ! You need to play to win some of them. Try to play.</string>
     <string name="home_welcome">Welcome</string>
+    <string name="dlg_solo_see_grid">Show grid</string>
+    <string name="dlg_multi_see_grid">Show grid</string>
 
 </resources>
