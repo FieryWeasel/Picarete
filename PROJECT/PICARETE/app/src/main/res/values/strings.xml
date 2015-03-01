@@ -57,5 +57,6 @@
     <string name="home_welcome">Welcome</string>
     <string name="dlg_solo_see_grid">Show grid</string>
     <string name="dlg_multi_see_grid">Show grid</string>
+    <string name="tutorial">Tutorial</string>
 
 </resources>

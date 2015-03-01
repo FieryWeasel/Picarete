@@ -82,6 +82,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        (view.findViewById(R.id.b_tutorial)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onModeChosen(R.id.b_tutorial);
+            }
+        });
+
         return view;
     }
 
@@ -96,6 +103,9 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.b_profile:
                     mListener.onModeChosen(Constants.PROFILE);
+                    break;
+                case R.id.b_tutorial:
+                    mListener.onModeChosen(Constants.TUTORIAL);
                     break;
             }
         }

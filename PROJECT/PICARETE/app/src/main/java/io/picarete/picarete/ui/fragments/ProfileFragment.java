@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        UIImageEdit = (ImageView) view.findViewById(R.id.edit_profile);
+        UIImageEdit = (ImageView) view.findViewById(R.id.profil_edit);
         UIPlayerName = (RelativeLayout) view.findViewById(R.id.profil_player_name);
         UITextViewPlayerName = (TextView) view.findViewById(R.id.profile_player_name_tv);
         UIPlayerTitle = (TextView) view.findViewById(R.id.profile_player_title_tv);
@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment {
 
         MajGUI();
 
-        ImageView edit = (ImageView) view.findViewById(R.id.edit_profile);
+        ImageView edit = (ImageView) view.findViewById(R.id.profil_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

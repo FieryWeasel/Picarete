@@ -13,6 +13,7 @@ import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
+import io.picarete.picarete.model.SGM.SGMTutorial.SGMTutorial;
 import io.picarete.picarete.model.container.userdata.User;
 import io.picarete.picarete.ui.fragments.HomeFragment;
 import io.picarete.picarete.ui.fragments.MultiChooserFragment;
@@ -20,10 +21,12 @@ import io.picarete.picarete.ui.fragments.MultiGameFragment;
 import io.picarete.picarete.ui.fragments.ProfileFragment;
 import io.picarete.picarete.ui.fragments.SoloChooserFragment;
 import io.picarete.picarete.ui.fragments.SoloGameFragment;
+import io.picarete.picarete.ui.fragments.TutorialFragment;
 
 
 public class MainActivity extends ActionBarActivity implements HomeFragment.OnFragmentInteractionListener, SoloChooserFragment.OnFragmentInteractionListener,
-        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener {
+        SoloGameFragment.OnFragmentInteractionListener, MultiChooserFragment.OnFragmentInteractionListener, MultiGameFragment.OnFragmentInteractionListener,
+        TutorialFragment.OnFragmentInteractionListener {
 
 
     @Override
@@ -83,6 +86,10 @@ public class MainActivity extends ActionBarActivity implements HomeFragment.OnFr
             case Constants.PROFILE :
                 fragment = ProfileFragment.newInstance();
                 addFragmentToStack(fragment, Constants.PROFILE);
+                break;
+            case Constants.TUTORIAL :
+                fragment = TutorialFragment.newInstance();
+                addFragmentToStack(fragment, Constants.TUTORIAL);
                 break;
             default :
                 break;

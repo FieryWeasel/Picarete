@@ -65,6 +65,15 @@
                 android:textSize="@dimen/classicText"
                 android:layout_gravity="center_horizontal"/>
 
+            <io.picarete.picarete.ui.custom.CustomFontButton
+                android:id="@+id/b_tutorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial"
+                style="@style/home_btn_middle"
+                android:textSize="@dimen/classicText"
+                android:layout_gravity="center_horizontal"/>
+
             <io.picarete.picarete.ui.custom.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

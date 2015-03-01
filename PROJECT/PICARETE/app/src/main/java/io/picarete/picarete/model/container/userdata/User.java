@@ -1,10 +1,7 @@
 package io.picarete.picarete.model.container.userdata;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
-import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.SGM.NoDuplicatesList;
 import io.picarete.picarete.model.container.ColorCustom;
 import io.picarete.picarete.model.data_sets.ColorSet;
 import io.picarete.picarete.model.data_sets.GameModeSet;

@@ -15,11 +15,10 @@ import java.util.List;
 
 import io.picarete.picarete.R;
 import io.picarete.picarete.game_logics.EGameMode;
-import io.picarete.picarete.game_logics.ia.AIA;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.model.Constants;
 import io.picarete.picarete.model.EMode;
-import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.SGM.NoDuplicatesList;
 import io.picarete.picarete.model.container.userdata.Config;
 import io.picarete.picarete.model.container.userdata.UserAccessor;
 import io.picarete.picarete.model.data_sets.GameModeSet;

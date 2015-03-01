@@ -1,4 +1,4 @@
-package io.picarete.picarete.model;
+package io.picarete.picarete.model.SGM;
 
 import java.util.Collection;
 import java.util.LinkedList;

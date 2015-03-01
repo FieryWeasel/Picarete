@@ -14,7 +14,7 @@ import io.picarete.picarete.game_logics.gameplay.EdgeBad;
 import io.picarete.picarete.game_logics.gameplay.EdgeGood;
 import io.picarete.picarete.game_logics.gameplay.Tile;
 import io.picarete.picarete.game_logics.gameplay.TileBrother;
-import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.SGM.NoDuplicatesList;
 
 
 public class Game implements Tile.TileEventListener{

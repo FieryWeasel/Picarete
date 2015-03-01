@@ -4,20 +4,14 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.picarete.picarete.game_logics.EGameMode;
 import io.picarete.picarete.game_logics.ia.EIA;
 import io.picarete.picarete.game_logics.tools.XMLParser;
 import io.picarete.picarete.model.Constants;
-import io.picarete.picarete.model.NoDuplicatesList;
-import io.picarete.picarete.model.container.userdata.AUnlock;
+import io.picarete.picarete.model.SGM.NoDuplicatesList;
 import io.picarete.picarete.model.container.ColorCustom;
-import io.picarete.picarete.model.container.userdata.Level;
-import io.picarete.picarete.model.container.userdata.UnlockColor;
-import io.picarete.picarete.model.container.userdata.UnlockIA;
-import io.picarete.picarete.model.container.userdata.UnlockMode;
 
 /**
  * Created by iem on 13/01/15.

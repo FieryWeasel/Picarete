@@ -7,7 +7,7 @@ import java.util.Random;
 import io.picarete.picarete.game_logics.Game;
 import io.picarete.picarete.game_logics.gameplay.Edge;
 import io.picarete.picarete.game_logics.gameplay.Tile;
-import io.picarete.picarete.model.NoDuplicatesList;
+import io.picarete.picarete.model.SGM.NoDuplicatesList;
 
 /**
  * Created by root on 1/7/15.

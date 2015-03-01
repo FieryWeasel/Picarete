@@ -11,7 +11,7 @@ public class Constants {
     public static final String SOLO_GAME = "SOLO_MODE";
     public static final String MULTI_GAME = "MULTIPLAYER_MODE";
     public static final String PROFILE = "PROFILE_MODE";
-    public static final String CUSTOM = "CUSTOMIZATION_MODE";
+    public static final String TUTORIAL = "TUTORIAL";
     public static final String HOME = "HOME_MODE";
 
     public static final int GRID_PADDING = 25;
@@ -30,7 +30,6 @@ public class Constants {
     public static final String PREFERENCES_USER = "preferences_user";
     public static final String EXTRA_USER = "extra_user";
     public static final int CONSTANT_LEVEL = 8;
-
 
     public static final String FILE_USER = "FILE_USER";
 }
