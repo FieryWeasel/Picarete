@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mode_chooser_root"
     android:background="@color/flat_brown_light"
     tools:context="io.picarete.picarete.ui.fragments.SoloChooserFragment">
 
@@ -43,7 +44,8 @@
 
         </RelativeLayout>
 
-    <ScrollView
+    <io.picarete.picarete.ui.custom.CustomScrollView
+        android:id="@+id/mode_chooser_content"
         android:layout_above="@+id/mode_chooser_validate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -196,7 +198,16 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </io.picarete.picarete.ui.custom.CustomScrollView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/menu_scrollindicator"
+        android:id="@+id/mode_chose_scroller_indicator"
+        android:layout_above="@+id/mode_chooser_validate"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"/>
 
     <io.picarete.picarete.ui.custom.CustomFontButton
         android:id="@+id/mode_chooser_validate"

@@ -1,5 +1,7 @@
 package io.picarete.picarete.ui.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,8 +9,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.List;
@@ -23,8 +30,10 @@ import io.picarete.picarete.model.container.userdata.UserAccessor;
 import io.picarete.picarete.model.data_sets.GameModeSet;
 import io.picarete.picarete.ui.adapters.SpinnerModeAdapter;
 import io.picarete.picarete.ui.custom.CustomFontSwitch;
+import io.picarete.picarete.ui.custom.CustomScrollView;
 
-public abstract class ChooserFragment extends Fragment {
+public abstract class ChooserFragment extends Fragment implements CustomScrollView.ScrollViewListener {
+    private boolean scrollIndicatorInTransition = false;
 
     protected EGameMode mGameMode;
     protected NumberPicker mColumnPicker;
@@ -33,6 +42,9 @@ public abstract class ChooserFragment extends Fragment {
     protected CustomFontSwitch mSwitchChosenTile;
     protected Spinner mSpinnerGameMode;
     protected List<EGameMode> mGameModes;
+    protected CustomScrollView mScrollView;
+    protected ImageView mScrollIndicator;
+    protected RelativeLayout mRoot;
 
     /**
      * Use this factory method to create a new instance of
@@ -60,7 +72,14 @@ public abstract class ChooserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = createViewFragment(inflater, container);
 
+        mRoot = (RelativeLayout) view.findViewById(R.id.mode_chooser_root);
+
         mGameModes = getTitlesForLevel(UserAccessor.getUser(getActivity()).level);
+
+        mScrollView = (CustomScrollView) view.findViewById(R.id.mode_chooser_content);
+        mScrollView.setScrollViewListener(this);
+
+        mScrollIndicator = (ImageView) view.findViewById(R.id.mode_chose_scroller_indicator);
 
         mSpinnerGameMode = (Spinner) view.findViewById(R.id.mode_chooser_spinner_game_mode);
         mSpinnerGameMode.setAdapter(new SpinnerModeAdapter(getActivity(),
@@ -100,7 +119,35 @@ public abstract class ChooserFragment extends Fragment {
 
         initializeElements();
 
+        ViewTreeObserver vto = mRoot.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                onScrollChanged(mScrollView, 0, 0, 0, 0);
+            }
+        });
+
         return view;
+    }
+    @Override
+    public void onScrollChanged(CustomScrollView scrollView, int x, int y, int oldx, int oldy) {
+        View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+        int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+
+        // if diff is zero, then the bottom has been reached
+        if (diff == 0) {
+            mScrollIndicator.animate().alpha(0f)
+                    .setDuration(500)
+                    .setListener(null);
+            scrollIndicatorInTransition = false;
+        } else {
+            if(!scrollIndicatorInTransition){
+                scrollIndicatorInTransition = true;
+                mScrollIndicator.animate().alpha(1f)
+                        .setDuration(500)
+                        .setListener(null);
+            }
+        }
     }
 
     private List<EGameMode> getTitlesForLevel(int level) {
@@ -140,6 +187,4 @@ public abstract class ChooserFragment extends Fragment {
         super.onDetach();
         detachFragment();
     }
-
-
 }
